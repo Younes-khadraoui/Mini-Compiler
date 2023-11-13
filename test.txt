@@ -1,0 +1,5 @@
+PROGRAM try
+INTEGER x,X;
+REAL y;
+CHARACTER z;
+END

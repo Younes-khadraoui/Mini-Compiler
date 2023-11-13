@@ -426,10 +426,12 @@ char *yytext;
 #line 1 "lexical.l"
 #define INITIAL 0
 #line 2 "lexical.l"
-    #include "synt.tab.h"
-    extern nb_ligne;
-    extern col;
-#line 433 "lex.yy.c"
+	#include "synt.tab.h"
+	#include "ts.h"
+
+	extern nb_ligne;
+	extern col;
+#line 435 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -580,10 +582,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 11 "lexical.l"
+#line 12 "lexical.l"
 
 
-#line 587 "lex.yy.c"
+#line 589 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -668,195 +670,195 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 13 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_code; }
+#line 14 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_program; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 14 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_routine; }
+#line 15 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_routine; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 15 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_entier; }
+#line 16 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_entier; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 16 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_real; }
+#line 17 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_real; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 17 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_logical; }
+#line 18 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_logical; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 18 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_character; }
+#line 19 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_character; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 19 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_dimension; }
+#line 20 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_dimension; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 20 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_read; }
+#line 21 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_read; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 21 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_write; }
+#line 22 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_write; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 22 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_if; }
+#line 23 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_if; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 23 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_then; }
+#line 24 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_then; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 24 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_else; }
+#line 25 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_else; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 25 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_endif; }
+#line 26 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_endif; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 26 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_dowhile; }
+#line 27 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_dowhile; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 27 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_enddo; }
+#line 28 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_enddo; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 28 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_or; }
+#line 29 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_or; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 29 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_and; }
+#line 30 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_and; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 30 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_gt; }
+#line 31 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_gt; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 31 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_ge; }
+#line 32 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_ge; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 32 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_eq; }
+#line 33 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_eq; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 33 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_ne; }
+#line 34 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_ne; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 34 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_le; }
+#line 35 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_le; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 35 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_lt; }
+#line 36 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_lt; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 36 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_call; }
+#line 37 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_call; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 37 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_end; }
+#line 38 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_end; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 38 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mc_endr; }
+#line 39 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_endr; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 40 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return IDF; }
+#line 41 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return IDF; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 42 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return add; }
+#line 43 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return add; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 43 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return sub; }
+#line 44 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return sub; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 44 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return mul; }
+#line 45 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mul; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 45 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return div; }
+#line 46 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return divv; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 46 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return pvg; }
+#line 47 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return pvg; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 47 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return vrg; }
+#line 48 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return vrg; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 48 "lexical.l"
-{ col = col + strlen(yytext); printf("L'entité reconnue est %s \n", yytext); return aff; }
+#line 49 "lexical.l"
+{ col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return aff; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 50 "lexical.l"
+#line 51 "lexical.l"
 { col = col + strlen(yytext); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 51 "lexical.l"
+#line 52 "lexical.l"
 { col = 1; nb_ligne++; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 52 "lexical.l"
-{ printf("Erreur lexical à la ligne %d, colonne %d, entité %s \n", nb_ligne, col, yytext); return err; }
+#line 53 "lexical.l"
+{ printf("Erreur lexical à la ligne %d, colonne %d, entite %s \n", nb_ligne, col, yytext); return err; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 53 "lexical.l"
+#line 54 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 860 "lex.yy.c"
+#line 862 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1742,4 +1744,4 @@ int main()
 	return 0;
 	}
 #endif
-#line 53 "lexical.l"
+#line 54 "lexical.l"
