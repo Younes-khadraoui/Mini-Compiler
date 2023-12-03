@@ -75,7 +75,11 @@
      pvg = 291,
      vrg = 292,
      aff = 293,
-     err = 294
+     po = 294,
+     pf = 295,
+     err = 296,
+     cstE = 297,
+     cstF = 298
    };
 #endif
 
@@ -95,7 +99,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 99 "synt.tab.h"
+#line 103 "synt.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
