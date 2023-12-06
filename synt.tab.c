@@ -70,11 +70,14 @@
 /* Line 189 of yacc.c  */
 #line 1 "synt.y"
 
-    int nb_ligne=1, col=1;
+       #include <stdio.h>
+       int nb_ligne=1, col=1;
+       extern FILE *yyin;
+       char *filename;
 
 
 /* Line 189 of yacc.c  */
-#line 78 "synt.tab.c"
+#line 81 "synt.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -152,7 +155,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 5 "synt.y"
+#line 8 "synt.y"
 
          int     entier;
          char*   str;
@@ -161,7 +164,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 165 "synt.tab.c"
+#line 168 "synt.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -173,7 +176,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 177 "synt.tab.c"
+#line 180 "synt.tab.c"
 
 #ifdef short
 # undef short
@@ -463,8 +466,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    16,    16,    18,    19,    20,    21,    23,    24,    25,
-      26,    28,    29,    31
+       0,    25,    25,    27,    28,    29,    30,    32,    33,    34,
+      35,    37,    38,    40
 };
 #endif
 
@@ -1385,14 +1388,14 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 16 "synt.y"
+#line 25 "synt.y"
     {printf("prog syntaxiquement correct"); YYACCEPT;;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1396 "synt.tab.c"
+#line 1399 "synt.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1604,16 +1607,25 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 32 "synt.y"
+#line 41 "synt.y"
 
-main()
-{
-yyparse();
+int main(int argc, char **argv) {
+    if (argc > 0) {
+        yyin = fopen(argv[1], "r");
+        filename = argv[1];
+    } else {
+        printf("Aucun fichier à compiler\n");
+        return 1;
+    }
+
+    yyparse();
+    fclose(yyin);
+    return 0;
 }
-yywrap ()   
+yywrap ()
 {}
 int yyerror ( char*  msg )  
- {
-    printf ("Erreur Syntaxique a ligne %d a colonne %d \n", nb_ligne,col);
-  }
+{
+       printf ("Erreur Syntaxique : fichier %s , ligne %d , colonne %d \n", filename,nb_ligne,col);
+}
 
