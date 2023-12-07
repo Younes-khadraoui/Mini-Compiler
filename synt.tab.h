@@ -41,33 +41,33 @@
    enum yytokentype {
      mc_program = 258,
      mc_routine = 259,
-     mc_equivalence = 260,
-     mc_entier = 261,
-     mc_real = 262,
-     mc_logical = 263,
-     mc_character = 264,
-     mc_dimension = 265,
-     mc_read = 266,
-     mc_write = 267,
-     mc_if = 268,
-     mc_then = 269,
-     mc_else = 270,
-     mc_endif = 271,
-     mc_dowhile = 272,
-     mc_enddo = 273,
-     mc_or = 274,
-     mc_and = 275,
-     mc_gt = 276,
-     mc_ge = 277,
-     mc_eq = 278,
-     mc_ne = 279,
-     mc_le = 280,
-     mc_lt = 281,
-     mc_call = 282,
-     mc_endr = 283,
-     mc_end = 284,
-     IDF = 285,
-     cst = 286,
+     mc_entier = 260,
+     mc_real = 261,
+     mc_logical = 262,
+     mc_character = 263,
+     mc_dimension = 264,
+     mc_read = 265,
+     mc_write = 266,
+     mc_if = 267,
+     mc_then = 268,
+     mc_else = 269,
+     mc_endif = 270,
+     mc_dowhile = 271,
+     mc_enddo = 272,
+     mc_or = 273,
+     mc_and = 274,
+     mc_gt = 275,
+     mc_ge = 276,
+     mc_eq = 277,
+     mc_ne = 278,
+     mc_le = 279,
+     mc_lt = 280,
+     mc_call = 281,
+     mc_endr = 282,
+     mc_end = 283,
+     IDF = 284,
+     integr = 285,
+     floatt = 286,
      add = 287,
      sub = 288,
      mul = 289,
@@ -77,9 +77,7 @@
      aff = 293,
      po = 294,
      pf = 295,
-     err = 296,
-     cstE = 297,
-     cstF = 298
+     mc_equivalence = 296
    };
 #endif
 
@@ -99,7 +97,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 103 "synt.tab.h"
+#line 101 "synt.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

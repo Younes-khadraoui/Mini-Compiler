@@ -10,7 +10,7 @@ lettreM [A-Z]
 lettre [a-z]
 chiffre [0-9]
 IDF ({lettreM}|{lettre})({lettre}|{chiffre}|{lettreM})*
-float -{chiffre}+.{chiffre}+|{chiffre}+.{chiffre}+
+floatt -{chiffre}+.{chiffre}+|{chiffre}+.{chiffre}+
 integr {chiffre}+|-{chiffre}+
 
 %%
@@ -60,7 +60,7 @@ ENDR      { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); pri
 		printf("L'entite %s  hors interval \n",yytext);
 	}
 }
-{float}   { 
+{floatt}   { 
 	float val = atof(yytext);
 	if(val<= 32767.32767 && val >= -32767.32767){
 		printf("L'entite reconnue est %s \n", yytext);
