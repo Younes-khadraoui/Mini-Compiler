@@ -11,65 +11,67 @@
          float reel;
 }
 
-%token  mc_program mc_routine  mc_entier 
+%token  mc_program mc_routine  mc_entier err string mc_true mc_false
         mc_real mc_logical mc_character mc_dimension 
         mc_read mc_write mc_if mc_then mc_else mc_endif 
         mc_dowhile mc_enddo mc_or mc_and mc_gt mc_ge mc_eq 
-        mc_ne mc_le mc_lt mc_call mc_endr mc_end <str>IDF integr floatt
-        add sub mul divv pvg  vrg aff po pf  mc_equivalence
+        mc_ne mc_le mc_lt mc_call mc_endr mc_end <str>IDF <entier>integr <reel>floatt
+        add sub mul divv pvg  vrg aff po pf  mc_equivalence quote 
 
 
 %start S
-
 %left add sub
 %left mul divv
+
 
 %%
 
 S: FUNCTION | PROGRAM {printf("prog syntaxiquement correct"); YYACCEPT;}
 ;
 
-FUNCTION : HEADER BODY mc_endr S
+FUNCTION : HEADER BODY mc_endr SubF
 ;
 
-HEADER : TYPE mc_routine IDF PARAMETRE 
+SubF : S
 ;
 
-TYPE: mc_entier 
+HEADER : TYPE mc_routine IDF po PARAMETRE pf
+;
+
+TYPE:  mc_entier 
      | mc_real
      | mc_logical
-     |mc_character
+     | mc_character
 ;
 
-PARAMETRE : po LISTP pf 
+PARAMETRE :   IDF 
+            | IDF vrg PARAMETRE
 ;
 
-LISTP : ListIDF pvg LISTP
-        | 
-;
 
-ListIDF: IDF vrg ListIDF
-       | IDF  
-;
 
 BODY : DEC INST RETURN
 ;
-DEC: TYPE ListIDF pvg 
-   | TYPE A
+
+DEC:  TYPE ListIDF pvg DEC
+    | TYPE ListTAB pvg DEC
+    |
 ;
 
-A : IDF X
+ListIDF: IDF
+       | IDF vrg ListIDF
 ;
 
-X:    pvg
-    | mc_dimension po Y pf pvg
-;
+ListTAB :IDF mc_dimension po TAILLE pf 
+        | IDF mc_dimension po TAILLE pf ListTAB
+; 
 
-Y :       integr vrg integr
-        | integr
-;
+TAILLE : integr
+        | integr vrg integr
 
-RETURN : IDF aff IDF pvg
+
+
+RETURN : IDF aff IDF pvg  //IDF == NOM DE LA FONCTION
 ;
 
 PROGRAM : mc_program IDF DEC INST mc_end
@@ -81,37 +83,29 @@ INST :    AFFECTATION
         | CONDITON
         | LOOP 
         | CALLING
+        |
 ;
 
-AFFECTATION : IDF aff EXPRESSION pvg
-            | IDF aff integr pvg
-            | IDF aff floatt pvg
+AFFECTATION : IDF aff EXPRESSION INST
+            | IDF aff VALUE pvg INST
 ;
 
-EXPRESSION :  ADDITION EXPRESSION
-            | DIVISION EXPRESSION
-            | MULTIPLAY EXPRESSION
-            | SUBSTRACT EXPRESSION
-            | pvg
+
+EXPRESSION : IDF pvg
+            | NUMBER pvg
+            | IDF OPERATION EXPRESSION 
 ;
 
-ADDITION :    IDF add IDF 
-            | IDF add integr
-            | IDF add floatt
+OPERATION : add | sub | mul | divv
 ;
 
-SUBSTRACT :   IDF sub IDF 
-            | IDF sub integr
-            | IDF sub floatt
+NUMBER: integr | floatt
 ;
-MULTIPLAY :   IDF mul IDF 
-            | IDF mul integr
-            | IDF mul floatt
+
+VALUE :NUMBER|quote string quote|LOGICAL 
 ;
-DIVISION :    IDF divv IDF 
-            | IDF divv integr
-            | IDF divv floatt
-;
+LOGICAL : mc_true|mc_false
+
 
 
 ES :  READ 
@@ -164,6 +158,7 @@ int main(int argc, char **argv) {
 
     yyparse();
     fclose(yyin);
+    afficher();
     return 0;
 }
 yywrap ()
