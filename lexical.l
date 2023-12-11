@@ -93,7 +93,6 @@ ENDR      { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); pri
 "="       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return aff;}
 "("       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return po;}
 ")"       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return pf;}
-\"		  { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return quote;}
 
 [ \t]     { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); }
 \n        { rechercher(yytext,"Mot cle",0,0, 2); col = 1; nb_ligne++; }

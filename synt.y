@@ -16,7 +16,7 @@
         mc_read mc_write mc_if mc_then mc_else mc_endif 
         mc_dowhile mc_enddo mc_or mc_and mc_gt mc_ge mc_eq 
         mc_ne mc_le mc_lt mc_call mc_endr mc_end <str>IDF <entier>integr <reel>floatt
-        add sub mul divv pvg  vrg aff po pf  mc_equivalence quote 
+        add sub mul divv pvg  vrg aff po pf  mc_equivalence  
 
 
 %start S
