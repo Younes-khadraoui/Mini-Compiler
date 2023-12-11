@@ -10,7 +10,7 @@ lettreM [A-Z]
 lettre [a-z]
 chiffre [0-9]
 IDF ({lettreM}|{lettre})({lettre}|{chiffre}|{lettreM})*
-floatt -{chiffre}+.{chiffre}+|{chiffre}+.{chiffre}+
+floatt -{chiffre}+\.{chiffre}+|{chiffre}+\.{chiffre}+
 integr {chiffre}+|-{chiffre}+
 string \"[^\"]*\"
 

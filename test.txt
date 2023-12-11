@@ -6,6 +6,7 @@ LOGICAL y;
 CHARACTER x*20;
 CHARACTER W DIMENSION(20 , 200);
 X=x+2;
+x=-2.5;
 IF ( A LT X ) 
 THEN x=x*2;
 ELSE 
@@ -19,4 +20,4 @@ INTEGER z=55;
 READ(x);
 WRITE("HELLO WORL !");
 WRITE("HELLO WORL !",X,"WELCOME !");
-DOWHILE(a LT (a+b)) IF(a LT c) THEN  x=x+1+2;ELSE x=x$-1;ENDIF; ENDDO; END
+DOWHILE(a LT (a+b)) IF(a LT c) THEN  x=x+1.5$-2$-2.5+2;ELSE x=x$-1;ENDIF; ENDDO; END
