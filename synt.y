@@ -11,7 +11,7 @@
          float reel;
 }
 
-%token  mc_program mc_routine  mc_entier err string mc_true mc_false
+%token  mc_program mc_routine  mc_entier err <str>string mc_true mc_false
         mc_real mc_logical mc_character mc_dimension 
         mc_read mc_write mc_if mc_then mc_else mc_endif 
         mc_dowhile mc_enddo mc_or mc_and mc_gt mc_ge mc_eq 
@@ -29,10 +29,7 @@
 S: FUNCTION | PROGRAM {printf("prog syntaxiquement correct"); YYACCEPT;}
 ;
 
-FUNCTION : HEADER BODY mc_endr SubF
-;
-
-SubF : S
+FUNCTION : HEADER BODY mc_endr S
 ;
 
 HEADER : TYPE mc_routine IDF po PARAMETRE pf
@@ -50,29 +47,31 @@ PARAMETRE :   IDF
 
 
 
-BODY : DEC INST RETURN
+BODY : DEC INST 
 ;
-
+	
 DEC:  TYPE ListIDF pvg DEC
     | TYPE ListTAB pvg DEC
+    | TYPE IDF mul integr pvg DEC
     |
 ;
 
 ListIDF: IDF
        | IDF vrg ListIDF
+       | IDF aff NUMBER 
+       | IDF aff NUMBER vrg ListIDF
 ;
 
-ListTAB :IDF mc_dimension po TAILLE pf 
+ListTAB : IDF mc_dimension po TAILLE pf 
         | IDF mc_dimension po TAILLE pf ListTAB
-; 
-
+        |
+;
+	
 TAILLE : integr
         | integr vrg integr
-
-
-
-RETURN : IDF aff IDF pvg  //IDF == NOM DE LA FONCTION
 ;
+
+
 
 PROGRAM : mc_program IDF DEC INST mc_end
 ;
@@ -83,17 +82,31 @@ INST :    AFFECTATION
         | CONDITON
         | LOOP 
         | CALLING
+        | EQUIV
+	    | AFFECTATION pvg INST
+        | ES pvg INST
+	    | CONDITON pvg INST
+	    | LOOP pvg INST
+	    | CALLING pvg INST
+	    | EQUIV pvg INST
         |
 ;
 
-AFFECTATION : IDF aff EXPRESSION INST
-            | IDF aff VALUE pvg INST
-;
 
+
+AFFECTATION : IDF aff EXPRESSION INST
+            | IDF aff NUMBER pvg INST
+            | IDF aff CHAINE pvg INST
+            | IDF aff LOGICAL pvg INST
+
+;
 
 EXPRESSION : IDF pvg
             | NUMBER pvg
+            | IDF OPERATION IDF
+            | IDF OPERATION NUMBER
             | IDF OPERATION EXPRESSION 
+            | po EXPRESSION pf
 ;
 
 OPERATION : add | sub | mul | divv
@@ -102,28 +115,25 @@ OPERATION : add | sub | mul | divv
 NUMBER: integr | floatt
 ;
 
-VALUE :NUMBER|quote string quote|LOGICAL 
+CHAINE :  string 
 ;
+
 LOGICAL : mc_true|mc_false
-
-
-
-ES :  READ 
-    | WRITE
 ;
 
-READ :        mc_read po IDF pf pvg
+ES :  mc_read po IDF pf 
+    | mc_write po STRING pf 
+;
+STRING : CHAINE vrg IDF vrg CHAINE
+        | CHAINE
 ;
 
-WRITE :       mc_write po 
-;
-
-CONDITON :    mc_if po EXPCDT pf mc_then INST mc_else INST mc_endif
+CONDITON :  mc_if po EXPCDT pf mc_then INST mc_else INST mc_endif
 ;
 
 EXPCDT :      IDF CDT EXPCDT
             | IDF CDT EXPRESSION
-            | IDF CDT BOOLEEN
+            | IDF CDT LOGICAL
             | IDF
 ;
 
@@ -137,13 +147,13 @@ CDT :         mc_eq
             | mc_or
 ;
 
-BOOLEEN : 
-;
-
 LOOP: mc_dowhile po EXPCDT pf INST mc_enddo pvg
 ;
 
-CALLING : IDF aff mc_call IDF PARAMETRE pvg
+CALLING : IDF aff mc_call IDF po PARAMETRE pf pvg
+;
+
+EQUIV: mc_equivalence po PARAMETRE pf vrg po PARAMETRE pf pvg
 ;
 
 %%

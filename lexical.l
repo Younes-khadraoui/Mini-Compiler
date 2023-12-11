@@ -12,6 +12,8 @@ chiffre [0-9]
 IDF ({lettreM}|{lettre})({lettre}|{chiffre}|{lettreM})*
 floatt -{chiffre}+.{chiffre}+|{chiffre}+.{chiffre}+
 integr {chiffre}+|-{chiffre}+
+string \"[^\"]*\"
+
 
 %%
 "%"[^\n]* 
@@ -40,8 +42,8 @@ NE        { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); pri
 LE        { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_le;}
 LT        { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_lt;}
 CALL      { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_call;}
-END       { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_endr;}
-ENDR      { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_end;}
+END       { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_end;}
+ENDR      { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_endr;}
 
 {IDF}     { 
 			  rechercher(yytext,"IDF"," ",0,0);  
@@ -55,6 +57,7 @@ ENDR      { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); pri
 	if(val<= 32767 && val >= -32768){
 		printf("L'entite reconnue est %s \n", yytext);
 		col = col + strlen(yytext);
+		return integr;
 	}
 	else {
 		printf("L'entite %s  hors interval \n",yytext);
@@ -65,14 +68,24 @@ ENDR      { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); pri
 	if(val<= 32767.32767 && val >= -32767.32767){
 		printf("L'entite reconnue est %s \n", yytext);
 		col = col + strlen(yytext);
+		return floatt;
 	}
 	else {
 		printf("L'entite %s  hors interval \n",yytext);
 	}
 }
 
+{string}      {  yylval.str = strdup(yytext);
+		                	   rechercher(yytext,"STRING"," ",0,0);  
+                               col= col + strlen(yytext);
+								printf("L'entite reconnue est %s \n", yytext);
+			                 return string;
+
+}
+
+
 "+"       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return add; }
-"-"       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return sub; }
+"$-"       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return sub; }
 "*"       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mul; }
 "/"       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return divv; }
 ";"       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return pvg;}
@@ -80,9 +93,9 @@ ENDR      { rechercher(yytext,"Mot cle",0,0, 1); col = col + strlen(yytext); pri
 "="       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return aff;}
 "("       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return po;}
 ")"       { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return pf;}
+\"		  { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return quote;}
 
 [ \t]     { rechercher(yytext,"Mot cle",0,0, 2); col = col + strlen(yytext); }
 \n        { rechercher(yytext,"Mot cle",0,0, 2); col = 1; nb_ligne++; }
 
-. { printf("Erreur lexical : fichier %s ligne %d colonne %d  entite %s \n",filename, nb_ligne, col, yytext);  }
-
+. { printf("Erreur lexical : fichier %s ligne %d colonne %d  entite %s \n",filename, nb_ligne, col, yytext); return err; }
