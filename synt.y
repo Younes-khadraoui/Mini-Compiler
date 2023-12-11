@@ -16,7 +16,7 @@
         mc_read mc_write mc_if mc_then mc_else mc_endif 
         mc_dowhile mc_enddo mc_or mc_and mc_gt mc_ge mc_eq 
         mc_ne mc_le mc_lt mc_call mc_endr mc_end <str>IDF <entier>integr <reel>floatt
-        add sub mul divv pvg  vrg aff po pf  mc_equivalence  
+        add sub mul divv pvg  vrg aff po pf  mc_equivalence quote 
 
 
 %start S
@@ -101,15 +101,15 @@ AFFECTATION : IDF aff EXPRESSION INST
 
 ;
 
-EXPRESSION : IDF pvg
-            | NUMBER pvg
-            | IDF OPERATION IDF
-            | IDF OPERATION NUMBER
-            | IDF OPERATION EXPRESSION 
+EXPRESSION : VALEUR pvg
+            | VALEUR OPERATION EXPRESSION
+            | VALEUR 
             | po EXPRESSION pf
 ;
 
 OPERATION : add | sub | mul | divv
+;
+VALEUR : IDF|NUMBER
 ;
 
 NUMBER: integr | floatt
@@ -126,7 +126,7 @@ ES :  mc_read po IDF pf
 ;
 STRING : CHAINE vrg IDF vrg CHAINE
         | CHAINE
-;
+    ;
 
 CONDITON :  mc_if po EXPCDT pf mc_then INST mc_else INST mc_endif
 ;
@@ -168,7 +168,8 @@ int main(int argc, char **argv) {
 
     yyparse();
     fclose(yyin);
-    afficher();
+    afficher(0);
+    
     return 0;
 }
 yywrap ()
