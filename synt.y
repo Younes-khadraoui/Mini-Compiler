@@ -11,12 +11,12 @@
          float reel;
 }
 
-%token  mc_program mc_routine  mc_entier err <str>string mc_true mc_false
+%token  mc_program mc_routine  mc_entier  <str>string mc_true mc_false
         mc_real mc_logical mc_character mc_dimension 
         mc_read mc_write mc_if mc_then mc_else mc_endif 
         mc_dowhile mc_enddo mc_or mc_and mc_gt mc_ge mc_eq 
         mc_ne mc_le mc_lt mc_call mc_endr mc_end <str>IDF <entier>integr <reel>floatt
-        add sub mul divv pvg  vrg aff po pf  mc_equivalence quote 
+        add sub mul divv pvg  vrg aff po pf  mc_equivalence quote point
 
 
 %start S
@@ -43,6 +43,9 @@ TYPE:  mc_entier
 
 PARAMETRE :   IDF 
             | IDF vrg PARAMETRE
+            | IDF po TAILLE pf 
+            | IDF po TAILLE pf PARAMETRE 
+            
 ;
 
 
@@ -105,11 +108,17 @@ EXPRESSION : VALEUR pvg
             | VALEUR OPERATION EXPRESSION
             | VALEUR 
             | po EXPRESSION pf
+            |EXPRESSION CDTT EXPRESSION
+
+
 ;
 
 OPERATION : add | sub | mul | divv
 ;
-VALEUR : IDF|NUMBER
+VALEUR : IDF TAB|NUMBER 
+;
+
+TAB : po TAILLE pf |
 ;
 
 NUMBER: integr | floatt
@@ -128,29 +137,34 @@ STRING : CHAINE vrg IDF vrg CHAINE
         | CHAINE
     ;
 
-CONDITON :  mc_if po EXPCDT pf mc_then INST mc_else INST mc_endif
+CONDITON :  mc_if po EXPCDTT pf mc_then INST mc_else INST mc_endif
 ;
 
-EXPCDT :      IDF CDT EXPCDT
-            | IDF CDT EXPRESSION
-            | IDF CDT LOGICAL
+EXPCDTT :      IDF  CDTT EXPCDTT
+            | IDF  CDTT EXPRESSION
+            | IDF  CDTT LOGICAL
             | IDF
+            | EXPRESSION  CDTT EXPCDTT 
+            |EXPRESSION
+            |
+            
+;
+CDTT : point CDT point
+
+CDT :         mc_eq 
+            | mc_ne 
+            | mc_ge 
+            | mc_gt 
+            | mc_le 
+            | mc_lt 
+            | mc_and 
+            | mc_or 
 ;
 
-CDT :         mc_eq
-            | mc_ne
-            | mc_ge
-            | mc_gt
-            | mc_le
-            | mc_lt
-            | mc_and
-            | mc_or
+LOOP: mc_dowhile po EXPCDTT pf INST mc_enddo 
 ;
 
-LOOP: mc_dowhile po EXPCDT pf INST mc_enddo pvg
-;
-
-CALLING : IDF aff mc_call IDF po PARAMETRE pf pvg
+CALLING : IDF aff mc_call IDF po PARAMETRE pf 
 ;
 
 EQUIV: mc_equivalence po PARAMETRE pf vrg po PARAMETRE pf pvg

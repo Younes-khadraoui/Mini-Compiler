@@ -1,23 +1,50 @@
-CHARACTER ROUTINE Ab (A,B,C)
-INTEGER Z DIMENSION(2);
-REAL X;
-INTEGER x,y;
-LOGICAL y;
-CHARACTER x*20;
-CHARACTER W DIMENSION(20 , 200);
-X=x+2;
-x=-2.5;
-IF ( A LT X ) 
-THEN x=x*2;
-ELSE 
-X=X$-1;
-ENDIF; 
-Ab=y;
+INTEGER ROUTINE Comp (X,Y,Z)
+% Déclarations
+
+INTEGER A,B; 
+REAL Z=10.0, T= 55.87; 
+CHARACTER C*20; 
+INTEGER var4 DIMENSION (20); 
+REAL MAT DIMENSION (20, 200);
+LOGICAL D;
+
+% Instructions
+A = MAT(5,4) + (B * 5);
+B = 30;
+C = "L3";
+D = TRUE;
+
+WRITE ("Donner la valeur de A :"); 
+READ (A);
+WRITE ("La Valeur de A est ", A, ".");
+
+WRITE ("Donner la valeur de T:"); 
+READ (T);
+WRITE ("La Valeur de T est ", T, ".");
+
+IF(((A.GT.(B+1)).OR.(C.EQ.TRUE))) THEN A = A $- B ;
+ELSE A = A + B;
+ENDIF;
+
+A = 0;
+DOWHILE (A.LT.10) A = A + 1;
+ENDDO;
+
+Comp = A
 ENDR
-PROGRAM Acccc 
-REAL X,Y;
-INTEGER z=55;
-READ(x);
-WRITE("HELLO WORL !");
-WRITE("HELLO WORL !",X,"WELCOME !");
-DOWHILE(a LT (a+b)) IF(a LT c) THEN  x=x+1.5$-2$-2.5+2;ELSE x=x$-1;ENDIF; ENDDO; END
+
+PROGRAM HelloAcad
+% Déclarations
+INTEGER A,B,C ; 
+REAL Y ; 
+INTEGER TAB DIMENSION (10) ; 
+
+% Instructions
+A = TAB(11) + (B * 7);
+B = 30;
+C = 22+10*B;
+
+A = CALL nom_routine (A,B,C);
+EQUIVALENCE (A, B, C), (Y, TAB(3));
+
+END.
