@@ -1,5 +1,5 @@
 /****************CREATION DE LA TABLE DES SYMBOLES ******************/
-/***Step 1: Definition des structures de donn�es ***/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,7 +34,6 @@ int hach(char entite[],int table_length)
     }
     return value%table_length;
 }
-/***Step 3: insertion des entitit�es lexicales dans les tables des symboles ***/
 
 void inserer (char entite[],char type[],float val, int y)
 {
@@ -44,7 +43,7 @@ void inserer (char entite[],char type[],float val, int y)
     elt* new_elt=NULL;
     switch (y)
     {
-    case 0:/*insertion dans la table des IDF et CONST*/
+    case 0://IDF et CONST
         new_element=(element*)malloc(sizeof(element));
         strcpy(new_element->name,entite);
         strcpy(new_element->type,type);
@@ -66,7 +65,7 @@ void inserer (char entite[],char type[],float val, int y)
         }
         break;
 
-    case 1:/*insertion dans la table des mots cl�s*/
+    case 1://mots cles
         new_elt=(elt*)malloc(sizeof(elt));
         strcpy(new_elt->name,entite);
         strcpy(new_elt->type,type);
@@ -87,7 +86,7 @@ void inserer (char entite[],char type[],float val, int y)
         }
         break;
 
-    case 2:/*insertion dans la table des s�parateurs*/
+    case 2:// separateurs
         new_elt=(elt*)malloc(sizeof(elt));
         strcpy(new_elt->name,entite);
         strcpy(new_elt->type,type);
@@ -107,13 +106,10 @@ void inserer (char entite[],char type[],float val, int y)
             p->suiv=new_elt;
         }
         break;
-
-
     }
 
 }
 
-//Step 4: La fonction Rechercher permet de verifier  si l'entit� existe d�ja dans la table des symboles
 void rechercher (char entite[],char type[],float val,int y)
 {
     bool check=false;
@@ -122,7 +118,7 @@ void rechercher (char entite[],char type[],float val,int y)
     elt *b;
     switch(y)
     {
-    case 0:/*verifier si la case dans la tables des IDF et CONST est libre*/
+    case 0://IDF et CONST 
         value=hach(entite,1017);
         p=tab[value];
         while(p!=NULL&&check==false)
@@ -133,7 +129,7 @@ void rechercher (char entite[],char type[],float val,int y)
         if(check==false) inserer(entite,type,val,y);
     break;
 
-    case 1:/*verifier si la case dans la tables des mots cl�s est libre*/
+    case 1://mots cles
 
         value=hach(entite,47);
         b=tabm[value];
@@ -145,7 +141,7 @@ void rechercher (char entite[],char type[],float val,int y)
         if(check==false) inserer(entite,type,val,y);
         break;
 
-    case 2:/*verifier si la case dans la tables des s�parateurs est libre*/
+    case 2://separateurs
         value=hach(entite,47);
         b=tabs[value];
         while(b!=NULL&&check==false)
@@ -158,8 +154,6 @@ void rechercher (char entite[],char type[],float val,int y)
     }
 
 }
-
-/***Step 5 L'affichage du contenue de la table des symboles ***/
 
 void afficher()
 {int i;
