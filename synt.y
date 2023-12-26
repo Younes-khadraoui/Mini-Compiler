@@ -9,6 +9,7 @@
          int     entier;
          char*   str;
          float reel;
+
 }
 
 %token  mc_program mc_routine  mc_entier  <str>string mc_true mc_false
@@ -16,7 +17,7 @@
         mc_read mc_write mc_if mc_then mc_else mc_endif 
         mc_dowhile mc_enddo mc_or mc_and mc_gt mc_ge mc_eq 
         mc_ne mc_le mc_lt mc_call mc_endr mc_end <str>IDF <entier>integr <reel>floatt
-        add sub mul divv pvg  vrg aff po pf  mc_equivalence quote point
+        add sub mul divv pvg  vrg aff po pf  mc_equivalence  point
 
 
 %start S
@@ -54,21 +55,22 @@ BODY : DEC INST
 ;
 	
 DEC:  TYPE ListIDF pvg DEC
-    | TYPE ListTAB pvg DEC
     | TYPE IDF mul integr pvg DEC
     |
 ;
 
 ListIDF: IDF
        | IDF vrg ListIDF
-       | IDF aff NUMBER 
-       | IDF aff NUMBER vrg ListIDF
+       | IDF mc_dimension po TAILLE pf 
+       | IDF mc_dimension po TAILLE pf ListIDF
+       |
+       | IDF mc_dimension po TAILLE pf aff NUMBER 
+       | IDF mc_dimension po TAILLE pf aff NUMBER vrg ListIDF
+       
 ;
 
-ListTAB : IDF mc_dimension po TAILLE pf 
-        | IDF mc_dimension po TAILLE pf ListTAB
-        |
-;
+
+
 	
 TAILLE : integr
         | integr vrg integr
@@ -80,7 +82,7 @@ PROGRAM : mc_program IDF DEC INST mc_end
 ;
 
 
-INST :    AFFECTATION
+INST :    AFFECTATION 
         | ES 
         | CONDITON
         | LOOP 
@@ -88,7 +90,7 @@ INST :    AFFECTATION
         | EQUIV
 	    | AFFECTATION pvg INST
         | ES pvg INST
-	    | CONDITON pvg INST
+	    | CONDITON INST
 	    | LOOP pvg INST
 	    | CALLING pvg INST
 	    | EQUIV pvg INST
@@ -97,28 +99,26 @@ INST :    AFFECTATION
 
 
 
-AFFECTATION : IDF aff EXPRESSION INST
-            | IDF aff NUMBER pvg INST
+AFFECTATION : IDF aff EXPRESSION pvg INST
             | IDF aff CHAINE pvg INST
             | IDF aff LOGICAL pvg INST
-
+            | VALEUR aff EXPRESSION pvg INST 
+            | VALEUR aff LOGICAL pvg INST
+            | VALEUR aff CHAINE pvg INST
 ;
 
-EXPRESSION : VALEUR pvg
-            | VALEUR OPERATION EXPRESSION
-            | VALEUR 
+EXPRESSION : VALEUR
+            | VALEUR OPERATION EXPRESSION 
+            | po EXPRESSION pf OPERATION EXPRESSION
             | po EXPRESSION pf
-            |EXPRESSION CDTT EXPRESSION
-
-
 ;
 
 OPERATION : add | sub | mul | divv
 ;
-VALEUR : IDF TAB|NUMBER 
+VALEUR : IDF TAB|NUMBER |IDF
 ;
 
-TAB : po TAILLE pf |
+TAB : po TAILLE pf 
 ;
 
 NUMBER: integr | floatt
@@ -141,12 +141,11 @@ CONDITON :  mc_if po EXPCDTT pf mc_then INST mc_else INST mc_endif
 ;
 
 EXPCDTT :      IDF  CDTT EXPCDTT
-            | IDF  CDTT EXPRESSION
-            | IDF  CDTT LOGICAL
-            | IDF
-            | EXPRESSION  CDTT EXPCDTT 
+            |EXPRESSION  CDTT EXPCDTT 
             |EXPRESSION
-            |
+            |LOGICAL
+            |po EXPCDTT pf CDTT po EXPCDTT pf
+            |po EXPCDTT pf
             
 ;
 CDTT : point CDT point
@@ -167,7 +166,7 @@ LOOP: mc_dowhile po EXPCDTT pf INST mc_enddo
 CALLING : IDF aff mc_call IDF po PARAMETRE pf 
 ;
 
-EQUIV: mc_equivalence po PARAMETRE pf vrg po PARAMETRE pf pvg
+EQUIV: mc_equivalence po PARAMETRE pf vrg po PARAMETRE pf 
 ;
 
 %%
@@ -192,3 +191,4 @@ int yyerror ( char*  msg )
 {
        printf ("Erreur Syntaxique : fichier %s , ligne %d , colonne %d \n", filename,nb_ligne,col);
 }
+

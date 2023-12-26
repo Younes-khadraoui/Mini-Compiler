@@ -2,7 +2,7 @@ INTEGER ROUTINE Comp (X,Y,Z)
 % Déclarations
 
 INTEGER A,B; 
-REAL Z=10.0, T= 55.87; 
+%REAL Z;%=10.0, T= 55555.87; 
 CHARACTER C*20; 
 INTEGER var4 DIMENSION (20); 
 REAL MAT DIMENSION (20, 200);
@@ -22,15 +22,10 @@ WRITE ("Donner la valeur de T:");
 READ (T);
 WRITE ("La Valeur de T est ", T, ".");
 
-IF(((A.GT.(B+1)).OR.(C.EQ.TRUE))) THEN A = A $- B ;
-ELSE A = A + B;
-ENDIF;
 
 A = 0;
-DOWHILE (A.LT.10) A = A + 1;
-ENDDO;
 
-Comp = A
+Comp = A ;
 ENDR
 
 PROGRAM HelloAcad
@@ -44,7 +39,14 @@ A = TAB(11) + (B * 7);
 B = 30;
 C = 22+10*B;
 
-A = CALL nom_routine (A,B,C);
+A = CALL nom_rou (A,B,C);
 EQUIVALENCE (A, B, C), (Y, TAB(3));
+
+IF(((A.GT.(B+1)).OR.(C.EQ.TRUE))) THEN A = A $- B ;
+ELSE A = A + B;
+ENDIF
+
+DOWHILE (A.LT.10) A = A + 1;
+ENDDO;
 
 END.

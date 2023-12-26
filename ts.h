@@ -1,220 +1,229 @@
-/****************CREATION DE LA TABLE DES SYMBOLES ******************/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <stdbool.h>
-typedef struct element
+
+typedef struct
 {
-    char name[20];
-    char type[20];
-    float val;
-    struct element* suiv;
+  int state;
+  char name[20];
+  char code[20];
+  char type[20];
+  float val;
 } element;
 
-typedef struct elt
+typedef struct tabIDF
 {
-    char name[20];
-    char type[20];
-    struct elt *suiv;
+  element elm;
+  struct tabIDF *suiv;
+} tabIDF;
+
+typedef struct
+{
+  int state;
+  char name[20];
+  char type[20];
 } elt;
-element* tab[1017];
-elt *tabs[47],*tabm[47];
-extern char sav[20];
 
-int hach(char entite[],int table_length)
+typedef struct tabSepMc
 {
-    int taille,i;
-    long long value = 0;
-    taille = strlen(entite);
-    for(i=0; i<taille; i++)
-    {
-        value+=entite[i]*pow(3,i+1);
-    }
-    return value%table_length;
+  elt elm;
+  struct tabSepMc *suiv;
+} tabSepMc;
+
+tabIDF *tab = NULL;
+tabSepMc *tabSeparateur = NULL;
+tabSepMc *tabMotCle = NULL;
+
+
+tabIDF *FinTabIDF()
+{
+  tabIDF *courant = tab;
+  while (courant != NULL && courant->suiv != NULL)
+  {
+    courant = courant->suiv;
+  }
+  return courant;
 }
 
-void inserer (char entite[],char type[],float val, int y)
+tabSepMc *FinTabSepMc(int selectTAB)
 {
-
-    int value;
-    element* new_element=NULL;
-    elt* new_elt=NULL;
-    switch (y)
-    {
-    case 0://IDF et CONST
-        new_element=(element*)malloc(sizeof(element));
-        strcpy(new_element->name,entite);
-        strcpy(new_element->type,type);
-        new_element->val=val;
-        new_element->suiv=NULL;
-        value =  hach(entite,1017);
-        if(tab[value]==NULL)
-        {
-            tab[value]=new_element;
-        }
-        else
-        {
-            element* p=tab[value];
-            while(p->suiv!=NULL)
-            {
-                p=p->suiv;
-            }
-            p->suiv=new_element;
-        }
-        break;
-
-    case 1://mots cles
-        new_elt=(elt*)malloc(sizeof(elt));
-        strcpy(new_elt->name,entite);
-        strcpy(new_elt->type,type);
-        new_elt->suiv=NULL;
-        value =  hach(entite,47);
-        if(tabm[value]==NULL)
-        {
-            tabm[value]=new_elt;
-        }
-        else
-        {
-            elt* p=tabm[value];
-            while(p->suiv!=NULL)
-            {
-                p=p->suiv;
-            }
-            p->suiv=new_elt;
-        }
-        break;
-
-    case 2:// separateurs
-        new_elt=(elt*)malloc(sizeof(elt));
-        strcpy(new_elt->name,entite);
-        strcpy(new_elt->type,type);
-        new_elt->suiv=NULL;
-        value =  hach(entite,47);
-        if(tabs[value]==NULL)
-        {
-            tabs[value]=new_elt;
-        }
-        else
-        {
-            elt* p=tabs[value];
-            while(p->suiv!=NULL)
-            {
-                p=p->suiv;
-            }
-            p->suiv=new_elt;
-        }
-        break;
-    }
-
+  tabSepMc *courant = NULL;
+  if (selectTAB == 0)
+  {
+    courant = tabSeparateur;
+  }
+  else if (selectTAB == 1)
+  {
+    courant = tabMotCle;
+  }
+  while (courant != NULL && courant->suiv != NULL)
+  {
+    courant = courant->suiv;
+  }
+  return courant;
 }
 
-void rechercher (char entite[],char type[],float val,int y)
+
+void inserer(char entite[], char code[], char type[], float val, int i, int y)
 {
-    bool check=false;
-    int value;
-    element *p;
-    elt *b;
-    switch(y)
+  switch (y)
+  {
+
+  case 0:
+  {
+    tabIDF *newIDF = (tabIDF *)malloc(sizeof(tabIDF));
+    newIDF->elm.state = 1;
+    strcpy(newIDF->elm.name, entite);
+    strcpy(newIDF->elm.code, code);
+    strcpy(newIDF->elm.type, type);
+    newIDF->elm.val = val;
+    newIDF->suiv = NULL;
+    tabIDF *lastElement = FinTabIDF();
+    if (lastElement != NULL)
     {
-    case 0://IDF et CONST 
-        value=hach(entite,1017);
-        p=tab[value];
-        while(p!=NULL&&check==false)
-        {
-            if(strcmp(entite,p->name)==0) check=true;
-            p=p->suiv;
-        }
-        if(check==false) inserer(entite,type,val,y);
+      lastElement->suiv = newIDF;
+    }
+    else
+    {
+      tab = newIDF;
+    }
+
+    break;
+  }
+
+  case 1 :
+  {
+    tabSepMc *newSM = (tabSepMc *)malloc(sizeof(tabSepMc));
+    newSM->elm.state = 1;
+    strcpy(newSM->elm.name, entite);
+    strcpy(newSM->elm.type, code);
+    newSM->suiv = NULL;
+    tabSepMc *lastElement = FinTabSepMc(1);
+    if (lastElement != NULL) lastElement->suiv = newSM;
+    else tabMotCle = newSM;
+    break;
+  }
+
+  case 2 :
+  {
+    tabSepMc *newSM = (tabSepMc *)malloc(sizeof(tabSepMc));
+    newSM->elm.state = 1;
+    strcpy(newSM->elm.name, entite);
+    strcpy(newSM->elm.type, code);
+    newSM->suiv = NULL;
+    tabSepMc *lastElement = FinTabSepMc(0);
+    if (lastElement != NULL)
+    {
+      lastElement->suiv = newSM;
+    }
+    else
+    {
+      tabSeparateur = newSM;
+    }
+    break;
+  }
+
+  }
+}
+
+
+void rechercher(char entite[], char code[], char type[], float val, int y)
+{
+  int j, i;
+  tabIDF *courant = tab;
+  tabSepMc *courantM = tabMotCle;
+  tabSepMc *courantS = tabSeparateur;
+
+  switch (y)
+  {
+
+  case 0 : 
+    if(strcmp("IDF", code) == 0){
+        while (courant != NULL)
+          {
+            if((strcmp(entite, courant->elm.name) == 0)) break;
+            courant = courant->suiv;
+          }
+
+          if (courant == NULL) inserer(entite, code, type, val, 0, y);
+    }
+
+    else{
+      while (courant != NULL)
+          {
+            courant = courant->suiv;
+          }
+
+          if (courant == NULL) inserer(entite, code, type, val , 0, y);
+    }
+
     break;
 
-    case 1://mots cles
+  case 1 : 
 
-        value=hach(entite,47);
-        b=tabm[value];
-        while(b!=NULL&&check==false)
-        {
-            if(strcmp(entite,b->name)==0) check=true;
-            b=b->suiv;
-        }
-        if(check==false) inserer(entite,type,val,y);
-        break;
+    while (courantM != NULL && (courantM->elm.state == 1) && (strcmp(entite, courantM->elm.name) != 0))
+    {
+      courantM = courantM->suiv;
+    }
+    if (courantM == NULL) inserer(entite, code, type, val, 0, y);
+    break;
 
-    case 2://separateurs
-        value=hach(entite,47);
-        b=tabs[value];
-        while(b!=NULL&&check==false)
-        {
-            if(strcmp(entite,b->name)==0) check=true;
-            b=b->suiv;
-        }
-        if(check==false) inserer(entite,type,val,y);
-        break;
+  case 2 : 
+
+    while (courantS != NULL && (courantS->elm.state == 1) && (strcmp(entite, courantS->elm.name) != 0))
+    {
+      courantS = courantS->suiv;
     }
 
+    if (courantS == NULL) inserer(entite, code, type, val, 0, y);
+    break;
+  }
 }
+
 
 void afficher()
-{int i;
-    element *p;
-    elt *b;
-
-printf("/***************Table des symboles IDF*************/\n");
-printf("____________________________________________________________________\n");
-printf("\t| Nom_Entite | Type_Entite | Val_Entite\n");
-printf("____________________________________________________________________\n");
-
-for(i=0;i<1017;i++)
 {
-    p=tab[i];
-    while(p!=NULL)
-    {
-        printf("\t|%10s     | %12s      | %12f\n",p->name,p->type,p->val);
-        p=p->suiv;
-    }
+  printf("\n\t _______________________________________________________________\n");
+  printf("\t|                         Table des IDF                         |\n");
+  printf("\t|_______________________________________________________________|\n");
+  printf("\t|  Nom_Entite  |   Code_Entite  |  Type_Entite |   Val_Entite   |\n");
+  printf("\t|______________|________________|______________|________________|\n");
 
+  tabIDF *currentIDF = tab;
+  while (currentIDF != NULL)
+  {
+    printf("\t|%13s | %14s | %12s | %14f |\n", currentIDF->elm.name, currentIDF->elm.code, currentIDF->elm.type, currentIDF->elm.val);
+    currentIDF = currentIDF->suiv;
+  }
+  printf("\t|______________|________________|______________|________________|\n");
+
+  printf("\n\t ___________________________\n");
+  printf("\t|     Table des MOT-CLES    |\n");
+  printf("\t|___________________________|\n");
+  printf("\t|  NomEntite  | CodeEntite  |\n");
+  printf("\t|_____________|_____________|\n");
+
+  tabSepMc *courantM = tabMotCle;
+  while (courantM != NULL)
+  {
+    printf("\t|%12s |%12s | \n", courantM->elm.name, courantM->elm.type);
+    courantM = courantM->suiv;
+  }
+  printf("\t|_____________|_____________|\n");
+
+  printf("\n\t ___________________________\n");
+  printf("\t|   Table des SEPARATEURS   |\n");
+  printf("\t|___________________________|\n");
+  printf("\t|  NomEntite  |  CodeEntite | \n");
+  printf("\t|_____________|_____________|\n");
+
+  tabSepMc *courantS = tabSeparateur;
+  while (courantS != NULL)
+  {
+    printf("\t|%10s   |%12s | \n", courantS->elm.name, courantS->elm.type);
+    courantS = courantS->suiv;
+  }
+  printf("\t|_____________|_____________|\n");
 }
-
-
-printf("\n/***************Table des symboles mots cles*************/\n");
-
-printf("_____________________________________\n");
-printf("\t| NomEntite |  Type_Entite | \n");
-printf("_____________________________________\n");
-
-for(i=0;i<47;i++)
-      {
-          b=tabm[i];
-          while(b!=NULL)
-          {
-               printf("\t|%10s      |%12s       | \n",b->name, b->type);
-               b=b->suiv;
-
-          }
-
-      }
-
-printf("\n/***************Table des symboles separateurs*************/\n");
-
-printf("_____________________________________\n");
-printf("\t| NomEntite |  Type_Entite | \n");
-printf("_____________________________________\n");
-
-for(i=0;i<47;i++)
-      {
-         b=tabs[i];
-          while(b!=NULL)
-          {
-               printf("\t|%10s       |%12s       | \n",b->name, b->type);
-               b=b->suiv;
-
-          }
-      }
-
-}
-
-
-
 
 
