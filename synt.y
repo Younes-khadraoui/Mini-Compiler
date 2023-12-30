@@ -54,22 +54,17 @@ PARAMETRE :   IDF
 BODY : DEC INST 
 ;
 	
-DEC:  TYPE ListIDF pvg DEC
-    | TYPE IDF mul integr pvg DEC
-    |
+DEC:     TYPE  IDF ListIDF pvg DEC
+        |
+
 ;
 
-ListIDF: IDF
-       | IDF vrg ListIDF
-       | IDF mc_dimension po TAILLE pf 
-       | IDF mc_dimension po TAILLE pf ListIDF
-       |
-       | IDF mc_dimension po TAILLE pf aff NUMBER 
-       | IDF mc_dimension po TAILLE pf aff NUMBER vrg ListIDF
-       
+ListIDF: vrg IDF ListIDF
+        | mc_dimension po TAILLE pf 
+        | mc_dimension po TAILLE pf  vrg ListIDF
+        | mul integr
+        |
 ;
-
-
 
 	
 TAILLE : integr
@@ -78,17 +73,11 @@ TAILLE : integr
 
 
 
-PROGRAM : mc_program IDF DEC INST mc_end
+PROGRAM : mc_program IDF BODY mc_end
 ;
 
 
-INST :    AFFECTATION 
-        | ES 
-        | CONDITON
-        | LOOP 
-        | CALLING
-        | EQUIV
-	    | AFFECTATION pvg INST
+INST :    AFFECTATION pvg INST
         | ES pvg INST
 	    | CONDITON INST
 	    | LOOP pvg INST
@@ -99,57 +88,55 @@ INST :    AFFECTATION
 
 
 
-AFFECTATION : IDF aff EXPRESSION pvg INST
-            | IDF aff CHAINE pvg INST
-            | IDF aff LOGICAL pvg INST
-            | VALEUR aff EXPRESSION pvg INST 
-            | VALEUR aff LOGICAL pvg INST
-            | VALEUR aff CHAINE pvg INST
+AFFECTATION : IDF aff EXPRESSION INST
+            | IDF aff CHAINE INST
+            | IDF aff LOGICAL INST
 ;
 
-EXPRESSION : VALEUR
+EXPRESSION :  VALEUR
             | VALEUR OPERATION EXPRESSION 
             | po EXPRESSION pf OPERATION EXPRESSION
             | po EXPRESSION pf
 ;
 
+VALEUR :      IDF TAB
+            | NUMBER 
+            | IDF
+;
+
+TAB :       po TAILLE pf 
+;
+
+NUMBER:     integr | floatt
+;
+
 OPERATION : add | sub | mul | divv
 ;
-VALEUR : IDF TAB|NUMBER |IDF
+
+CHAINE :    string 
 ;
 
-TAB : po TAILLE pf 
+LOGICAL :   mc_true | mc_false
 ;
 
-NUMBER: integr | floatt
+ES :        mc_read po IDF pf 
+          | mc_write po STRING pf 
 ;
 
-CHAINE :  string 
+STRING :    CHAINE vrg IDF vrg CHAINE
+          | CHAINE
 ;
-
-LOGICAL : mc_true|mc_false
-;
-
-ES :  mc_read po IDF pf 
-    | mc_write po STRING pf 
-;
-STRING : CHAINE vrg IDF vrg CHAINE
-        | CHAINE
-    ;
 
 CONDITON :  mc_if po EXPCDTT pf mc_then INST mc_else INST mc_endif
 ;
 
-EXPCDTT :      IDF  CDTT EXPCDTT
-            |EXPRESSION  CDTT EXPCDTT 
-            |EXPRESSION
-            |LOGICAL
-            |po EXPCDTT pf CDTT po EXPCDTT pf
-            |po EXPCDTT pf
-            
+EXPCDTT :     EXPRESSION
+            | EXPRESSION  CDTT EXPCDTT  
+            | LOGICAL
 ;
-CDTT : point CDT point
 
+CDTT :      point CDT point
+;
 CDT :         mc_eq 
             | mc_ne 
             | mc_ge 
@@ -160,13 +147,13 @@ CDT :         mc_eq
             | mc_or 
 ;
 
-LOOP: mc_dowhile po EXPCDTT pf INST mc_enddo 
+LOOP:       mc_dowhile po EXPCDTT pf INST mc_enddo 
 ;
 
-CALLING : IDF aff mc_call IDF po PARAMETRE pf 
+CALLING :   IDF aff mc_call IDF po PARAMETRE pf 
 ;
 
-EQUIV: mc_equivalence po PARAMETRE pf vrg po PARAMETRE pf 
+EQUIV:      mc_equivalence po PARAMETRE pf vrg po PARAMETRE pf 
 ;
 
 %%
