@@ -17,35 +17,35 @@ string \"[^\"]*\"
 
 %%
 "%"[^\n]* 
-PROGRAM   {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_program;}
-ROUTINE   {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_routine;}
-EQUIVALENCE   {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_equivalence;}
-INTEGER   {yylval.str = strdup(yytext); rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);	return mc_entier;}
-REAL      {yylval.str = strdup(yytext);rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_real;}
-LOGICAL   {yylval.str = strdup(yytext);rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_logical;}
-CHARACTER {yylval.str = strdup(yytext);rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_character;}
-DIMENSION {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_dimension;}
-READ      {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);   return mc_read;}
-WRITE     {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_write;}
-IF        {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_if;}
-THEN      {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_then;}
-ELSE      {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_else;}
-ENDIF     {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_endif;}
-DOWHILE   {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_dowhile;}
-ENDDO     {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_enddo;}
-OR        {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_or;}
-AND       {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_and;}
-GT        {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_gt;}
-GE        {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_ge;}
-EQ        {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_eq;}
-NE        {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_ne;}
-LE        {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_le;}
-LT        {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_lt;}
-CALL      {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_call;}
-END       {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_end;}
-ENDR      {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_endr;}
-TRUE      {	rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_true;}
-FALSE     { rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_false;}
+PROGRAM   		{yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_program;}
+ROUTINE   		{yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_routine;}
+EQUIVALENCE   	{yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_equivalence;}
+INTEGER   		{yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);	return mc_entier;}
+REAL      		{yylval.str = strdup(yytext); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_real;}
+LOGICAL   		{yylval.str = strdup(yytext); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_logical;}
+CHARACTER 		{yylval.str = strdup(yytext); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_character;}
+DIMENSION  		{yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_dimension;}
+READ      {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);   return mc_read;}
+WRITE     {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_write;}
+IF        {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_if;}
+THEN      {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_then;}
+ELSE      {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_else;}
+ENDIF     {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_endif;}
+DOWHILE   {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_dowhile;}
+ENDDO     {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_enddo;}
+OR        {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_or;}
+AND       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_and;}
+GT        {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_gt;}
+GE        {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_ge;}
+EQ        {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_eq;}
+NE        {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_ne;}
+LE        {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_le;}
+LT        {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_lt;}
+CALL      {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_call;}
+END       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_end;}
+ENDR      {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_endr;}
+TRUE      {	yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_true;}
+FALSE     { yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_false;}
 
 {IDF}     { 
 	 yylval.str = strdup(yytext);
@@ -86,19 +86,19 @@ FALSE     { rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); 
 
 }
 
-"+"       {rechercher (yytext,"Separateur",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return add; }
-"$-"       {rechercher (yytext,"Separateur",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return sub; }
-"*"       {rechercher (yytext,"Separateur",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mul; }
-"/"       {rechercher (yytext,"Separateur",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return divv; }
-";"       {rechercher (yytext,"Separateur",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return pvg;}
-","       {rechercher (yytext,"Separateur",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return vrg;}
-"="       {rechercher (yytext,"Separateur",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return aff;}
-"("       {rechercher (yytext,"Separateur",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return po;}
-")"       {rechercher (yytext,"Separateur",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return pf;}
-"."       {rechercher (yytext,"Separateur",0,0, 2); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return point;}
+"+"       { yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return add; }
+"$-"       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return sub; }
+"*"       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mul; }
+"/"       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return divv; }
+";"       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return pvg;}
+","       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return vrg;}
+"="       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return aff;}
+"("       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return po;}
+")"       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return pf;}
+"."       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return point;}
 
 
-[ \t]     {rechercher (yytext,"Separateur",0,0, 2); col = col + strlen(yytext); }
+[ \t]     {yylval.str = strdup(yytext);  col = col + strlen(yytext); }
 \n        {col = 1; nb_ligne++; }
 
 . { printf("Erreur lexical : fichier %s ligne %d colonne %d  entite %s \n",filename, nb_ligne, col, yytext); }
