@@ -4,6 +4,15 @@
 
 typedef struct
 {
+  int ts;
+  tabIDF *tab1;
+  tabSepMc *tab2;
+  tabSepMc *tab3;
+  struct listePointure * suiv;
+} listePointure;
+
+typedef struct
+{
   int state;
   char name[20];
   char code[20];
@@ -30,10 +39,21 @@ typedef struct tabSepMc
   struct tabSepMc *suiv;
 } tabSepMc;
 
+
+listePointure *tabLP = NULL;
 tabIDF *tab = NULL;
 tabSepMc *tabSeparateur = NULL;
 tabSepMc *tabMotCle = NULL;
 
+listePointure * FinListePointure()
+{
+  listePointure *courant = tabLP;
+  while (courant != NULL && courant->suiv != NULL)
+  {
+    courant = courant->suiv;
+  }
+  return courant;
+}
 
 tabIDF *FinTabIDF()
 {
@@ -127,12 +147,38 @@ void inserer(char entite[], char code[], char type[], float val, int i, int y)
 }
 
 
-void rechercher(char entite[], char code[], char type[], float val, int y)
+void rechercher(char entite[], char code[], char type[], float val, int y , int ts )
 {
   int j, i;
+  listePointure *courantLP = tabLP;
   tabIDF *courant = tab;
   tabSepMc *courantM = tabMotCle;
   tabSepMc *courantS = tabSeparateur;
+
+  if(tabLP == NULL)
+  {
+    listePointure *newLP = (listePointure *)malloc(sizeof(listePointure));
+    tabLP = newLP;
+    newLP->suiv = NULL;
+    newLP->tab1 = tab;
+    newLP->tab2 = tabMotCle;
+    newLP->tab3 = tabSeparateur;
+    newLP->ts = 0;
+  }
+  else
+  {
+    courantLP = FinListePointure;
+    if(courantLP->ts < ts)
+    {
+      listePointure *newLP = (listePointure *)malloc(sizeof(listePointure));
+      newLP->tab1 = tab;
+      newLP->tab2 = tabMotCle;
+      newLP->tab3 = tabSeparateur;
+      newLP->ts = ts;
+    }
+  }
+
+ 
 
   switch (y)
   {
