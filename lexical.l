@@ -20,10 +20,10 @@ string \"[^\"]*\"
 PROGRAM   {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_program;}
 ROUTINE   {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_routine;}
 EQUIVALENCE   {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_equivalence;}
-INTEGER   {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);	return mc_entier;}
-REAL      {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_real;}
-LOGICAL   {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_logical;}
-CHARACTER {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_character;}
+INTEGER   {yylval.str = strdup(yytext); rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);	return mc_entier;}
+REAL      {yylval.str = strdup(yytext);rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mc_real;}
+LOGICAL   {yylval.str = strdup(yytext);rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_logical;}
+CHARACTER {yylval.str = strdup(yytext);rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_character;}
 DIMENSION {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_dimension;}
 READ      {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);   return mc_read;}
 WRITE     {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_write;}
@@ -44,15 +44,19 @@ LT        {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); p
 CALL      {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_call;}
 END       {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_end;}
 ENDR      {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_endr;}
+TRUE      {	rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_true;}
+FALSE     { rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_false;}
 
 {IDF}     { 
+	 yylval.str = strdup(yytext);
 			  rechercher (yytext,"IDF","Identifier",0 , 0);  
               col = col + strlen(yytext);
 			  if (yyleng>10) printf ("Erreur Lexical: IDF trop long a la ligne %d a la colonne %d \n ",nb_ligne, col);
-              printf (" L entite lexicale reconnue est %s \n", yytext); 
+              printf ("L'entite reconnue est %s \n", yytext); 
 			  return IDF;
 }
 {integr}   { 
+	yylval.entier = atoi(yytext);
 	int val = atoi(yytext); 
 	if(val<= 32767 && val >= -32768){
 		printf("L'entite reconnue est %s \n", yytext);
@@ -64,6 +68,7 @@ ENDR      {rechercher (yytext,"Mot cle ","",0, 1); col = col + strlen(yytext); p
 	}
 }
 {floatt}   {   
+	yylval.reel = atoi(yytext);
 	float val = atoi(yytext); 
 	if(val<= 32767.32767 && val >= -32767.32767){
 		printf("L'entite reconnue est %s \n", yytext);

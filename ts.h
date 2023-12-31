@@ -227,3 +227,34 @@ void afficher()
 }
 
 
+void modifyType(char entite[], char newType[]) {
+    tabIDF *courant = tab;
+
+    while (courant != NULL) {
+        // Check if Nom_Entite matches the specified condition
+        if (strcmp(entite, courant->elm.name) == 0) {
+            // Modify the Type_Entite if the condition is met
+            strcpy(courant->elm.type, newType);
+            break;  // Assuming only one match is needed
+        }
+        courant = courant->suiv;
+    }
+}
+
+void printTypeOfIDF(const char* entite) {
+    tabIDF *courant = tab;
+
+    while (courant != NULL) {
+        // Check if Nom_Entite matches the specified condition
+        if (strcmp(entite, courant->elm.name) == 0) {
+            // Print the Type_Entite if the condition is met
+            printf("Type of %s: %s\n", entite, courant->elm.type);
+            return;  // Exit the function after printing
+        }
+        courant = courant->suiv;
+    }
+
+    // If the identifier is not found, print "Unknown" (or an appropriate value)
+    printf("Type of %s: Unknown\n", entite);
+}
+
