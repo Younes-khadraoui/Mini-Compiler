@@ -146,6 +146,17 @@ void inserer(char entite[], char code[], char type[], float val, int i, int y)
   }
 }
 
+void creep (listePointure *newLP1)
+{
+ tabIDF *newIDF1 = (tabIDF *)malloc(sizeof(tabIDF));
+ tabSepMc *newMC = (tabSepMc *)malloc(sizeof(tabSepMc));
+ tabSepMc *newSEP = (tabSepMC *)malloc(sizeof(tabSepMc));
+
+  newLP1->tab1 = newIDF1;
+  newLP1->tab2 = newMC;
+  newLP1->tab3 = newSEP;
+}
+
 
 void rechercher(char entite[], char code[], char type[], float val, int y , int ts )
 {
@@ -154,6 +165,7 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
   tabIDF *courant = tab;
   tabSepMc *courantM = tabMotCle;
   tabSepMc *courantS = tabSeparateur;
+  listePointure *chik = tabLP;
 
   if(tabLP == NULL)
   {
@@ -170,11 +182,26 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
     courantLP = FinListePointure;
     if(courantLP->ts < ts)
     {
+      
       listePointure *newLP = (listePointure *)malloc(sizeof(listePointure));
+      /*
       newLP->tab1 = tab;
       newLP->tab2 = tabMotCle;
       newLP->tab3 = tabSeparateur;
+      */
+      creep (newLP);
       newLP->ts = ts;
+    }
+    else {
+      
+      while (chik->ts  < ts)
+      {
+
+        chik =  chik->suiv ;
+
+      }
+      courantLP = chik ;
+
     }
   }
 
@@ -185,43 +212,43 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
 
   case 0 : 
     if(strcmp("IDF", code) == 0){
-        while (courant != NULL)
+        while (newLP->tab1 != NULL)
           {
-            if((strcmp(entite, courant->elm.name) == 0)) break;
-            courant = courant->suiv;
+            if((strcmp(entite, newLP->tab1->elm.name) == 0)) break;
+            newLP->tab1 = newLP->tab1->suiv;
           }
 
-          if (courant == NULL) inserer(entite, code, type, val, 0, y);
+          if (newLP->tab1 == NULL) inserer(entite, code, type, val, 0, y);
     }
 
     else{
-      while (courant != NULL)
+      while (newLP->tab1 != NULL)
           {
-            courant = courant->suiv;
+            newLP->tab1 = newLP->tab1->suiv;
           }
 
-          if (courant == NULL) inserer(entite, code, type, val , 0, y);
+          if (newLP->tab1 == NULL) inserer(entite, code, type, val , 0, y);
     }
 
     break;
 
   case 1 : 
 
-    while (courantM != NULL && (courantM->elm.state == 1) && (strcmp(entite, courantM->elm.name) != 0))
+    while (newLP->tab2 != NULL && (newLP->tab2->elm.state == 1) && (strcmp(entite, newLP->tab2->elm.name) != 0))
     {
-      courantM = courantM->suiv;
+      newLP->tab2 = newLP->tab2->suiv;
     }
-    if (courantM == NULL) inserer(entite, code, type, val, 0, y);
+    if (newLP->tab2 == NULL) inserer(entite, code, type, val, 0, y);
     break;
 
   case 2 : 
 
-    while (courantS != NULL && (courantS->elm.state == 1) && (strcmp(entite, courantS->elm.name) != 0))
+    while (newLP->tab3 != NULL && (newLP->tab3->elm.state == 1) && (strcmp(entite, newLP->tab3->elm.name) != 0))
     {
-      courantS = courantS->suiv;
+      newLP->tab3 = newLP->tab3->suiv;
     }
 
-    if (courantS == NULL) inserer(entite, code, type, val, 0, y);
+    if (newLP->tab3 == NULL) inserer(entite, code, type, val, 0, y);
     break;
   }
 }
