@@ -2,7 +2,7 @@
        #include <stdio.h>
        #include<stdlib.h>
        #include<string.h>
-       int nb_ligne=1, col=1,ts=0;
+       int nb_ligne=1, col=1,ts;
        extern FILE *yyin;
        char* saveType;
        char *filename;
@@ -35,10 +35,10 @@
 S: FUNCTION | PROGRAM {printf("prog syntaxiquement correct"); YYACCEPT;}
 ;
 
-FUNCTION : HEADER BODY mc_endr S {rechercher ($3,"Mot cle ","",0, 1,ts); } 
+FUNCTION : HEADER BODY mc_endr {rechercher ($3,"Mot cle ","",0, 1,ts); }S  
 ;
 
-HEADER : TYPE mc_routine IDF po PARAMETRE pf { rechercher ($2,"Mot cle ","",0, 1,ts); rechercher ($3,"IDF","Identifier",0 , 0,ts);;modifyType($3,$1,ts); rechercher ($4,"Separateur",0,0, 2,ts); rechercher ($6,"Separateur",0,0, 2,ts);}  
+HEADER : TYPE mc_routine IDF po PARAMETRE pf { rechercher ($2,"Mot cle ","",0, 1,ts); rechercher ($3,"IDF","Identifier",0 , 0,ts);modifyType($3,saveType,ts); rechercher ($4,"Separateur",0,0, 2,ts); rechercher ($6,"Separateur",0,0, 2,ts);}  
 ;
 
 TYPE:  mc_entier {saveType=$1;rechercher ($1,"Mot cle ","",0, 1,ts);}
@@ -47,10 +47,10 @@ TYPE:  mc_entier {saveType=$1;rechercher ($1,"Mot cle ","",0, 1,ts);}
      | mc_character {saveType=$1;rechercher ($1,"Mot cle ","",0, 1,ts);}
 ;
 
-PARAMETRE :   IDF {rechercher ($1,"IDF","Identifier",0 , 0,ts);;}
-            | IDF vrg  PARAMETRE {rechercher ($1,"IDF","Identifier",0 , 0,ts);; rechercher ($2,"Separateur",0,0, 2,ts);}
-            | IDF po TAILLE pf {rechercher ($1,"IDF","Identifier",0 , 0,ts);;rechercher ($2,"Separateur",0,0, 2,ts);rechercher ($4,"Separateur",0,0, 2,ts);}
-            | IDF po TAILLE pf PARAMETRE {rechercher ($1,"IDF","Identifier",0 , 0,ts);;rechercher ($2,"Separateur",0,0, 2,ts);rechercher ($4,"Separateur",0,0, 2,ts);}
+PARAMETRE :   IDF {rechercher ($1,"IDF","Identifier",0 , 0,ts);}
+            | IDF vrg  PARAMETRE {rechercher ($1,"IDF","Identifier",0 , 0,ts); rechercher ($2,"Separateur",0,0, 2,ts); }
+            | IDF po TAILLE pf {rechercher ($1,"IDF","Identifier",0 , 0,ts);rechercher ($2,"Separateur",0,0, 2,ts);rechercher ($4,"Separateur",0,0, 2,ts);}
+            | IDF po TAILLE pf PARAMETRE {rechercher ($1,"IDF","Identifier",0 , 0,ts);rechercher ($2,"Separateur",0,0, 2,ts);rechercher ($4,"Separateur",0,0, 2,ts);}
             
 ;
 
@@ -59,12 +59,12 @@ PARAMETRE :   IDF {rechercher ($1,"IDF","Identifier",0 , 0,ts);;}
 BODY : DEC INST 
 ;
 	
-DEC:     TYPE  IDF ListIDF pvg DEC  {rechercher ($1,"IDF","Identifier",0 , 0,ts);; modifyType($2,saveType,ts); rechercher ($4,"Separateur",0,0, 2,ts);}
+DEC:     TYPE  IDF{rechercher ($2,"IDF","Identifier",0 , 0,ts); modifyType($2,saveType,ts);printf("%dttttttttt\n",ts); } ListIDF pvg  {rechercher ($5,"Separateur",0,0, 2,ts);} DEC 
         |
 
 ;
 
-ListIDF: vrg IDF  ListIDF {rechercher ($2,"IDF","Identifier",0 , 0,ts);; modifyType($2,saveType,ts); rechercher ($1,"Separateur",0,0, 2,ts);}
+ListIDF: vrg IDF  ListIDF { rechercher ($1,"Separateur",0,0, 2,ts); rechercher ($2,"IDF","Identifier",0 , 0,ts); modifyType($2,saveType,ts); printf("%dttttttttt\n",ts);}
         | mc_dimension po TAILLE pf {rechercher ($1,"Mot cle ","",0, 1,ts);rechercher ($2,"Separateur",0,0, 2,ts); rechercher ($4,"Separateur",0,0, 2,ts);}
         | mc_dimension po TAILLE pf  vrg ListIDF {rechercher ($1,"Mot cle ","",0, 1,ts);rechercher ($2,"Separateur",0,0, 2,ts); rechercher ($4,"Separateur",0,0, 2,ts); rechercher ($5,"Separateur",0,0, 2,ts);}
         | mul integr {rechercher ($1,"Separateur",0,0, 2,ts);}
@@ -78,7 +78,7 @@ TAILLE : integr
 
 
 
-PROGRAM : mc_program IDF BODY mc_end {rechercher ($1,"Mot cle ","",0, 1,ts); rechercher ($2,"IDF","Identifier",0 , 0,ts);; rechercher ($4,"Mot cle ","",0, 1,ts); }
+PROGRAM : mc_program IDF BODY mc_end {rechercher ($1,"Mot cle ","",0, 1,ts); rechercher ($2,"IDF","Identifier",0 , 0,ts); rechercher ($4,"Mot cle ","",0, 1,ts); }
 ;
 
 
@@ -93,9 +93,9 @@ INST :    AFFECTATION pvg INST {rechercher ($2,"Separateur",0,0, 2,ts);}
 
 
 
-AFFECTATION : IDF aff EXPRESSION INST{rechercher ($1,"IDF","Identifier",0 , 0,ts);; printTypeOfIDF($1); rechercher ($2,"Separateur",0,0, 2,ts);}
-            | IDF aff CHAINE INST{rechercher ($1,"IDF","Identifier",0 , 0,ts);; printTypeOfIDF($1);rechercher ($2,"Separateur",0,0, 2,ts);}
-            | IDF aff LOGICAL INST{rechercher ($1,"IDF","Identifier",0 , 0,ts);; printTypeOfIDF($1);rechercher ($2,"Separateur",0,0, 2,ts);}
+AFFECTATION : IDF aff EXPRESSION INST{rechercher ($1,"IDF","Identifier",0 , 0,ts);  rechercher ($2,"Separateur",0,0, 2,ts);}
+            | IDF aff CHAINE INST{rechercher ($1,"IDF","Identifier",0 , 0,ts); rechercher ($2,"Separateur",0,0, 2,ts);}
+            | IDF aff LOGICAL INST{rechercher ($1,"IDF","Identifier",0 , 0,ts); rechercher ($2,"Separateur",0,0, 2,ts);}
 ;
 
 EXPRESSION :  VALEUR
@@ -104,9 +104,9 @@ EXPRESSION :  VALEUR
             | po EXPRESSION pf{rechercher ($1,"Separateur",0,0, 2,ts);rechercher ($3,"Separateur",0,0, 2,ts);}
 ;
 
-VALEUR :      IDF TAB {rechercher ($1,"IDF","Identifier",0 , 0,ts);; printTypeOfIDF($1);}
+VALEUR :      IDF TAB {rechercher ($1,"IDF","Identifier",0 , 0,ts); }
             | NUMBER 
-            | IDF {rechercher ($1,"IDF","Identifier",0 , 0,ts);; printTypeOfIDF($1);}
+            | IDF {rechercher ($1,"IDF","Identifier",0 , 0,ts); }
 ;
 
 TAB :       po TAILLE pf {rechercher ($1,"Separateur",0,0, 2,ts); rechercher ($3,"Separateur",0,0, 2,ts);}
@@ -124,11 +124,11 @@ CHAINE :    string
 LOGICAL :   mc_true {rechercher ($1,"Mot cle ","",0, 1,ts);} | mc_false {rechercher ($1,"Mot cle ","",0, 1,ts);}
 ;
 
-ES :        mc_read po IDF pf {rechercher ($1,"Mot cle ","",0, 1,ts); rechercher ($2,"Separateur",0,0, 2,ts);rechercher ($3,"IDF","Identifier",0 , 0,ts);; rechercher ($4,"Separateur",0,0, 2,ts);}
+ES :        mc_read po IDF pf {rechercher ($1,"Mot cle ","",0, 1,ts); rechercher ($2,"Separateur",0,0, 2,ts);rechercher ($3,"IDF","Identifier",0 , 0,ts); rechercher ($4,"Separateur",0,0, 2,ts);}
           | mc_write po STRING pf {rechercher ($1,"Mot cle ","",0, 1,ts); rechercher ($2,"Separateur",0,0, 2,ts); rechercher ($4,"Separateur",0,0, 2,ts);}
 ;
 
-STRING :    CHAINE vrg IDF vrg CHAINE {rechercher ($2,"Separateur",0,0, 2,ts);rechercher ($3,"IDF","Identifier",0 , 0,ts);; rechercher ($4,"Separateur",0,0, 2,ts);}
+STRING :    CHAINE vrg IDF vrg CHAINE {rechercher ($2,"Separateur",0,0, 2,ts);rechercher ($3,"IDF","Identifier",0 , 0,ts); rechercher ($4,"Separateur",0,0, 2,ts);}
           | CHAINE
 ;
 
@@ -156,7 +156,7 @@ CDT :         mc_eq {rechercher ($1,"Mot cle ","",0, 1,ts);}
 LOOP:       mc_dowhile po EXPCDTT pf INST mc_enddo {rechercher ($1,"Mot cle ","",0, 1,ts); rechercher ($2,"Separateur",0,0, 2,ts);rechercher ($4,"Separateur",0,0, 2,ts);rechercher ($6,"Mot cle ","",0, 1,ts);}
 ;
 
-CALLING :   IDF aff mc_call IDF po PARAMETRE pf {rechercher ($1,"IDF","Identifier",0 , 0,ts);; rechercher ($2,"Separateur",0,0, 2,ts);rechercher ($3,"Mot cle ","",0, 1,ts);rechercher ($5,"Separateur",0,0, 2,ts);rechercher ($7,"Separateur",0,0, 2,ts);}
+CALLING :   IDF aff mc_call IDF po PARAMETRE pf {rechercher ($1,"IDF","Identifier",0 , 0,ts); rechercher ($2,"Separateur",0,0, 2,ts);rechercher ($3,"Mot cle ","",0, 1,ts);rechercher ($5,"Separateur",0,0, 2,ts);rechercher ($7,"Separateur",0,0, 2,ts);}
 ;
 
 EQUIV:      mc_equivalence po PARAMETRE pf vrg po PARAMETRE pf {rechercher ($1,"Mot cle ","",0, 1,ts);rechercher ($4,"Separateur",0,0, 2,ts);rechercher ($5,"Separateur",0,0, 2,ts);rechercher ($6,"Separateur",0,0, 2,ts);rechercher ($8,"Separateur",0,0, 2,ts);}
