@@ -1527,7 +1527,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 41 "synt.y"
-    {rechercher ((yyvsp[(3) - (6)].str),"IDF","Identifier",0 , 0,ts);modifyType((yyvsp[(3) - (6)].str),(yyvsp[(1) - (6)].str),ts); rechercher ((yyvsp[(2) - (6)].str),"Mot cle ","",0, 1,ts);  rechercher ((yyvsp[(4) - (6)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(6) - (6)].str),"Separateur",0,0, 2,ts);;}
+    { rechercher ((yyvsp[(2) - (6)].str),"Mot cle ","",0, 1,ts); rechercher ((yyvsp[(3) - (6)].str),"IDF","Identifier",0 , 0,ts);;modifyType((yyvsp[(3) - (6)].str),(yyvsp[(1) - (6)].str),ts); rechercher ((yyvsp[(4) - (6)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(6) - (6)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 6:
@@ -1562,42 +1562,42 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 50 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"IDF","Identifier",0 , 0,ts);;}
+    {rechercher ((yyvsp[(1) - (1)].str),"IDF","Identifier",0 , 0,ts);;;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
 #line 51 "synt.y"
-    {rechercher ((yyvsp[(1) - (3)].str),"IDF","Identifier",0 , 0,ts); rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,ts);;}
+    {rechercher ((yyvsp[(1) - (3)].str),"IDF","Identifier",0 , 0,ts);; rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
 #line 52 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,ts);rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,ts);;}
+    {rechercher ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,ts);;rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
 #line 53 "synt.y"
-    {rechercher ((yyvsp[(1) - (5)].str),"IDF","Identifier",0 , 0,ts);rechercher ((yyvsp[(2) - (5)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,ts);;}
+    {rechercher ((yyvsp[(1) - (5)].str),"IDF","Identifier",0 , 0,ts);;rechercher ((yyvsp[(2) - (5)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
 #line 62 "synt.y"
-    {rechercher ((yyvsp[(1) - (5)].str),"IDF","Identifier",0 , 0,ts); modifyType((yyvsp[(2) - (5)].str),saveType,ts); rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,ts);;}
+    {rechercher ((yyvsp[(1) - (5)].str),"IDF","Identifier",0 , 0,ts);; modifyType((yyvsp[(2) - (5)].str),saveType,ts); rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
 #line 67 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"IDF","Identifier",0 , 0,ts); modifyType((yyvsp[(2) - (3)].str),saveType,ts); rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2,ts);;}
+    {rechercher ((yyvsp[(2) - (3)].str),"IDF","Identifier",0 , 0,ts);; modifyType((yyvsp[(2) - (3)].str),saveType,ts); rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 18:
@@ -1632,7 +1632,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 81 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,ts); rechercher ((yyvsp[(2) - (4)].str),"IDF","Identifier",0 , 0,ts); rechercher ((yyvsp[(4) - (4)].str),"Mot cle ","",0, 1,ts); ;}
+    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,ts); rechercher ((yyvsp[(2) - (4)].str),"IDF","Identifier",0 , 0,ts);; rechercher ((yyvsp[(4) - (4)].str),"Mot cle ","",0, 1,ts); ;}
     break;
 
   case 25:
@@ -1674,21 +1674,21 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 96 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,ts); printTypeOfIDF((yyvsp[(1) - (4)].str)); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);;}
+    {rechercher ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,ts);; printTypeOfIDF((yyvsp[(1) - (4)].str)); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
 #line 97 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,ts); printTypeOfIDF((yyvsp[(1) - (4)].str));rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);;}
+    {rechercher ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,ts);; printTypeOfIDF((yyvsp[(1) - (4)].str));rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
 #line 98 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,ts); printTypeOfIDF((yyvsp[(1) - (4)].str));rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);;}
+    {rechercher ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,ts);; printTypeOfIDF((yyvsp[(1) - (4)].str));rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 37:
@@ -1709,14 +1709,14 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 107 "synt.y"
-    {rechercher ((yyvsp[(1) - (2)].str),"IDF","Identifier",0 , 0,ts); printTypeOfIDF((yyvsp[(1) - (2)].str));;}
+    {rechercher ((yyvsp[(1) - (2)].str),"IDF","Identifier",0 , 0,ts);; printTypeOfIDF((yyvsp[(1) - (2)].str));;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
 #line 109 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"IDF","Identifier",0 , 0,ts); printTypeOfIDF((yyvsp[(1) - (1)].str));;}
+    {rechercher ((yyvsp[(1) - (1)].str),"IDF","Identifier",0 , 0,ts);; printTypeOfIDF((yyvsp[(1) - (1)].str));;}
     break;
 
   case 42:
@@ -1772,7 +1772,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 127 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,ts); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(3) - (4)].str),"IDF","Identifier",0 , 0,ts); rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,ts);;}
+    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,ts); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(3) - (4)].str),"IDF","Identifier",0 , 0,ts);; rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 53:
@@ -1786,7 +1786,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 131 "synt.y"
-    {rechercher ((yyvsp[(2) - (5)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(3) - (5)].str),"IDF","Identifier",0 , 0,ts); rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,ts);;}
+    {rechercher ((yyvsp[(2) - (5)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(3) - (5)].str),"IDF","Identifier",0 , 0,ts);; rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 56:
@@ -1877,7 +1877,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 159 "synt.y"
-    {rechercher ((yyvsp[(1) - (7)].str),"IDF","Identifier",0 , 0,ts); rechercher ((yyvsp[(2) - (7)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(3) - (7)].str),"Mot cle ","",0, 1,ts);rechercher ((yyvsp[(5) - (7)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(7) - (7)].str),"Separateur",0,0, 2,ts);;}
+    {rechercher ((yyvsp[(1) - (7)].str),"IDF","Identifier",0 , 0,ts);; rechercher ((yyvsp[(2) - (7)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(3) - (7)].str),"Mot cle ","",0, 1,ts);rechercher ((yyvsp[(5) - (7)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(7) - (7)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 72:
@@ -2128,3 +2128,4 @@ int yyerror ( char*  msg )
 {
        printf ("Erreur Syntaxique : fichier %s , ligne %d , colonne %d \n", filename,nb_ligne,col);
 }
+
