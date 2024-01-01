@@ -169,6 +169,7 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
 
   if(tabLP == NULL)
   {
+    printf("0\n");
     listePointure *newLP = (listePointure *)malloc(sizeof(listePointure));
     tabLP = newLP;
     newLP->suiv = NULL;
@@ -179,16 +180,12 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
   }
   else
   {
+    printf("2\n");
     courantLP = FinListePointure();
     if(courantLP->ts < ts)
     {
       
       listePointure *newLP5 = (listePointure *)malloc(sizeof(listePointure)); 
-      /*
-      newLP->tab1 = tab;
-      newLP->tab2 = tabMotCle;
-      newLP->tab3 = tabSeparateur;
-      */
       creep (newLP5);
       newLP5->ts = ts;
       courantLP->suiv = newLP5; 
@@ -209,10 +206,15 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
   }
 
  
+  courantLP = tabLP;
+  courant = tab;
+  courantM = tabMotCle;
+  courantS = tabSeparateur;
+  chik = tabLP;
+    
 
   switch (y)
   {
-
   case 0 : 
     if(strcmp("IDF", code) == 0){
         while (courantLP->tab1 != NULL)
@@ -241,7 +243,9 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
     {
       courantLP->tab2 = courantLP->tab2->suiv;
     }
-    if (courantLP->tab2 == NULL) inserer(entite, code, type, val, 0, y);
+    printf("%d\n",ts);
+    if (courantLP->tab2 == NULL) {inserer(entite, code, type, val, 0, y);
+    printf("1\n");}
     break;
 
   case 2 : 
@@ -252,12 +256,13 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
     }
 
     if (courantLP->tab3 == NULL) inserer(entite, code, type, val, 0, y);
+    printf("21\n");
     break;
   }
 }
 
 
-void afficher()
+void afficher(int ts)
 {
   listePointure *courantLP = tabLP;
   tabIDF *currentIDF ;
@@ -272,7 +277,7 @@ void afficher()
     courantS = courantLP->tab3;
 
     printf("\n\t _______________________________________________________________\n");
-    printf("\t|                         Table des IDF                         |\n");
+    printf("\t|                         Table des IDF  %d                       |\n",ts);
     printf("\t|_______________________________________________________________|\n");
     printf("\t|  Nom_Entite  |   Code_Entite  |  Type_Entite |   Val_Entite   |\n");
     printf("\t|______________|________________|______________|________________|\n");

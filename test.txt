@@ -39,10 +39,10 @@ A = TAB(11) + (B * 7);
 B = 30;
 C = 22+10*B;
 
-A = CALL nom_rou (A,B,C);
+A = CALL nomrou (A,B,C);
 EQUIVALENCE (A, B, C), (Y, TAB(3));
 
-IF(((A.GT.(B+1)).OR.(C.EQ.TRUE))) THEN A = A $- B ;
+IF((A.GT.(B+1)).OR.(C.EQ.TRUE)) THEN A = A $- B ;
 ELSE A = A + B;
 ENDIF
 

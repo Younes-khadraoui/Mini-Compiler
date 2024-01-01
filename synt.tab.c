@@ -77,12 +77,10 @@
        extern FILE *yyin;
        char* saveType;
        char *filename;
-       int ts;
-       ts = 0;
 
 
 /* Line 189 of yacc.c  */
-#line 86 "synt.tab.c"
+#line 84 "synt.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -162,7 +160,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 13 "synt.y"
+#line 11 "synt.y"
 
          int     entier;
          char*   str;
@@ -172,7 +170,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 176 "synt.tab.c"
+#line 174 "synt.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -184,7 +182,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 188 "synt.tab.c"
+#line 186 "synt.tab.c"
 
 #ifdef short
 # undef short
@@ -502,14 +500,14 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    37,    37,    37,    40,    43,    46,    47,    48,    49,
-      52,    53,    54,    55,    61,    64,    65,    69,    70,    71,
-      72,    73,    77,    78,    83,    87,    88,    89,    90,    91,
-      92,    93,    98,    99,   100,   103,   104,   105,   106,   109,
-     110,   111,   114,   117,   117,   120,   120,   120,   120,   123,
-     126,   126,   129,   130,   133,   134,   137,   140,   141,   142,
-     143,   146,   148,   149,   150,   151,   152,   153,   154,   155,
-     158,   161,   164
+       0,    35,    35,    35,    38,    41,    44,    45,    46,    47,
+      50,    51,    52,    53,    59,    62,    63,    67,    68,    69,
+      70,    71,    75,    76,    81,    85,    86,    87,    88,    89,
+      90,    91,    96,    97,    98,   101,   102,   103,   104,   107,
+     108,   109,   112,   115,   115,   118,   118,   118,   118,   121,
+     124,   124,   127,   128,   131,   132,   135,   138,   139,   140,
+     141,   144,   146,   147,   148,   149,   150,   151,   152,   153,
+     156,   159,   162
 };
 #endif
 
@@ -1514,378 +1512,378 @@ yyreduce:
         case 3:
 
 /* Line 1455 of yacc.c  */
-#line 37 "synt.y"
+#line 35 "synt.y"
     {printf("prog syntaxiquement correct"); YYACCEPT;;}
     break;
 
   case 4:
 
 /* Line 1455 of yacc.c  */
-#line 40 "synt.y"
-    {rechercher ((yyvsp[(3) - (4)].str),"Mot cle ","",0, 1); ts = ts + 1;}
+#line 38 "synt.y"
+    {rechercher ((yyvsp[(3) - (4)].str),"Mot cle ","",0, 1,ts); ;}
     break;
 
   case 5:
 
 /* Line 1455 of yacc.c  */
-#line 43 "synt.y"
-    {modifyType((yyvsp[(3) - (6)].str),(yyvsp[(1) - (6)].str)); rechercher ((yyvsp[(2) - (6)].str),"Mot cle ","",0, 1); rechercher ((yyvsp[(4) - (6)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(6) - (6)].str),"Separateur",0,0, 2);;}
+#line 41 "synt.y"
+    {modifyType((yyvsp[(3) - (6)].str),(yyvsp[(1) - (6)].str),ts); rechercher ((yyvsp[(2) - (6)].str),"Mot cle ","",0, 1,ts); rechercher ((yyvsp[(4) - (6)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(6) - (6)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 46 "synt.y"
-    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 44 "synt.y"
+    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 47 "synt.y"
-    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 45 "synt.y"
+    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 48 "synt.y"
-    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 46 "synt.y"
+    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 49 "synt.y"
-    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 47 "synt.y"
+    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 53 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2);;}
+#line 51 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 54 "synt.y"
-    {rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2);;}
+#line 52 "synt.y"
+    {rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 55 "synt.y"
-    {rechercher ((yyvsp[(2) - (5)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2);;}
+#line 53 "synt.y"
+    {rechercher ((yyvsp[(2) - (5)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 64 "synt.y"
-    {modifyType((yyvsp[(2) - (5)].str),saveType); rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2);;}
+#line 62 "synt.y"
+    {modifyType((yyvsp[(2) - (5)].str),saveType,ts); rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 69 "synt.y"
-    {modifyType((yyvsp[(2) - (3)].str),saveType); rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2);;}
+#line 67 "synt.y"
+    {modifyType((yyvsp[(2) - (3)].str),saveType,ts); rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 70 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1);rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2);;}
+#line 68 "synt.y"
+    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,ts);rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 71 "synt.y"
-    {rechercher ((yyvsp[(1) - (6)].str),"Mot cle ","",0, 1);rechercher ((yyvsp[(2) - (6)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(4) - (6)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(5) - (6)].str),"Separateur",0,0, 2);;}
+#line 69 "synt.y"
+    {rechercher ((yyvsp[(1) - (6)].str),"Mot cle ","",0, 1,ts);rechercher ((yyvsp[(2) - (6)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(4) - (6)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(5) - (6)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 72 "synt.y"
-    {rechercher ((yyvsp[(1) - (2)].str),"Separateur",0,0, 2);;}
+#line 70 "synt.y"
+    {rechercher ((yyvsp[(1) - (2)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 78 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2);;}
+#line 76 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 83 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1);rechercher ((yyvsp[(4) - (4)].str),"Mot cle ","",0, 1); ts = 0;;}
+#line 81 "synt.y"
+    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,ts);rechercher ((yyvsp[(4) - (4)].str),"Mot cle ","",0, 1,ts); ;}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 87 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2);;}
+#line 85 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 88 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2);;}
+#line 86 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 90 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2);;}
+#line 88 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 91 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2);;}
+#line 89 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 92 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2);;}
+#line 90 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 98 "synt.y"
-    {printTypeOfIDF((yyvsp[(1) - (4)].str)); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2);;}
+#line 96 "synt.y"
+    {printTypeOfIDF((yyvsp[(1) - (4)].str)); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 99 "synt.y"
-    {printTypeOfIDF((yyvsp[(1) - (4)].str));rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2);;}
+#line 97 "synt.y"
+    {printTypeOfIDF((yyvsp[(1) - (4)].str));rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 100 "synt.y"
-    {printTypeOfIDF((yyvsp[(1) - (4)].str));rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2);;}
+#line 98 "synt.y"
+    {printTypeOfIDF((yyvsp[(1) - (4)].str));rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 105 "synt.y"
-    {rechercher ((yyvsp[(1) - (5)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(3) - (5)].str),"Separateur",0,0, 2);;}
+#line 103 "synt.y"
+    {rechercher ((yyvsp[(1) - (5)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(3) - (5)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 106 "synt.y"
-    {rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(3) - (3)].str),"Separateur",0,0, 2);;}
+#line 104 "synt.y"
+    {rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(3) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 109 "synt.y"
+#line 107 "synt.y"
     {printTypeOfIDF((yyvsp[(1) - (2)].str));;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 111 "synt.y"
+#line 109 "synt.y"
     {printTypeOfIDF((yyvsp[(1) - (1)].str));;}
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 114 "synt.y"
-    {rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(3) - (3)].str),"Separateur",0,0, 2);;}
+#line 112 "synt.y"
+    {rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(3) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 120 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2);;}
+#line 118 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 120 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2);;}
+#line 118 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 120 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2);;}
+#line 118 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 120 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2);;}
+#line 118 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 126 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 124 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 126 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 124 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 129 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2);;}
+#line 127 "synt.y"
+    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,ts); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 130 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2);;}
+#line 128 "synt.y"
+    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,ts); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 133 "synt.y"
-    {rechercher ((yyvsp[(2) - (5)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2);;}
+#line 131 "synt.y"
+    {rechercher ((yyvsp[(2) - (5)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 137 "synt.y"
-    {rechercher ((yyvsp[(1) - (9)].str),"Mot cle ","",0, 1); rechercher ((yyvsp[(2) - (9)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(4) - (9)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(5) - (9)].str),"Mot cle ","",0, 1);rechercher ((yyvsp[(7) - (9)].str),"Mot cle ","",0, 1);rechercher ((yyvsp[(9) - (9)].str),"Mot cle ","",0, 1);;}
+#line 135 "synt.y"
+    {rechercher ((yyvsp[(1) - (9)].str),"Mot cle ","",0, 1,ts); rechercher ((yyvsp[(2) - (9)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(4) - (9)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(5) - (9)].str),"Mot cle ","",0, 1,ts);rechercher ((yyvsp[(7) - (9)].str),"Mot cle ","",0, 1,ts);rechercher ((yyvsp[(9) - (9)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 143 "synt.y"
-    {rechercher ((yyvsp[(1) - (7)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(3) - (7)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(5) - (7)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(7) - (7)].str),"Separateur",0,0, 2);;}
+#line 141 "synt.y"
+    {rechercher ((yyvsp[(1) - (7)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(3) - (7)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(5) - (7)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(7) - (7)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 146 "synt.y"
-    {rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2); rechercher ((yyvsp[(3) - (3)].str),"Separateur",0,0, 2);;}
+#line 144 "synt.y"
+    {rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2,ts); rechercher ((yyvsp[(3) - (3)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 148 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 146 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 149 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 147 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 150 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 148 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 151 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 149 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 152 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 150 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 67:
 
 /* Line 1455 of yacc.c  */
-#line 153 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 151 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 68:
 
 /* Line 1455 of yacc.c  */
-#line 154 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 152 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 69:
 
 /* Line 1455 of yacc.c  */
-#line 155 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1);;}
+#line 153 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 158 "synt.y"
-    {rechercher ((yyvsp[(1) - (6)].str),"Mot cle ","",0, 1); rechercher ((yyvsp[(2) - (6)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(4) - (6)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(6) - (6)].str),"Mot cle ","",0, 1);;}
+#line 156 "synt.y"
+    {rechercher ((yyvsp[(1) - (6)].str),"Mot cle ","",0, 1,ts); rechercher ((yyvsp[(2) - (6)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(4) - (6)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(6) - (6)].str),"Mot cle ","",0, 1,ts);;}
     break;
 
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 161 "synt.y"
-    { rechercher ((yyvsp[(2) - (7)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(3) - (7)].str),"Mot cle ","",0, 1);rechercher ((yyvsp[(5) - (7)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(7) - (7)].str),"Separateur",0,0, 2);;}
+#line 159 "synt.y"
+    { rechercher ((yyvsp[(2) - (7)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(3) - (7)].str),"Mot cle ","",0, 1,ts);rechercher ((yyvsp[(5) - (7)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(7) - (7)].str),"Separateur",0,0, 2,ts);;}
     break;
 
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 164 "synt.y"
-    {rechercher ((yyvsp[(1) - (8)].str),"Mot cle ","",0, 1);rechercher ((yyvsp[(4) - (8)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(5) - (8)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(6) - (8)].str),"Separateur",0,0, 2);rechercher ((yyvsp[(8) - (8)].str),"Separateur",0,0, 2);;}
+#line 162 "synt.y"
+    {rechercher ((yyvsp[(1) - (8)].str),"Mot cle ","",0, 1,ts);rechercher ((yyvsp[(4) - (8)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(5) - (8)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(6) - (8)].str),"Separateur",0,0, 2,ts);rechercher ((yyvsp[(8) - (8)].str),"Separateur",0,0, 2,ts);;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1889 "synt.tab.c"
+#line 1887 "synt.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2097,7 +2095,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 167 "synt.y"
+#line 165 "synt.y"
 
 int main(int argc, char **argv) {
     if (argc > 0) {
@@ -2108,13 +2106,12 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    listePointure *LP = NULL;
-    listePointure *newLP = (listePointure *)malloc(sizeof(listePointure));
+
     
 
     yyparse();
     fclose(yyin);
-    afficher(0);
+    afficher(ts);
     
     return 0;
 }
