@@ -177,6 +177,7 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
     newLP->tab2 = tabMotCle;
     newLP->tab3 = tabSeparateur;
     newLP->ts = 0;
+    courantLP=tabLP;
   }
   else
   {
@@ -191,11 +192,10 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
       courantLP->suiv = newLP5; 
       courantLP = newLP5 ;
     }
-    else {
-      
+    else { 
       while (chik->ts != ts)
       {
-
+      
         chik = chik->suiv ;
 
       }
@@ -206,11 +206,6 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
   }
 
  
-  courantLP = tabLP;
-  courant = tab;
-  courantM = tabMotCle;
-  courantS = tabSeparateur;
-  chik = tabLP;
     
 
   switch (y)
@@ -223,7 +218,9 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
             courantLP->tab1 = courantLP->tab1->suiv;
           }
 
-          if (courantLP->tab1 == NULL) inserer(entite, code, type, val, 0, y);
+          if (courantLP->tab1 == NULL) {inserer(entite, code, type, val, 0, y);
+          courantLP->tab1=tab;
+          }
     }
 
     else{
@@ -232,7 +229,9 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
             courantLP->tab1 = courantLP->tab1->suiv;
           }
 
-          if (courantLP->tab1 == NULL) inserer(entite, code, type, val , 0, y);
+          if (courantLP->tab1 == NULL) {inserer(entite, code, type, val , 0, y);
+            courantLP->tab1=tab;
+          }
     }
 
     break;
@@ -243,9 +242,9 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
     {
       courantLP->tab2 = courantLP->tab2->suiv;
     }
-    printf("%d\n",ts);
+    printf("%dttttttttttt\n",ts);
     if (courantLP->tab2 == NULL) {inserer(entite, code, type, val, 0, y);
-    printf("1\n");}
+    courantLP->tab2=tabMotCle;}
     break;
 
   case 2 : 
@@ -255,14 +254,14 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
       courantLP->tab3 = courantLP->tab3->suiv;
     }
 
-    if (courantLP->tab3 == NULL) inserer(entite, code, type, val, 0, y);
-    printf("21\n");
+    if (courantLP->tab3 == NULL) {inserer(entite, code, type, val, 0, y);
+    courantLP->tab3=tabSeparateur;}
     break;
   }
 }
 
 
-void afficher(int ts)
+void afficher()
 {
   listePointure *courantLP = tabLP;
   tabIDF *currentIDF ;
@@ -277,7 +276,7 @@ void afficher(int ts)
     courantS = courantLP->tab3;
 
     printf("\n\t _______________________________________________________________\n");
-    printf("\t|                         Table des IDF  %d                       |\n",ts);
+    printf("\t|                         Table des IDF  %d                       |\n",courantLP->ts);
     printf("\t|_______________________________________________________________|\n");
     printf("\t|  Nom_Entite  |   Code_Entite  |  Type_Entite |   Val_Entite   |\n");
     printf("\t|______________|________________|______________|________________|\n");
@@ -321,7 +320,7 @@ void afficher(int ts)
     printf("\t|_____________|_____________|\n");
 
     courantLP = courantLP->suiv;
-
+ 
   }
 }
 
@@ -367,4 +366,21 @@ void printTypeOfIDF(const char* entite) {
     // If the identifier is not found, print "Unknown" (or an appropriate value)
     printf("Type of %s: Unknown\n", entite);
 }
+int verifyTypeEntite(const char* entite) {
+    tabIDF *courant = tab;
+
+    while (courant != NULL) {
+        if (strcmp(entite, courant->elm.name) == 0) {
+            if (strcmp(courant->elm.type, "Identifier") == 0) {
+                return 0;  // Type matches, return 0
+            } else {
+                return 1;  // Type doesn't match, return 1
+            }
+        }
+        courant = courant->suiv;
+    }
+
+    return -1;  // Identifier not found, return -1
+}
+
 
