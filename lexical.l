@@ -49,7 +49,7 @@ FALSE     { yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'
 
 {IDF}     { 
 	 yylval.str = strdup(yytext);
-			  rechercher (yytext,"IDF","Identifier",0 , 0);  
+			  //rechercher (yytext,"IDF","Identifier",0 , 0,);  
               col = col + strlen(yytext);
 			  if (yyleng>10) printf ("Erreur Lexical: IDF trop long a la ligne %d a la colonne %d \n ",nb_ligne, col);
               printf ("L'entite reconnue est %s \n", yytext); 

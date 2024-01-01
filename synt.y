@@ -6,8 +6,6 @@
        extern FILE *yyin;
        char* saveType;
        char *filename;
-       int ts;
-       ts = 0;
 %}
 
 %union {
@@ -40,7 +38,7 @@ S: FUNCTION | PROGRAM {printf("prog syntaxiquement correct"); YYACCEPT;}
 FUNCTION : HEADER BODY mc_endr S {rechercher ($3,"Mot cle ","",0, 1); ts = ts + 1} 
 ;
 
-HEADER : TYPE mc_routine IDF po PARAMETRE pf {modifyType($3,$1); rechercher ($2,"Mot cle ","",0, 1); rechercher ($4,"Separateur",0,0, 2); rechercher ($6,"Separateur",0,0, 2);}  
+HEADER : TYPE mc_routine IDF po PARAMETRE pf {modifyType($3,$1,ts); rechercher ($2,"Mot cle ","",0, 1); rechercher ($4,"Separateur",0,0, 2); rechercher ($6,"Separateur",0,0, 2);}  
 ;
 
 TYPE:  mc_entier {saveType=$1;rechercher ($1,"Mot cle ","",0, 1);}
@@ -61,12 +59,12 @@ PARAMETRE :   IDF
 BODY : DEC INST 
 ;
 	
-DEC:     TYPE  IDF ListIDF pvg DEC  {modifyType($2,saveType); rechercher ($4,"Separateur",0,0, 2);}
+DEC:     TYPE  IDF ListIDF pvg DEC  {modifyType($2,saveType,ts); rechercher ($4,"Separateur",0,0, 2);}
         |
 
 ;
 
-ListIDF: vrg IDF  ListIDF {modifyType($2,saveType); rechercher ($1,"Separateur",0,0, 2);}
+ListIDF: vrg IDF  ListIDF {modifyType($2,saveType,ts); rechercher ($1,"Separateur",0,0, 2);}
         | mc_dimension po TAILLE pf {rechercher ($1,"Mot cle ","",0, 1);rechercher ($2,"Separateur",0,0, 2); rechercher ($4,"Separateur",0,0, 2);}
         | mc_dimension po TAILLE pf  vrg ListIDF {rechercher ($1,"Mot cle ","",0, 1);rechercher ($2,"Separateur",0,0, 2); rechercher ($4,"Separateur",0,0, 2); rechercher ($5,"Separateur",0,0, 2);}
         | mul integr {rechercher ($1,"Separateur",0,0, 2);}
@@ -174,8 +172,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    listePointure *LP = NULL;
-    listePointure *newLP = (listePointure *)malloc(sizeof(listePointure));
+
     
 
     yyparse();

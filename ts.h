@@ -4,15 +4,6 @@
 
 typedef struct
 {
-  int ts;
-  tabIDF *tab1;
-  tabSepMc *tab2;
-  tabSepMc *tab3;
-  struct listePointure * suiv;
-} listePointure;
-
-typedef struct
-{
   int state;
   char name[20];
   char code[20];
@@ -39,13 +30,22 @@ typedef struct tabSepMc
   struct tabSepMc *suiv;
 } tabSepMc;
 
+typedef struct listePointure
+{
+  int ts;
+  tabIDF *tab1;
+  tabSepMc *tab2;
+  tabSepMc *tab3;
+  struct listePointure *suiv;
+} listePointure;
+
 
 listePointure *tabLP = NULL;
 tabIDF *tab = NULL;
 tabSepMc *tabSeparateur = NULL;
 tabSepMc *tabMotCle = NULL;
 
-listePointure * FinListePointure()
+listePointure *FinListePointure()
 {
   listePointure *courant = tabLP;
   while (courant != NULL && courant->suiv != NULL)
@@ -150,7 +150,7 @@ void creep (listePointure *newLP1)
 {
  tabIDF *newIDF1 = (tabIDF *)malloc(sizeof(tabIDF));
  tabSepMc *newMC = (tabSepMc *)malloc(sizeof(tabSepMc));
- tabSepMc *newSEP = (tabSepMC *)malloc(sizeof(tabSepMc));
+ tabSepMc *newSEP = (tabSepMc *)malloc(sizeof(tabSepMc));
 
   newLP1->tab1 = newIDF1;
   newLP1->tab2 = newMC;
@@ -179,30 +179,33 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
   }
   else
   {
-    courantLP = FinListePointure;
+    courantLP = FinListePointure();
     if(courantLP->ts < ts)
     {
       
-      listePointure *newLP = (listePointure *)malloc(sizeof(listePointure));
+      listePointure *newLP5 = (listePointure *)malloc(sizeof(listePointure)); 
       /*
       newLP->tab1 = tab;
       newLP->tab2 = tabMotCle;
       newLP->tab3 = tabSeparateur;
       */
-      creep (newLP);
-      newLP->ts = ts;
+      creep (newLP5);
+      newLP5->ts = ts;
+      courantLP->suiv = newLP5; 
+      courantLP = newLP5 ;
     }
     else {
       
-      while (chik->ts  < ts)
+      while (chik->ts != ts)
       {
 
-        chik =  chik->suiv ;
+        chik = chik->suiv ;
 
       }
       courantLP = chik ;
 
     }
+    
   }
 
  
@@ -212,43 +215,43 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
 
   case 0 : 
     if(strcmp("IDF", code) == 0){
-        while (newLP->tab1 != NULL)
+        while (courantLP->tab1 != NULL)
           {
-            if((strcmp(entite, newLP->tab1->elm.name) == 0)) break;
-            newLP->tab1 = newLP->tab1->suiv;
+            if((strcmp(entite, courantLP->tab1->elm.name) == 0)) break;
+            courantLP->tab1 = courantLP->tab1->suiv;
           }
 
-          if (newLP->tab1 == NULL) inserer(entite, code, type, val, 0, y);
+          if (courantLP->tab1 == NULL) inserer(entite, code, type, val, 0, y);
     }
 
     else{
-      while (newLP->tab1 != NULL)
+      while (courantLP->tab1 != NULL)
           {
-            newLP->tab1 = newLP->tab1->suiv;
+            courantLP->tab1 = courantLP->tab1->suiv;
           }
 
-          if (newLP->tab1 == NULL) inserer(entite, code, type, val , 0, y);
+          if (courantLP->tab1 == NULL) inserer(entite, code, type, val , 0, y);
     }
 
     break;
 
   case 1 : 
 
-    while (newLP->tab2 != NULL && (newLP->tab2->elm.state == 1) && (strcmp(entite, newLP->tab2->elm.name) != 0))
+    while (courantLP->tab2 != NULL && (courantLP->tab2->elm.state == 1) && (strcmp(entite, courantLP->tab2->elm.name) != 0))
     {
-      newLP->tab2 = newLP->tab2->suiv;
+      courantLP->tab2 = courantLP->tab2->suiv;
     }
-    if (newLP->tab2 == NULL) inserer(entite, code, type, val, 0, y);
+    if (courantLP->tab2 == NULL) inserer(entite, code, type, val, 0, y);
     break;
 
   case 2 : 
 
-    while (newLP->tab3 != NULL && (newLP->tab3->elm.state == 1) && (strcmp(entite, newLP->tab3->elm.name) != 0))
+    while (courantLP->tab3 != NULL && (courantLP->tab3->elm.state == 1) && (strcmp(entite, courantLP->tab3->elm.name) != 0))
     {
-      newLP->tab3 = newLP->tab3->suiv;
+      courantLP->tab3 = courantLP->tab3->suiv;
     }
 
-    if (newLP->tab3 == NULL) inserer(entite, code, type, val, 0, y);
+    if (courantLP->tab3 == NULL) inserer(entite, code, type, val, 0, y);
     break;
   }
 }
@@ -256,52 +259,81 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
 
 void afficher()
 {
-  printf("\n\t _______________________________________________________________\n");
-  printf("\t|                         Table des IDF                         |\n");
-  printf("\t|_______________________________________________________________|\n");
-  printf("\t|  Nom_Entite  |   Code_Entite  |  Type_Entite |   Val_Entite   |\n");
-  printf("\t|______________|________________|______________|________________|\n");
+  listePointure *courantLP = tabLP;
+  tabIDF *currentIDF ;
+  tabSepMc *courantM ;
+  tabSepMc *courantS ;
 
-  tabIDF *currentIDF = tab;
-  while (currentIDF != NULL)
+  while (courantLP != NULL)
   {
-    printf("\t|%13s | %14s | %12s | %14f |\n", currentIDF->elm.name, currentIDF->elm.code, currentIDF->elm.type, currentIDF->elm.val);
-    currentIDF = currentIDF->suiv;
+    currentIDF = courantLP->tab1;
+
+    courantM = courantLP->tab2; 
+    courantS = courantLP->tab3;
+
+    printf("\n\t _______________________________________________________________\n");
+    printf("\t|                         Table des IDF                         |\n");
+    printf("\t|_______________________________________________________________|\n");
+    printf("\t|  Nom_Entite  |   Code_Entite  |  Type_Entite |   Val_Entite   |\n");
+    printf("\t|______________|________________|______________|________________|\n");
+
+    
+    
+
+    while (currentIDF != NULL)
+    {
+      printf("\t|%13s | %14s | %12s | %14f |\n", currentIDF->elm.name, currentIDF->elm.code, currentIDF->elm.type, currentIDF->elm.val);
+      currentIDF = currentIDF->suiv;
+    }
+    printf("\t|______________|________________|______________|________________|\n");
+
+    printf("\n\t ___________________________\n");
+    printf("\t|     Table des MOT-CLES    |\n");
+    printf("\t|___________________________|\n");
+    printf("\t|  NomEntite  | CodeEntite  |\n");
+    printf("\t|_____________|_____________|\n");
+
+    
+    while (courantM != NULL)
+    {
+      printf("\t|%12s |%12s | \n", courantM->elm.name, courantM->elm.type);
+      courantM = courantM->suiv;
+    }
+    printf("\t|_____________|_____________|\n");
+
+    printf("\n\t ___________________________\n");
+    printf("\t|   Table des SEPARATEURS   |\n");
+    printf("\t|___________________________|\n");
+    printf("\t|  NomEntite  |  CodeEntite | \n");
+    printf("\t|_____________|_____________|\n");
+
+    
+    while (courantS != NULL)
+    {
+      printf("\t|%10s   |%12s | \n", courantS->elm.name, courantS->elm.type);
+      courantS = courantS->suiv;
+    }
+    printf("\t|_____________|_____________|\n");
+
+    courantLP = courantLP->suiv;
+
   }
-  printf("\t|______________|________________|______________|________________|\n");
-
-  printf("\n\t ___________________________\n");
-  printf("\t|     Table des MOT-CLES    |\n");
-  printf("\t|___________________________|\n");
-  printf("\t|  NomEntite  | CodeEntite  |\n");
-  printf("\t|_____________|_____________|\n");
-
-  tabSepMc *courantM = tabMotCle;
-  while (courantM != NULL)
-  {
-    printf("\t|%12s |%12s | \n", courantM->elm.name, courantM->elm.type);
-    courantM = courantM->suiv;
-  }
-  printf("\t|_____________|_____________|\n");
-
-  printf("\n\t ___________________________\n");
-  printf("\t|   Table des SEPARATEURS   |\n");
-  printf("\t|___________________________|\n");
-  printf("\t|  NomEntite  |  CodeEntite | \n");
-  printf("\t|_____________|_____________|\n");
-
-  tabSepMc *courantS = tabSeparateur;
-  while (courantS != NULL)
-  {
-    printf("\t|%10s   |%12s | \n", courantS->elm.name, courantS->elm.type);
-    courantS = courantS->suiv;
-  }
-  printf("\t|_____________|_____________|\n");
 }
 
 
-void modifyType(char entite[], char newType[]) {
+void modifyType(char entite[], char newType[],int ts) {
+
+     
     tabIDF *courant = tab;
+    listePointure  *chikh = tabLP;
+
+      while (chikh->ts != ts)
+      {
+
+        chikh = chikh->suiv ;
+
+      }
+      courant = chikh->tab1;    
 
     while (courant != NULL) {
         // Check if Nom_Entite matches the specified condition
