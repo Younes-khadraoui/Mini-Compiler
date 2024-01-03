@@ -107,7 +107,7 @@ void inserer(char entite[], char code[], char type[], float val, int i, int y)
     {
       tab = newIDF;
     }
-
+  
     break;
   }
 
@@ -169,28 +169,141 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
 
   if(tabLP == NULL)
   {
-    printf("0\n");
     listePointure *newLP = (listePointure *)malloc(sizeof(listePointure));
-    tabLP = newLP;
     newLP->suiv = NULL;
     newLP->tab1 = tab;
     newLP->tab2 = tabMotCle;
     newLP->tab3 = tabSeparateur;
-    newLP->ts = 0;
+    newLP->ts = ts;
+    tabLP = newLP;
     courantLP=tabLP;
+    courantLP->ts=ts;   
+
   }
   else
   {
-    printf("2\n");
+    
     courantLP = FinListePointure();
-    if(courantLP->ts < ts)
+    if(courantLP->ts != ts)
+    {
+      listePointure *newLP5 = (listePointure *)malloc(sizeof(listePointure)); 
+      newLP5->tab1=tab;
+      newLP5->tab2=tabMotCle;
+      newLP5->tab3=tabSeparateur;
+      newLP5->ts = ts;
+      newLP5->suiv=NULL;
+      courantLP->suiv = newLP5; 
+      courantLP = newLP5 ;
+      courantLP->ts=newLP5->ts;
+      tab=NULL;
+      tabMotCle=NULL;
+      tabSeparateur=NULL;
+    }
+    else { 
+      while (chik->ts != ts)
+      {
+      
+        chik = chik->suiv ;
+
+      }
+      courantLP=chik;
+
+    }
+    
+  }
+
+  switch (y)
+  {
+  case 0 : 
+    if(strcmp("IDF", code) == 0){
+        while ((courantLP->tab1 != NULL) && ((strcmp(entite, courantLP->tab1->elm.name) != 0)))
+          {
+              courantLP->tab1 = courantLP->tab1->suiv;
+          }
+
+          if (courantLP->tab1 == NULL) {      
+      inserer(entite, code, type, val, 0, y);         
+          }else {
+            printf(" Element doubel Declarerrrrrrrrrrrrrrrrrrrrrrrrrrrr %s\n",entite);
+          }
+          courantLP->tab1=tab;
+          
+    }
+
+
+    break;
+
+  case 1 : 
+
+    while (courantLP->tab2 != NULL && (courantLP->tab2->elm.state == 1) && (strcmp(entite, courantLP->tab2->elm.name) != 0))
+    {
+      courantLP->tab2 = courantLP->tab2->suiv;   
+    }
+    
+    if (courantLP->tab2 == NULL) {inserer(entite, code, type, val, 0, y);
+             courantLP->tab2=tabMotCle;
+        }    
+        break;
+
+  case 2 : 
+
+    while (courantLP->tab3 != NULL && (courantLP->tab3->elm.state == 1) && (strcmp(entite, courantLP->tab3->elm.name) != 0))
+    {
+      courantLP->tab3 = courantLP->tab3->suiv;
+    }
+
+    if (courantLP->tab3 == NULL) inserer(entite, code, type, val, 0, y);
+         courantLP->tab3=tabSeparateur;
+          break;
+  }
+}
+void rechercher1(char entite[], char code[], char type[], float val, int y , int ts )
+{
+  int j, i;
+  listePointure *courantLP = tabLP;
+  tabIDF *courant = tab;
+  tabSepMc *courantM = tabMotCle;
+  tabSepMc *courantS = tabSeparateur;
+  listePointure *chik = tabLP;
+
+  if(tabLP == NULL)
+  {
+    listePointure *newLP = (listePointure *)malloc(sizeof(listePointure));
+    newLP->suiv = NULL;
+    newLP->tab1 = tab;
+    newLP->tab2 = tabMotCle;
+    newLP->tab3 = tabSeparateur;
+    newLP->ts = ts;
+    tabLP = newLP;
+    courantLP=tabLP;
+    courantLP->tab1=tabLP->tab1;    
+    courantLP->tab2=tabLP->tab2;   
+    courantLP->tab3=tabLP->tab3;
+    courantLP->ts=ts;    
+  }
+  else
+  {
+    
+
+    courantLP = FinListePointure();
+    if(courantLP->ts != ts)
     {
       
       listePointure *newLP5 = (listePointure *)malloc(sizeof(listePointure)); 
-      creep (newLP5);
+      newLP5->tab1=tab;
+      newLP5->tab2=tabMotCle;
+      newLP5->tab3=tabSeparateur;
       newLP5->ts = ts;
+      newLP5->suiv=NULL;
+      courantLP->ts=newLP5->ts;
       courantLP->suiv = newLP5; 
+      courantLP->tab2=newLP5->tab2;
+      courantLP->tab3=newLP5->tab3;
       courantLP = newLP5 ;
+      tab=NULL;
+      tabMotCle=NULL;
+      tabSeparateur=NULL;
+
     }
     else { 
       while (chik->ts != ts)
@@ -205,22 +318,19 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
     
   }
 
- 
-    
-
   switch (y)
   {
   case 0 : 
     if(strcmp("IDF", code) == 0){
-        while (courantLP->tab1 != NULL)
+        while ((courantLP->tab1 != NULL) && ((strcmp(entite, courantLP->tab1->elm.name) != 0)))
           {
-            if((strcmp(entite, courantLP->tab1->elm.name) == 0)) break;
             courantLP->tab1 = courantLP->tab1->suiv;
           }
 
-          if (courantLP->tab1 == NULL) {inserer(entite, code, type, val, 0, y);
-          courantLP->tab1=tab;
+          if (courantLP->tab1 == NULL) {                        printf(" Element NON  Declarerrrrrrrrrrrrrrrrrrrrrrrrrrrr %s\n",entite);
           }
+          courantLP->tab1=tab;
+          
     }
 
     else{
@@ -229,9 +339,9 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
             courantLP->tab1 = courantLP->tab1->suiv;
           }
 
-          if (courantLP->tab1 == NULL) {inserer(entite, code, type, val , 0, y);
+          if (courantLP->tab1 == NULL) inserer(entite, code, type, val , 0, y);
             courantLP->tab1=tab;
-          }
+  
     }
 
     break;
@@ -240,12 +350,13 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
 
     while (courantLP->tab2 != NULL && (courantLP->tab2->elm.state == 1) && (strcmp(entite, courantLP->tab2->elm.name) != 0))
     {
-      courantLP->tab2 = courantLP->tab2->suiv;
+      courantLP->tab2 = courantLP->tab2->suiv;   
     }
-    printf("%dttttttttttt\n",ts);
+    
     if (courantLP->tab2 == NULL) {inserer(entite, code, type, val, 0, y);
-    courantLP->tab2=tabMotCle;}
-    break;
+             courantLP->tab2=tabMotCle;
+        }    
+        break;
 
   case 2 : 
 
@@ -254,9 +365,9 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
       courantLP->tab3 = courantLP->tab3->suiv;
     }
 
-    if (courantLP->tab3 == NULL) {inserer(entite, code, type, val, 0, y);
-    courantLP->tab3=tabSeparateur;}
-    break;
+    if (courantLP->tab3 == NULL)inserer(entite, code, type, val, 0, y);
+         courantLP->tab3=tabSeparateur;
+   break;
   }
 }
 
@@ -350,37 +461,92 @@ void modifyType(char entite[], char newType[],int ts) {
     }
 }
 
-void printTypeOfIDF(const char* entite) {
+char* printTypeOfIDF(const char* entite) {
     tabIDF *courant = tab;
 
     while (courant != NULL) {
         // Check if Nom_Entite matches the specified condition
         if (strcmp(entite, courant->elm.name) == 0) {
             // Print the Type_Entite if the condition is met
-            printf("Type of %s: %s\n", entite, courant->elm.type);
-            return;  // Exit the function after printing
+            return courant->elm.type;  // Exit the function after printing
         }
         courant = courant->suiv;
     }
 
     // If the identifier is not found, print "Unknown" (or an appropriate value)
-    printf("Type of %s: Unknown\n", entite);
+    return"Type : Unknown\n";
 }
+
 int verifyTypeEntite(const char* entite) {
-    tabIDF *courant = tab;
+    listePointure *tabl=tabLP;
+    tabIDF *courant = tabl->tab1;
 
     while (courant != NULL) {
         if (strcmp(entite, courant->elm.name) == 0) {
-            if (strcmp(courant->elm.type, "Identifier") == 0) {
-                return 0;  // Type matches, return 0
+                return 1;  // Type matches, return 0
             } else {
-                return 1;  // Type doesn't match, return 1
+                return 0;  // Type doesn't match, return 1
             }
-        }
         courant = courant->suiv;
     }
 
     return -1;  // Identifier not found, return -1
+}
+
+void modifyValueOfIDF(const char* entite, void* nouvelleValeur, int type, int ts) {
+    listePointure *courantLP = tabLP;
+    tabIDF *courant;
+
+    // Recherche de la listePointure appropriée
+    while (courantLP != NULL && courantLP->ts != ts) {
+        courantLP = courantLP->suiv;
+    }
+
+    // Si la listePointure n'existe pas encore, vous pouvez choisir de créer une nouvelle listePointure ici.
+
+    // Recherche de l'IDF dans la listePointure
+    if (courantLP != NULL) {
+        courant = courantLP->tab1;
+
+        while (courant != NULL) {
+            if (strcmp(entite, courant->elm.name) == 0) {
+                // Modification de la valeur de l'entité en fonction du type
+                        printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2%s",nouvelleValeur);
+                switch (type) {
+                    case 0: // int
+                        courant->elm.val = *(int*)nouvelleValeur;
+                        break;
+                    case 1: // float
+                        courant->elm.val = *(float*)nouvelleValeur;
+                        break;
+                    case 2: // string
+                        strcpy(courant->elm.type, (char*)nouvelleValeur);
+                        break;
+                    case 3: // boolean
+                        courant->elm.val = *(int*)nouvelleValeur; // Assuming boolean is represented as an integer (0 or 1)
+                        break;
+                    default:
+                        // Handle unsupported type
+                        printf("Type non pris en charge : %d\n", type);
+                        return;
+                }
+                return;  // Sortie de la fonction après la modification
+            }
+            courant = courant->suiv;
+        }
+    }
+
+    // Si l'entité n'est pas trouvée, vous pouvez choisir de gérer cela d'une manière spécifique.
+    printf("Entité non trouvée : %s\n", entite);
+}
+
+int incompatibiliteDeType(char var[], char typeval[]) {
+    tabIDF* courant = tab;
+    while (courant != NULL) {
+        if ((strcmp(var, courant->elm.name) == 0) && (strcmp(typeval, courant->elm.type) == 0)) return 0 ; // aucune erreur
+        courant = courant->suiv;
+    }
+    return 1 ; // il existe une incompatibilité de type
 }
 
 

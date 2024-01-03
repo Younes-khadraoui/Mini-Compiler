@@ -1,6 +1,5 @@
 INTEGER ROUTINE Comp (X,Y,Z)
 % Déclarations
-
 INTEGER A,B; 
 %REAL Z;%=10.0, T= 55555.87; 
 CHARACTER C*20; 
@@ -19,8 +18,8 @@ READ (A);
 WRITE ("La Valeur de A est ", A, ".");
 
 WRITE ("Donner la valeur de T:"); 
-READ (T);
-WRITE ("La Valeur de T est ", T, ".");
+%READ (T);
+%WRITE ("La Valeur de T est ", T, ".");
 
 
 A = 0;
@@ -31,7 +30,7 @@ ENDR
 PROGRAM HelloAcad
 % Déclarations
 INTEGER A,B,C ; 
-REAL Y ; 
+REAL Y; 
 INTEGER TAB DIMENSION (10) ; 
 
 % Instructions
@@ -49,4 +48,4 @@ ENDIF
 DOWHILE (A.LT.10) A = A + 1;
 ENDDO;
 
-END.
+END.    

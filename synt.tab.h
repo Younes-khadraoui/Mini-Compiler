@@ -43,45 +43,44 @@
      mc_routine = 259,
      mc_entier = 260,
      string = 261,
-     mc_true = 262,
-     mc_false = 263,
-     mc_real = 264,
-     mc_logical = 265,
-     mc_character = 266,
-     mc_dimension = 267,
-     mc_read = 268,
-     mc_write = 269,
-     mc_if = 270,
-     mc_then = 271,
-     mc_else = 272,
-     mc_endif = 273,
-     mc_dowhile = 274,
-     mc_enddo = 275,
-     mc_or = 276,
-     mc_and = 277,
-     mc_gt = 278,
-     mc_ge = 279,
-     mc_eq = 280,
-     mc_ne = 281,
-     mc_le = 282,
-     mc_lt = 283,
-     mc_call = 284,
-     mc_endr = 285,
-     mc_end = 286,
-     IDF = 287,
-     integr = 288,
-     floatt = 289,
-     add = 290,
-     sub = 291,
-     mul = 292,
-     divv = 293,
-     pvg = 294,
-     vrg = 295,
-     aff = 296,
-     po = 297,
-     pf = 298,
-     mc_equivalence = 299,
-     point = 300
+     booleen = 262,
+     mc_real = 263,
+     mc_logical = 264,
+     mc_character = 265,
+     mc_dimension = 266,
+     mc_read = 267,
+     mc_write = 268,
+     mc_if = 269,
+     mc_then = 270,
+     mc_else = 271,
+     mc_endif = 272,
+     mc_dowhile = 273,
+     mc_enddo = 274,
+     mc_or = 275,
+     mc_and = 276,
+     mc_gt = 277,
+     mc_ge = 278,
+     mc_eq = 279,
+     mc_ne = 280,
+     mc_le = 281,
+     mc_lt = 282,
+     mc_call = 283,
+     mc_endr = 284,
+     mc_end = 285,
+     IDF = 286,
+     integr = 287,
+     floatt = 288,
+     add = 289,
+     sub = 290,
+     mul = 291,
+     divv = 292,
+     pvg = 293,
+     vrg = 294,
+     aff = 295,
+     po = 296,
+     pf = 297,
+     mc_equivalence = 298,
+     point = 299
    };
 #endif
 
@@ -92,7 +91,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 11 "synt.y"
+#line 13 "synt.y"
 
          int     entier;
          char*   str;
@@ -102,7 +101,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 106 "synt.tab.h"
+#line 105 "synt.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

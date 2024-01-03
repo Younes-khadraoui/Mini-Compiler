@@ -9,11 +9,11 @@
 lettreM [A-Z]
 lettre [a-z]
 chiffre [0-9]
+BOOLEEN TRUE|FALSE
 IDF ({lettreM}|{lettre})({lettre}|{chiffre}|{lettreM})*
 floatt -{chiffre}+"."{chiffre}+|{chiffre}+"."{chiffre}+
 integr {chiffre}+|-{chiffre}+
 string \"[^\"]*\"
-
 
 %%
 "%"[^\n]* 
@@ -44,8 +44,8 @@ LT        {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'e
 CALL      {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_call;}
 END       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_end;}
 ENDR      {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_endr;}
-TRUE      {	yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_true;}
-FALSE     { yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_false;}
+
+{BOOLEEN} {col = col + yyleng; return booleen;}
 
 {IDF}     { 
 	 yylval.str = strdup(yytext);
