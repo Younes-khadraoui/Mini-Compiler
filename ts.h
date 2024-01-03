@@ -178,6 +178,9 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
     tabLP = newLP;
     courantLP=tabLP;
     courantLP->ts=ts;   
+    courantLP->tab1=tab;
+    courantLP->tab2=tabMotCle;
+    courantLP->tab3=tabSeparateur;
 
   }
   else
@@ -186,6 +189,10 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
     courantLP = FinListePointure();
     if(courantLP->ts != ts)
     {
+      while (tab!=NULL)
+      {
+      tab=tab->suiv;        
+      }
       listePointure *newLP5 = (listePointure *)malloc(sizeof(listePointure)); 
       newLP5->tab1=tab;
       newLP5->tab2=tabMotCle;
@@ -194,6 +201,9 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
       newLP5->suiv=NULL;
       courantLP->suiv = newLP5; 
       courantLP = newLP5 ;
+      courantLP->tab1=tab;
+      courantLP->tab2=tabMotCle;
+      courantLP->tab3=tabSeparateur;
       courantLP->ts=newLP5->ts;
       tab=NULL;
       tabMotCle=NULL;
@@ -206,7 +216,6 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
         chik = chik->suiv ;
 
       }
-      courantLP=chik;
 
     }
     
@@ -257,6 +266,7 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
           break;
   }
 }
+
 void rechercher1(char entite[], char code[], char type[], float val, int y , int ts )
 {
   int j, i;
