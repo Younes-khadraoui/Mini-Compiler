@@ -1,6 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+typedef struct qdr{
+
+    char oper[100]; 
+    char op1[100];   
+    char op2[100];   
+    char res[100];  
+    
+  }qdr;
+qdr quad[1000];
+extern int qc;
 
 typedef struct
 {
@@ -269,116 +279,35 @@ void rechercher(char entite[], char code[], char type[], float val, int y , int 
 
 void rechercher1(char entite[], char code[], char type[], float val, int y , int ts )
 {
-  int j, i;
-  listePointure *courantLP = tabLP;
-  tabIDF *courant = tab;
-  tabSepMc *courantM = tabMotCle;
-  tabSepMc *courantS = tabSeparateur;
-  listePointure *chik = tabLP;
+ listePointure* courantLP = tabLP;
+    tabIDF* courant = NULL;
 
-  if(tabLP == NULL)
-  {
-    listePointure *newLP = (listePointure *)malloc(sizeof(listePointure));
-    newLP->suiv = NULL;
-    newLP->tab1 = tab;
-    newLP->tab2 = tabMotCle;
-    newLP->tab3 = tabSeparateur;
-    newLP->ts = ts;
-    tabLP = newLP;
-    courantLP=tabLP;
-    courantLP->tab1=tabLP->tab1;    
-    courantLP->tab2=tabLP->tab2;   
-    courantLP->tab3=tabLP->tab3;
-    courantLP->ts=ts;    
-  }
-  else
-  {
-    
-
-    courantLP = FinListePointure();
-    if(courantLP->ts != ts)
+    // Recherche de la listePointure appropriée
+    while (courantLP != NULL && courantLP->ts != ts)
     {
-      
-      listePointure *newLP5 = (listePointure *)malloc(sizeof(listePointure)); 
-      newLP5->tab1=tab;
-      newLP5->tab2=tabMotCle;
-      newLP5->tab3=tabSeparateur;
-      newLP5->ts = ts;
-      newLP5->suiv=NULL;
-      courantLP->ts=newLP5->ts;
-      courantLP->suiv = newLP5; 
-      courantLP->tab2=newLP5->tab2;
-      courantLP->tab3=newLP5->tab3;
-      courantLP = newLP5 ;
-      tab=NULL;
-      tabMotCle=NULL;
-      tabSeparateur=NULL;
-
-    }
-    else { 
-      while (chik->ts != ts)
-      {
-      
-        chik = chik->suiv ;
-
-      }
-      courantLP = chik ;
-
-    }
-    
-  }
-
-  switch (y)
-  {
-  case 0 : 
-    if(strcmp("IDF", code) == 0){
-        while ((courantLP->tab1 != NULL) && ((strcmp(entite, courantLP->tab1->elm.name) != 0)))
-          {
-            courantLP->tab1 = courantLP->tab1->suiv;
-          }
-
-          if (courantLP->tab1 == NULL) {                        printf(" Element NON  Declarerrrrrrrrrrrrrrrrrrrrrrrrrrrr %s\n",entite);
-          }
-          courantLP->tab1=tab;
-          
+        courantLP = courantLP->suiv;
     }
 
-    else{
-      while (courantLP->tab1 != NULL)
-          {
-            courantLP->tab1 = courantLP->tab1->suiv;
-          }
-
-          if (courantLP->tab1 == NULL) inserer(entite, code, type, val , 0, y);
-            courantLP->tab1=tab;
-  
-    }
-
-    break;
-
-  case 1 : 
-
-    while (courantLP->tab2 != NULL && (courantLP->tab2->elm.state == 1) && (strcmp(entite, courantLP->tab2->elm.name) != 0))
+    // Si la listePointure n'existe pas ou la recherche est effectuée dans le futur, l'entité n'existe pas
+    if (courantLP == NULL || ts > courantLP->ts)
     {
-      courantLP->tab2 = courantLP->tab2->suiv;   
+        printf("Entité non trouvée : %s\n", entite);
+        return;
     }
-    
-    if (courantLP->tab2 == NULL) {inserer(entite, code, type, val, 0, y);
-             courantLP->tab2=tabMotCle;
-        }    
-        break;
 
-  case 2 : 
-
-    while (courantLP->tab3 != NULL && (courantLP->tab3->elm.state == 1) && (strcmp(entite, courantLP->tab3->elm.name) != 0))
+    // Recherche dans la table des IDF
+    courant = courantLP->tab1;
+    while (courant != NULL)
     {
-      courantLP->tab3 = courantLP->tab3->suiv;
+        if (strcmp(entite, courant->elm.name) == 0)
+        {
+            return;
+        }
+        courant = courant->suiv;
     }
 
-    if (courantLP->tab3 == NULL)inserer(entite, code, type, val, 0, y);
-         courantLP->tab3=tabSeparateur;
-   break;
-  }
+    // Si l'entité n'est pas trouvée dans la table des IDF, afficher un message approprié
+    printf("Entite non declarer dans la table des IDF : %s\n", entite);
 }
 
 
@@ -502,7 +431,7 @@ int verifyTypeEntite(const char* entite) {
 
     return -1;  // Identifier not found, return -1
 }
-
+/*
 void modifyValueOfIDF(const char* entite, void* nouvelleValeur, int type, int ts) {
     listePointure *courantLP = tabLP;
     tabIDF *courant;
@@ -549,14 +478,131 @@ void modifyValueOfIDF(const char* entite, void* nouvelleValeur, int type, int ts
     // Si l'entité n'est pas trouvée, vous pouvez choisir de gérer cela d'une manière spécifique.
     printf("Entité non trouvée : %s\n", entite);
 }
+*/
+int incompatibiliteDeType(char var[], char typeval[], int ts) {
+    listePointure* courantLP = tabLP;
 
-int incompatibiliteDeType(char var[], char typeval[]) {
-    tabIDF* courant = tab;
+    // Find the appropriate listePointure based on the timestamp
+    while (courantLP != NULL && courantLP->ts != ts) {
+        courantLP = courantLP->suiv;
+    }
+
+    if (courantLP == NULL || ts > courantLP->ts) {
+        // If no appropriate listePointure is found, or if the timestamp is in the future,
+        // consider it as a type incompatibility (error)
+        return 1;
+    }
+
+    // Check for type incompatibility in the tabIDF of the current listePointure
+    tabIDF* courant = courantLP->tab1;
     while (courant != NULL) {
-        if ((strcmp(var, courant->elm.name) == 0) && (strcmp(typeval, courant->elm.type) == 0)) return 0 ; // aucune erreur
+        if (strcmp(var, courant->elm.name) == 0 && strcmp(typeval, courant->elm.type) == 0) {
+            // No type incompatibility, return 0 (no error)
+            return 0;
+        }
         courant = courant->suiv;
     }
-    return 1 ; // il existe une incompatibilité de type
+
+    // There is a type incompatibility, return 1 (error)
+    return 1;
 }
 
+int getValueOfIDF(const char entite[], int ts) {
+    listePointure *courantLP = tabLP;
+
+    // Recherche de la listePointure appropriée
+    while (courantLP != NULL && courantLP->ts != ts) {
+        courantLP = courantLP->suiv;
+    }
+
+    // Si la listePointure n'existe pas encore, vous pouvez choisir de créer une nouvelle listePointure ici.
+
+    // Recherche de l'IDF dans la listePointure
+    if (courantLP != NULL) {
+        tabIDF *courant = courantLP->tab1;
+
+        while (courant != NULL) {
+            if (strcmp(entite, courant->elm.name) == 0) {
+                // Retourner la valeur de l'entité
+                return courant->elm.val;
+                
+            }
+            courant = courant->suiv;
+        }
+    }
+
+    return 0.0;  // Ou une autre valeur par défaut selon vos besoins
+}
+
+void Misajour(char* entite, int tss,int newValuess,int x) {
+    listePointure *courantLP = tabLP;
+
+    while (courantLP != NULL && courantLP->ts != tss) {
+        courantLP = courantLP->suiv;
+    }
+
+    // Recherche de l'IDF dans la listePointure
+    if (courantLP != NULL) {
+        tabIDF *courant = courantLP->tab1;
+        while (courant!=NULL)
+        {
+          courant=courant->suiv;
+        }
+        courant=courantLP->tab1;
+        while (courant != NULL) {
+            if (strcmp(entite, courant->elm.name) == 0) {
+                // Mettre à jour la valeur de l'entité
+                courant->elm.val = newValuess;
+                return;  // Sortir de la fonction après la mise à jour
+            }
+            courant = courant->suiv;
+        }
+    }
+
+    // Si l'entité n'est pas trouvée ou si la listePointure n'existe pas, vous pouvez choisir de gérer cela d'une manière spécifique.
+    printf("Entité non trouvée ##########: %s\n", entite);
+}
+
+
+
+
+
+
+
+void quadr(char opr[],char op1[],char op2[],char res[])
+{
+
+	strcpy(quad[qc].oper,opr);
+	strcpy(quad[qc].op1,op1);
+	strcpy(quad[qc].op2,op2);
+	strcpy(quad[qc].res,res);
+	
+	
+qc++;
+
+}
+
+void ajour_quad(int num_quad, int colon_quad, char val [])
+{
+if (colon_quad==0) strcpy(quad[num_quad].oper,val);
+else if (colon_quad==1) strcpy(quad[num_quad].op1,val);
+         else if (colon_quad==2) strcpy(quad[num_quad].op2,val);
+                   else if (colon_quad==3) strcpy(quad[num_quad].res,val);
+
+}
+
+void afficher_qdr()
+{
+printf("*********************Les Quadruplets***********************\n");
+
+int i;
+
+for(i=0;i<qc;i++)
+		{
+
+ printf("\n %d - ( %s  ,  %s  ,  %s  ,  %s )",i,quad[i].oper,quad[i].op1,quad[i].op2,quad[i].res); 
+ printf("\n--------------------------------------------------------\n");
+
+}
+}
 

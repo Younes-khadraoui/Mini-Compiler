@@ -8,6 +8,11 @@
        char *returnedType;
        char typeval[25];
        char *filename;
+       int x,intIdfNewValue;
+       float idfValue;
+       float idfNewValue;
+       int qc=0;
+       char *result;
 %}
 
 %union {
@@ -24,7 +29,7 @@
         <str>mc_ne <str>mc_le <str>mc_lt <str>mc_call <str>mc_endr <str>mc_end <str>IDF <entier>integr <reel>floatt
         <str>add <str>sub <str>mul <str>divv <str>pvg  <str>vrg <str>aff <str>po <str>pf  <str>mc_equivalence  <str>point
 
-%type <str> TYPE OPERATION CHAINE LOGICAL
+%type <str> TYPE OPERATION CHAINE LOGICAL 
 
 
 %start S
@@ -73,7 +78,7 @@ ListIDF: vrg IDF  ListIDF { rechercher ($1,"Separateur",0,0, 2,tss); rechercher 
 ;
 
 	
-TAILLE : integr
+TAILLE : integr 
         | integr vrg integr{rechercher ($2,"Separateur",0,0, 2,tss);}
 ;
 
@@ -85,38 +90,44 @@ PROGRAM : mc_program IDF BODY mc_end {rechercher ($1,"Mot cle ","",0, 1,tss); re
 
 INST :    AFFECTATION pvg INST {rechercher ($2,"Separateur",0,0, 2,tss);}
         | ES pvg INST{rechercher ($2,"Separateur",0,0, 2,tss);}
-	    | CONDITON INST 
-	    | LOOP pvg INST {rechercher ($2,"Separateur",0,0, 2,tss);}
-	    | CALLING pvg INST {rechercher ($2,"Separateur",0,0, 2,tss);}
-	    | EQUIV pvg INST {rechercher ($2,"Separateur",0,0, 2,tss);}
+        | CONDITON INST 
+        | LOOP pvg INST {rechercher ($2,"Separateur",0,0, 2,tss);}
+        | CALLING pvg INST {rechercher ($2,"Separateur",0,0, 2,tss);}
+        | EQUIV pvg INST {rechercher ($2,"Separateur",0,0, 2,tss);}
         |
 ;
 
 
 
-AFFECTATION : IDF aff EXPRESSION INST{rechercher1 ($1,"IDF","Identifier",0 , 0,tss);printf("%s \t",printTypeOfIDF($1)); printf("%s \t %s \n",$1,typeval); if (incompatibiliteDeType($1,typeval) == 1) printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); rechercher ($2,"Separateur",0,0, 2,tss);}
-            | IDF aff CHAINE INST{rechercher1 ($1,"IDF","Identifier",0 , 0,tss); printf("%s \t %s \n",$1,typeval);if (incompatibiliteDeType($1,typeval) == 1) printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); rechercher ($2,"Separateur",0,0, 2,tss);}
-            | IDF aff LOGICAL INST{rechercher1 ($1,"IDF","Identifier",0 , 0,tss);  printf("%s \t %s \n",$1,typeval);if (incompatibiliteDeType($1,typeval) == 1) printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); rechercher ($2,"Separateur",0,0, 2,tss);}
+AFFECTATION : IDF aff EXPRESSION INST{rechercher1 ($1,"IDF","Identifier",0 , 0,tss); if (incompatibiliteDeType($1,typeval,tss) == 1) printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); rechercher ($2,"Separateur",0,0, 2,tss);  Misajour((char*)$1,(int)tss,(int)idfNewValue,6); }
+            | IDF aff CHAINE INST{rechercher1 ($1,"IDF","Identifier",0 , 0,tss); printf("%s \t %s \n",$1,typeval);if (incompatibiliteDeType($1,typeval,tss) == 1) printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); rechercher ($2,"Separateur",0,0, 2,tss);}
+            | IDF aff LOGICAL INST{rechercher1 ($1,"IDF","Identifier",0 , 0,tss);  printf("%s \t %s \n",$1,typeval);if (incompatibiliteDeType($1,typeval,tss) == 1) printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); rechercher ($2,"Separateur",0,0, 2,tss);}
 ;
 
-EXPRESSION :  VALEUR
+EXPRESSION :  VALEUR 
             | VALEUR OPERATION EXPRESSION 
+            | VALEUR divv integr { if ($3 == 0) printf("\nErreur semantique a la ligne %d colonne %d : Division par zero\n",nb_ligne, col);rechercher ($2,"Separateur",0,0, 2,tss);}
+            | VALEUR divv floatt { if ($3 == 0) printf("\nErreur semantique a la ligne %d colonne %d : Division par zero\n",nb_ligne, col);rechercher ($2,"Separateur",0,0, 2,tss);}
+            | VALEUR divv IDF    { rechercher1 ($3,"IDF","Identifier",0 , 0,tss); idfValue=getValueOfIDF($3,tss);if (idfValue == 0) printf("\nErreur semantique a la ligne %d colonne %d : Division par zero \n",nb_ligne, col); }
+            | VALEUR divv IDF TAB  { rechercher1 ($3,"IDF","Identifier",0 , 0,tss); idfValue=getValueOfIDF($3,tss);if (idfValue == 0) printf("\nErreur semantique a la ligne %d colonne %d : Division par zero\n",nb_ligne, col);}     
             | po EXPRESSION pf OPERATION EXPRESSION {rechercher ($1,"Separateur",0,0, 2,tss); rechercher ($3,"Separateur",0,0, 2,tss);}
             | po EXPRESSION pf{rechercher ($1,"Separateur",0,0, 2,tss);rechercher ($3,"Separateur",0,0, 2,tss);}
 ;
 
-VALEUR :      IDF TAB {returnedType =printTypeOfIDF($1); strcpy(typeval,returnedType); rechercher1 ($1,"IDF","Identifier",0 , 0,tss); }
+VALEUR :      IDF TABL {rechercher1 ($1,"IDF","Identifier",0 , 0,tss);  strcpy(typeval,(char*)printTypeOfIDF($1)); idfNewValue=(int)getValueOfIDF($1,tss);  }
             | NUMBER 
-            | IDF {returnedType =printTypeOfIDF($1); strcpy(typeval,returnedType); rechercher1 ($1,"IDF","Identifier",0 , 0,tss); }
+;
+
+TABL : TAB |
 ;
 
 TAB :       po TAILLE pf {rechercher ($1,"Separateur",0,0, 2,tss); rechercher ($3,"Separateur",0,0, 2,tss);}
 ;
 
-NUMBER:     integr {strcpy(typeval,"INTEGER");} | floatt {strcpy(typeval,"REAL");}
+NUMBER:     integr {strcpy(typeval,"INTEGER"); intIdfNewValue = $1 ;  idfNewValue = (int)intIdfNewValue;  } | floatt {strcpy(typeval,"REAL");idfNewValue = (int)$1;}
 ;
 
-OPERATION : add {rechercher ($1,"Separateur",0,0, 2,tss);}| sub{rechercher ($1,"Separateur",0,0, 2,tss);} | mul{rechercher ($1,"Separateur",0,0, 2,tss);} | divv{rechercher ($1,"Separateur",0,0, 2,tss);}
+OPERATION : add {rechercher ($1,"Separateur",0,0, 2,tss);}| sub{rechercher ($1,"Separateur",0,0, 2,tss);} | mul{rechercher ($1,"Separateur",0,0, 2,tss);} 
 ;
 
 CHAINE :    string {strcpy(typeval,"CHARACTER");}
@@ -184,6 +195,7 @@ int main(int argc, char **argv) {
     yyparse();
     fclose(yyin);
     afficher();
+    afficher_qdr();
     
     return 0;
 }
