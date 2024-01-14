@@ -79,10 +79,77 @@
        char *returnedType;
        char typeval[25];
        char *filename;
+       float idfValue;
+       char idfNewValue[20];
+       int qc=0;
+       int resultI;
+       float resultF;
+       
+       int jj=0;
+       int kk=0;
+       int c=0;
+       int nb11=0,nb22=0,nb33=0,nb44=0;
+       int i=0;
+       float idfNewValue1;
+       int idfNewValue2;
+       int zz=0 ;
+       int xx1=0;
+       int bb = 0 ;
+       int vv=0;
+       int vv1=0;
+       char xx[20] ;
+       char chaine1[20];
+       int intIdfNewValue;
+
+
+	int err = 0;
+	int h = 0;
+	int Fin_if=0,Fin_while=0, Deb_while=0,OP = 0,and_b=0,and_f=0,or_b=0,or_f=0,debu=0,deb_for=0;
+	char L[25],Q[25];
+	char temp1[25] = "TEMP";
+	char opera[5]; 
+	char saveOP[25];
+	char saveOpLo[25];
+	char tmp[25];
+	char med[25];
+	char med2[25];
+	char op1[25];
+	char op2[25];
+	char medOp[25];
+	char tempMul[25];
+	char resultL[25];
+	char s[25];
+	char medType[25];
+    int fin_if[10];
+	int i_if=0;
+    int deb_else[10];
+	int i_else=0;	
+	int lol = 0;
+	int Cond = 0;
+	int medL=0;
+	int indentation = 0;
+	int mustBe = 0;
+	int mull=0;
+	int x=0;
+	int AND_or_OR = 0;
+	int only_one = 0;
+	int first =0;
+	int teemp = 0;
+	int p = 0;
+	int o = 0;
+	int a = 0;
+        int value2,value1;	
+	char saveCst[25];
+	char sauvIdf1[25];
+	char sauvIdf[2][10] = {};	
+        int nbLigne=1; 
+        int nbCol=1; //declaraction du cpt de nombre de colonne
+        int callIndex=-1;
+        int nbParams=0;
 
 
 /* Line 189 of yacc.c  */
-#line 86 "synt.tab.c"
+#line 153 "synt.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -161,7 +228,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 13 "synt.y"
+#line 80 "synt.y"
 
          int     entier;
          char*   str;
@@ -171,7 +238,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 175 "synt.tab.c"
+#line 242 "synt.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -183,7 +250,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 187 "synt.tab.c"
+#line 254 "synt.tab.c"
 
 #ifdef short
 # undef short
@@ -398,16 +465,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  12
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   155
+#define YYLAST   158
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  45
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  33
+#define YYNNTS  43
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  78
+#define YYNRULES  88
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  172
+#define YYNSTATES  182
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -460,10 +527,11 @@ static const yytype_uint16 yyprhs[] =
       27,    29,    31,    35,    40,    46,    49,    50,    51,    59,
       60,    64,    69,    76,    79,    80,    82,    86,    91,    95,
       99,   102,   106,   110,   114,   115,   120,   125,   130,   132,
-     136,   142,   146,   149,   151,   153,   157,   159,   161,   163,
-     165,   167,   169,   171,   173,   178,   183,   189,   191,   201,
-     203,   207,   209,   217,   221,   223,   225,   227,   229,   231,
-     233,   235,   237,   244,   252,   261,   263,   267,   272
+     133,   134,   135,   142,   143,   150,   154,   157,   159,   161,
+     162,   166,   168,   170,   172,   174,   176,   178,   180,   182,
+     187,   192,   198,   200,   201,   202,   214,   216,   217,   222,
+     224,   232,   236,   238,   240,   242,   244,   246,   248,   250,
+     252,   253,   254,   263,   271,   280,   282,   286,   291
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
@@ -478,38 +546,41 @@ static const yytype_int8 yyrhs[] =
       39,    31,    56,    -1,    11,    41,    57,    42,    -1,    11,
       41,    57,    42,    39,    56,    -1,    36,    32,    -1,    -1,
       32,    -1,    32,    39,    32,    -1,     3,    31,    52,    30,
-      -1,    60,    38,    59,    -1,    68,    38,    59,    -1,    70,
-      59,    -1,    74,    38,    59,    -1,    75,    38,    59,    -1,
-      76,    38,    59,    -1,    -1,    31,    40,    61,    59,    -1,
-      31,    40,    66,    59,    -1,    31,    40,    67,    59,    -1,
-      62,    -1,    62,    65,    61,    -1,    41,    61,    42,    65,
-      61,    -1,    41,    61,    42,    -1,    31,    63,    -1,    64,
-      -1,    31,    -1,    41,    57,    42,    -1,    32,    -1,    33,
-      -1,    34,    -1,    35,    -1,    36,    -1,    37,    -1,     6,
-      -1,     7,    -1,    12,    41,    31,    42,    -1,    13,    41,
-      69,    42,    -1,    66,    39,    31,    39,    66,    -1,    66,
-      -1,    14,    41,    71,    42,    15,    59,    16,    59,    17,
-      -1,    61,    -1,    61,    72,    71,    -1,    67,    -1,    41,
-      71,    42,    72,    41,    71,    42,    -1,    44,    73,    44,
-      -1,    24,    -1,    25,    -1,    23,    -1,    22,    -1,    26,
-      -1,    27,    -1,    21,    -1,    20,    -1,    18,    41,    71,
-      42,    59,    19,    -1,    31,    40,    28,    31,    41,    77,
-      42,    -1,    43,    41,    77,    42,    39,    41,    77,    42,
-      -1,    31,    -1,    31,    39,    77,    -1,    31,    41,    57,
-      42,    -1,    31,    41,    57,    42,    77,    -1
+      -1,    60,    38,    59,    -1,    73,    38,    59,    -1,    75,
+      59,    -1,    82,    38,    59,    -1,    85,    38,    59,    -1,
+      86,    38,    59,    -1,    -1,    31,    40,    61,    59,    -1,
+      31,    40,    71,    59,    -1,    31,    40,    72,    59,    -1,
+      66,    -1,    -1,    -1,    -1,    66,    62,    63,    70,    64,
+      61,    -1,    -1,    41,    61,    42,    70,    61,    65,    -1,
+      41,    61,    42,    -1,    31,    67,    -1,    69,    -1,    68,
+      -1,    -1,    41,    57,    42,    -1,    32,    -1,    33,    -1,
+      34,    -1,    35,    -1,    36,    -1,    37,    -1,     6,    -1,
+       7,    -1,    12,    41,    31,    42,    -1,    13,    41,    74,
+      42,    -1,    71,    39,    31,    39,    71,    -1,    71,    -1,
+      -1,    -1,    14,    41,    78,    76,    42,    15,    59,    16,
+      77,    59,    17,    -1,    61,    -1,    -1,    61,    79,    80,
+      78,    -1,    72,    -1,    41,    78,    42,    80,    41,    78,
+      42,    -1,    44,    81,    44,    -1,    24,    -1,    25,    -1,
+      23,    -1,    22,    -1,    26,    -1,    27,    -1,    21,    -1,
+      20,    -1,    -1,    -1,    18,    41,    83,    78,    84,    42,
+      59,    19,    -1,    31,    40,    28,    31,    41,    87,    42,
+      -1,    43,    41,    87,    42,    39,    41,    87,    42,    -1,
+      31,    -1,    31,    39,    87,    -1,    31,    41,    57,    42,
+      -1,    31,    41,    57,    42,    87,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
-       0,    37,    37,    37,    40,    40,    43,    46,    47,    48,
-      49,    52,    53,    54,    55,    60,    63,    63,    63,    64,
-      68,    69,    70,    71,    72,    76,    77,    82,    86,    87,
-      88,    89,    90,    91,    92,    97,    98,    99,   102,   103,
-     104,   105,   108,   109,   110,   113,   116,   116,   119,   119,
-     119,   119,   122,   125,   128,   129,   132,   133,   136,   139,
-     140,   141,   142,   145,   147,   148,   149,   150,   151,   152,
-     153,   154,   157,   160,   163,   165,   166,   167,   168
+       0,   106,   106,   106,   109,   109,   112,   123,   124,   125,
+     126,   129,   130,   131,   132,   137,   140,   140,   140,   141,
+     145,   146,   147,   148,   149,   154,   155,   160,   164,   165,
+     166,   167,   168,   169,   170,   175,   186,   198,   213,   323,
+     323,   323,   323,   397,   397,   398,   401,   432,   435,   435,
+     438,   441,   494,   514,   514,   514,   514,   517,   523,   533,
+     534,   537,   538,   541,   548,   541,   571,   598,   598,   637,
+     638,   641,   644,   645,   646,   647,   648,   649,   650,   651,
+     654,   654,   654,   671,   682,   685,   686,   687,   688
 };
 #endif
 
@@ -527,8 +598,9 @@ static const char *const yytname[] =
   "vrg", "aff", "po", "pf", "mc_equivalence", "point", "$accept", "S",
   "FUNCTION", "$@1", "HEADER", "TYPE", "PARAMETRE", "BODY", "DEC", "$@2",
   "$@3", "ListIDF", "TAILLE", "PROGRAM", "INST", "AFFECTATION",
-  "EXPRESSION", "VALEUR", "TAB", "NUMBER", "OPERATION", "CHAINE",
-  "LOGICAL", "ES", "STRING", "CONDITON", "EXPCDTT", "CDTT", "CDT", "LOOP",
+  "EXPRESSION", "$@4", "$@5", "$@6", "$@7", "VALEUR", "TABL", "TAB",
+  "NUMBER", "OPERATION", "CHAINE", "LOGICAL", "ES", "STRING", "CONDITON",
+  "$@8", "$@9", "EXPCDTT", "$@10", "CDTT", "CDT", "LOOP", "$@11", "$@12",
   "CALLING", "EQUIV", "PARAMETRE1", 0
 };
 #endif
@@ -552,11 +624,12 @@ static const yytype_uint8 yyr1[] =
        0,    45,    46,    46,    48,    47,    49,    50,    50,    50,
       50,    51,    51,    51,    51,    52,    54,    55,    53,    53,
       56,    56,    56,    56,    56,    57,    57,    58,    59,    59,
-      59,    59,    59,    59,    59,    60,    60,    60,    61,    61,
-      61,    61,    62,    62,    62,    63,    64,    64,    65,    65,
-      65,    65,    66,    67,    68,    68,    69,    69,    70,    71,
-      71,    71,    71,    72,    73,    73,    73,    73,    73,    73,
-      73,    73,    74,    75,    76,    77,    77,    77,    77
+      59,    59,    59,    59,    59,    60,    60,    60,    61,    62,
+      63,    64,    61,    65,    61,    61,    66,    66,    67,    67,
+      68,    69,    69,    70,    70,    70,    70,    71,    72,    73,
+      73,    74,    74,    76,    77,    75,    78,    79,    78,    78,
+      78,    80,    81,    81,    81,    81,    81,    81,    81,    81,
+      83,    84,    82,    85,    86,    87,    87,    87,    87
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -565,11 +638,12 @@ static const yytype_uint8 yyr2[] =
        0,     2,     1,     1,     0,     5,     6,     1,     1,     1,
        1,     1,     3,     4,     5,     2,     0,     0,     7,     0,
        3,     4,     6,     2,     0,     1,     3,     4,     3,     3,
-       2,     3,     3,     3,     0,     4,     4,     4,     1,     3,
-       5,     3,     2,     1,     1,     3,     1,     1,     1,     1,
-       1,     1,     1,     1,     4,     4,     5,     1,     9,     1,
-       3,     1,     7,     3,     1,     1,     1,     1,     1,     1,
-       1,     1,     6,     7,     8,     1,     3,     4,     5
+       2,     3,     3,     3,     0,     4,     4,     4,     1,     0,
+       0,     0,     6,     0,     6,     3,     2,     1,     1,     0,
+       3,     1,     1,     1,     1,     1,     1,     1,     1,     4,
+       4,     5,     1,     0,     0,    11,     1,     0,     4,     1,
+       7,     3,     1,     1,     1,     1,     1,     1,     1,     1,
+       0,     0,     8,     7,     8,     1,     3,     4,     5
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -581,108 +655,112 @@ static const yytype_uint8 yydefact[] =
        3,    19,     1,     0,     0,    34,     0,     0,    16,     4,
        0,     0,     0,     0,     0,     0,    15,     0,     0,    34,
        0,     0,     0,     0,    27,    24,     0,     0,     0,     0,
-       0,     0,     0,    34,    34,    30,    34,    34,    34,     0,
-       0,     0,     0,     0,     5,     0,    52,    57,     0,    53,
-      44,    46,    47,     0,    59,    38,    43,    61,     0,     0,
-       0,     0,    34,    34,    34,    75,     0,    28,    29,    31,
-      32,    33,    11,     0,     0,    23,    24,    17,    54,     0,
-      55,     0,    42,     0,     0,     0,     0,    48,    49,    50,
-      51,     0,     0,    34,     0,     0,    35,    36,    37,     0,
-       0,     0,     0,     0,     6,    25,     0,    20,    19,     0,
-       0,    41,     0,    71,    70,    67,    66,    64,    65,    68,
-      69,     0,    60,    39,    34,     0,     0,    76,     0,     0,
-      12,     0,     0,    21,    18,     0,    45,     0,     0,    63,
-       0,    72,     0,    77,     0,    13,    26,    24,    56,    40,
-       0,    34,    73,    78,     0,    14,    22,     0,     0,    74,
-      62,    58
+      80,     0,     0,    34,    34,    30,    34,    34,    34,     0,
+       0,     0,     0,     0,     5,     0,    57,    62,     0,    58,
+      49,    51,    52,     0,    66,    38,    47,    69,    63,     0,
+       0,     0,    34,    34,    34,    85,     0,    28,    29,    31,
+      32,    33,    11,     0,     0,    23,    24,    17,    59,     0,
+      60,     0,    46,    48,    67,     0,     0,    40,     0,    81,
+       0,     0,    35,    36,    37,     0,     0,     0,     0,     0,
+       6,    25,     0,    20,    19,     0,     0,    45,     0,     0,
+       0,     0,     0,     0,     0,    86,     0,     0,    12,     0,
+       0,    21,    18,     0,    50,    53,    54,    55,    56,     0,
+       0,    79,    78,    75,    74,    72,    73,    76,    77,     0,
+      68,    41,    34,    34,     0,    87,     0,    13,    26,    24,
+      61,    43,     0,    71,     0,     0,     0,    83,    88,     0,
+      14,    22,    44,     0,    42,    64,    82,    84,    70,    34,
+       0,    65
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int16 yydefgoto[] =
 {
       -1,     6,     7,    36,     8,    13,    83,    14,    15,    35,
-     118,    53,   116,    10,    26,    27,    64,    65,    92,    66,
-     101,    57,    67,    28,    58,    29,    68,    96,   131,    30,
+     114,    53,   112,    10,    26,    27,    64,    97,   121,   164,
+     172,    65,    92,    93,    66,   139,    57,    67,    28,    58,
+      29,    98,   179,    68,    96,   120,   149,    30,    69,   123,
       31,    32,    76
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -105
+#define YYPACT_NINF -104
 static const yytype_int8 yypact[] =
 {
-      84,   -24,  -105,  -105,  -105,  -105,    16,  -105,    67,    31,
-    -105,    67,  -105,   -11,    -2,    47,     3,     9,  -105,  -105,
-      -1,    12,    17,    21,     7,    27,  -105,    33,    50,    47,
-      53,    62,    63,    58,  -105,    30,    84,    71,    97,     5,
-       5,    23,    73,    47,    47,  -105,    47,    47,    47,    75,
-      66,    78,    80,    74,  -105,    72,  -105,    76,    77,  -105,
-      79,  -105,  -105,     5,    69,    61,  -105,  -105,    81,    82,
-      85,   -10,    47,    47,    47,   -31,    83,  -105,  -105,  -105,
-    -105,  -105,   -28,    86,    90,  -105,    30,  -105,  -105,    87,
-    -105,    90,  -105,   -16,    88,    59,     5,  -105,  -105,  -105,
-    -105,   -10,   102,    47,    92,    89,  -105,  -105,  -105,    73,
-      90,    95,    75,    90,  -105,    96,    94,  -105,    67,    98,
-      99,    61,    69,  -105,  -105,  -105,  -105,  -105,  -105,  -105,
-    -105,   100,  -105,  -105,    47,   107,    73,  -105,   101,   104,
-    -105,   105,   106,   103,  -105,    97,  -105,   -10,   108,  -105,
-     111,  -105,   109,    73,    73,    75,  -105,    30,  -105,  -105,
-       5,    47,  -105,  -105,   110,  -105,  -105,   112,   122,  -105,
-    -105,  -105
+      73,   -24,  -104,  -104,  -104,  -104,    23,  -104,    43,    24,
+    -104,    43,  -104,    -4,     2,    49,     4,    19,  -104,  -104,
+      14,    17,    18,    38,    57,    58,  -104,    27,    60,    49,
+      63,    65,    66,    64,  -104,    -3,    73,    75,    89,     9,
+    -104,     6,    76,    49,    49,  -104,    49,    49,    49,    77,
+      68,    78,    80,    74,  -104,    71,  -104,    79,    72,  -104,
+      81,  -104,  -104,     9,    82,    50,  -104,  -104,  -104,     9,
+      84,   -11,    49,    49,    49,    25,    85,  -104,  -104,  -104,
+    -104,  -104,    55,    86,    87,  -104,    -3,  -104,  -104,    90,
+    -104,    87,  -104,  -104,    88,    91,    92,  -104,    93,  -104,
+      96,    88,  -104,  -104,  -104,    76,    87,    95,    77,    87,
+    -104,    99,    97,  -104,    43,   101,   100,    54,    92,    48,
+       9,    54,   102,   103,    76,  -104,   104,   106,  -104,   107,
+     109,   105,  -104,    89,  -104,  -104,  -104,  -104,  -104,   -11,
+     110,  -104,  -104,  -104,  -104,  -104,  -104,  -104,  -104,   108,
+    -104,  -104,    49,    49,   111,    76,    76,    77,  -104,    -3,
+    -104,  -104,     9,  -104,   -11,   113,   112,  -104,  -104,   114,
+    -104,  -104,  -104,   115,  -104,  -104,  -104,  -104,  -104,    49,
+     126,  -104
 };
 
 /* YYPGOTO[NTERM-NUM].  */
-static const yytype_int16 yypgoto[] =
+static const yytype_int8 yypgoto[] =
 {
-    -105,    93,  -105,  -105,  -105,     6,  -103,   129,    28,  -105,
-    -105,   -84,   -43,  -105,   -29,  -105,   -38,  -105,  -105,  -105,
-      29,   -37,   114,  -105,  -105,  -105,   -39,    26,  -105,  -105,
-    -105,  -105,  -104
+    -104,   118,  -104,  -104,  -104,    10,  -103,   121,    34,  -104,
+    -104,   -82,   -80,  -104,   -29,  -104,   -39,  -104,  -104,  -104,
+    -104,  -104,  -104,  -104,  -104,    -5,   -40,   117,  -104,  -104,
+    -104,  -104,  -104,   -60,  -104,    37,  -104,  -104,  -104,  -104,
+    -104,  -104,   -99
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.
    If YYTABLE_NINF, syntax error.  */
-#define YYTABLE_NINF -1
-static const yytype_uint8 yytable[] =
+#define YYTABLE_NINF -68
+static const yytype_int16 yytable[] =
 {
-      45,    69,   117,    72,    73,   137,     9,    11,   109,   140,
-     110,   112,    59,   113,    77,    78,    12,    79,    80,    81,
-      18,    60,    61,    62,    94,    93,   121,    19,    95,    56,
-      59,    71,   152,   105,    33,    16,    60,    61,    62,    34,
-      37,    50,     9,   106,   107,   108,    63,    41,   120,   163,
-     164,    70,   165,    38,    60,    61,    62,   132,    39,    20,
-      21,    22,    40,   133,    71,    23,    51,   138,    42,    52,
-     141,    43,     2,   166,   135,     3,     4,     5,    24,   123,
-     124,   125,   126,   127,   128,   129,   130,     1,    44,     2,
-      25,    46,     3,     4,     5,    97,    98,    99,   100,    49,
-      47,    48,    55,    56,    75,   150,    82,    84,   158,   159,
-      85,    86,    87,    95,    88,    89,   104,   134,   119,    90,
-      91,   167,   115,   102,   103,   111,   151,   161,   114,    54,
-     122,   121,   168,   136,   139,   142,   143,   145,   156,   171,
-      17,   146,   157,   153,   149,   154,   144,   155,   148,   160,
-     147,   162,   169,     0,   170,    74
+      45,    73,    72,    95,   113,   128,   125,    11,    50,    99,
+       9,   116,    56,    59,    77,    78,    59,    79,    80,    81,
+      60,    61,    62,    12,    94,   154,   126,    18,    16,   129,
+      71,    19,   101,    51,    70,    33,    52,    60,    61,    62,
+      60,    61,    62,   102,   103,   104,     9,    71,     2,    34,
+      63,     3,     4,     5,   170,    37,   168,   169,    38,    39,
+     150,    20,    21,    22,   105,    43,   106,    23,   141,   142,
+     143,   144,   145,   146,   147,   148,     1,   171,     2,    40,
+      24,     3,     4,     5,   -39,   -39,   -39,   -39,   135,   136,
+     137,   138,    25,   160,   108,    56,   109,    41,    44,    42,
+     161,    46,   173,    47,    48,    49,    55,    75,    82,    84,
+      85,    86,    87,    88,    90,   100,   151,   152,    89,   111,
+       0,   115,    91,   165,   166,   174,   -67,   107,   110,   175,
+     117,   176,    17,   118,   127,   122,   119,   124,   130,   131,
+     133,   158,   134,   181,   159,   153,   155,   156,   132,   157,
+     180,   162,   163,   167,    54,   140,   177,   178,    74
 };
 
 static const yytype_int16 yycheck[] =
 {
-      29,    40,    86,    41,    41,   109,     0,    31,    39,   112,
-      41,    39,     7,    41,    43,    44,     0,    46,    47,    48,
-      31,    31,    32,    33,    63,    63,    42,    29,    44,     6,
-       7,    41,   136,    71,    31,     4,    31,    32,    33,    30,
-      41,    11,    36,    72,    73,    74,    41,    40,    91,   153,
-     154,    28,   155,    41,    31,    32,    33,    96,    41,    12,
-      13,    14,    41,   101,    41,    18,    36,   110,    41,    39,
-     113,    38,     5,   157,   103,     8,     9,    10,    31,    20,
-      21,    22,    23,    24,    25,    26,    27,     3,    38,     5,
-      43,    38,     8,     9,    10,    34,    35,    36,    37,    41,
-      38,    38,    31,     6,    31,   134,    31,    41,   145,   147,
-      32,    31,    38,    44,    42,    39,    31,    15,    31,    42,
-      41,   160,    32,    42,    42,    42,    19,    16,    42,    36,
-      42,    42,   161,    41,    39,    39,    42,    39,    32,    17,
-      11,    42,    39,    42,    44,    41,   118,    42,   122,    41,
-     121,    42,    42,    -1,    42,    41
+      29,    41,    41,    63,    86,   108,   105,    31,    11,    69,
+       0,    91,     6,     7,    43,    44,     7,    46,    47,    48,
+      31,    32,    33,     0,    63,   124,   106,    31,     4,   109,
+      41,    29,    71,    36,    28,    31,    39,    31,    32,    33,
+      31,    32,    33,    72,    73,    74,    36,    41,     5,    30,
+      41,     8,     9,    10,   157,    41,   155,   156,    41,    41,
+     120,    12,    13,    14,    39,    38,    41,    18,    20,    21,
+      22,    23,    24,    25,    26,    27,     3,   159,     5,    41,
+      31,     8,     9,    10,    34,    35,    36,    37,    34,    35,
+      36,    37,    43,   133,    39,     6,    41,    40,    38,    41,
+     139,    38,   162,    38,    38,    41,    31,    31,    31,    41,
+      32,    31,    38,    42,    42,    31,   121,    15,    39,    32,
+      -1,    31,    41,   152,   153,   164,    44,    42,    42,    16,
+      42,    19,    11,    42,    39,    42,    44,    41,    39,    42,
+      39,    32,    42,    17,    39,    42,    42,    41,   114,    42,
+     179,    41,    44,    42,    36,   118,    42,    42,    41
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -691,22 +769,23 @@ static const yytype_uint8 yystos[] =
 {
        0,     3,     5,     8,     9,    10,    46,    47,    49,    50,
       58,    31,     0,    50,    52,    53,     4,    52,    31,    29,
-      12,    13,    14,    18,    31,    43,    59,    60,    68,    70,
-      74,    75,    76,    31,    30,    54,    48,    41,    41,    41,
+      12,    13,    14,    18,    31,    43,    59,    60,    73,    75,
+      82,    85,    86,    31,    30,    54,    48,    41,    41,    41,
       41,    40,    41,    38,    38,    59,    38,    38,    38,    41,
-      11,    36,    39,    56,    46,    31,     6,    66,    69,     7,
-      31,    32,    33,    41,    61,    62,    64,    67,    71,    71,
-      28,    41,    61,    66,    67,    31,    77,    59,    59,    59,
+      11,    36,    39,    56,    46,    31,     6,    71,    74,     7,
+      31,    32,    33,    41,    61,    66,    69,    72,    78,    83,
+      28,    41,    61,    71,    72,    31,    87,    59,    59,    59,
       59,    59,    31,    51,    41,    32,    31,    38,    42,    39,
-      42,    41,    63,    61,    71,    44,    72,    34,    35,    36,
-      37,    65,    42,    42,    31,    61,    59,    59,    59,    39,
-      41,    42,    39,    41,    42,    32,    57,    56,    55,    31,
-      57,    42,    42,    20,    21,    22,    23,    24,    25,    26,
-      27,    73,    71,    61,    15,    59,    41,    77,    57,    39,
-      51,    57,    39,    42,    53,    39,    42,    65,    72,    44,
-      59,    19,    77,    42,    41,    42,    32,    39,    66,    61,
-      41,    16,    42,    77,    77,    51,    56,    71,    59,    42,
-      42,    17
+      42,    41,    67,    68,    61,    78,    79,    62,    76,    78,
+      31,    61,    59,    59,    59,    39,    41,    42,    39,    41,
+      42,    32,    57,    56,    55,    31,    57,    42,    42,    44,
+      80,    63,    42,    84,    41,    87,    57,    39,    51,    57,
+      39,    42,    53,    39,    42,    34,    35,    36,    37,    70,
+      80,    20,    21,    22,    23,    24,    25,    26,    27,    81,
+      78,    70,    15,    42,    87,    42,    41,    42,    32,    39,
+      71,    61,    41,    44,    64,    59,    59,    42,    87,    87,
+      51,    56,    65,    78,    61,    16,    19,    42,    42,    77,
+      59,    17
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1520,434 +1599,966 @@ yyreduce:
         case 3:
 
 /* Line 1455 of yacc.c  */
-#line 37 "synt.y"
+#line 106 "synt.y"
     {printf("prog syntaxiquement correct"); YYACCEPT;;}
     break;
 
   case 4:
 
 /* Line 1455 of yacc.c  */
-#line 40 "synt.y"
-    {rechercher ((yyvsp[(3) - (3)].str),"Mot cle ","",0, 1,tss);tss++; ;}
+#line 109 "synt.y"
+    {rechercher ((yyvsp[(3) - (3)].str),"Mot cle ","","0", 1,tss);tss++; ;}
     break;
 
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 43 "synt.y"
-    { rechercher ((yyvsp[(2) - (6)].str),"Mot cle ","",0, 1,tss); rechercher ((yyvsp[(3) - (6)].str),"IDF","Identifier",0 , 0,tss);modifyType((yyvsp[(3) - (6)].str),saveType,tss); rechercher ((yyvsp[(4) - (6)].str),"Separateur",0,0, 2,tss); rechercher ((yyvsp[(6) - (6)].str),"Separateur",0,0, 2,tss);;}
+#line 112 "synt.y"
+    { 
+        callIndex++; 
+        initializeCall(callIndex,(yyvsp[(3) - (6)].str),3);
+        rechercher ((yyvsp[(2) - (6)].str),"Mot cle ","","0", 1,tss); 
+        rechercher ((yyvsp[(3) - (6)].str),"IDF","Identifier","0", 0,tss);
+        modifyType((yyvsp[(3) - (6)].str),saveType,tss); 
+        rechercher ((yyvsp[(4) - (6)].str),"Separateur","0","0", 2,tss); 
+        rechercher ((yyvsp[(6) - (6)].str),"Separateur","0","0", 2,tss);
+;}
     break;
 
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 46 "synt.y"
-    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
+#line 123 "synt.y"
+    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);;}
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 47 "synt.y"
-    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
+#line 124 "synt.y"
+    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);;}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 48 "synt.y"
-    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
+#line 125 "synt.y"
+    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);;}
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 49 "synt.y"
-    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
+#line 126 "synt.y"
+    {saveType=(yyvsp[(1) - (1)].str);rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 52 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"IDF","Identifier",0 , 0,tss);;}
+#line 129 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"IDF","Identifier","0", 0,tss); nbParams++;;}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 53 "synt.y"
-    {rechercher ((yyvsp[(1) - (3)].str),"IDF","Identifier",0 , 0,tss); rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,tss); ;}
+#line 130 "synt.y"
+    {rechercher ((yyvsp[(1) - (3)].str),"IDF","Identifier","0", 0,tss); rechercher ((yyvsp[(2) - (3)].str),"Separateur","0","0", 2,tss); ;}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 54 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,tss);rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,tss);;}
+#line 131 "synt.y"
+    {rechercher ((yyvsp[(1) - (4)].str),"IDF","Identifier","0", 0,tss);rechercher ((yyvsp[(2) - (4)].str),"Separateur","0","0", 2,tss);rechercher ((yyvsp[(4) - (4)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 55 "synt.y"
-    {rechercher ((yyvsp[(1) - (5)].str),"IDF","Identifier",0 , 0,tss);rechercher ((yyvsp[(2) - (5)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,tss);;}
+#line 132 "synt.y"
+    {rechercher ((yyvsp[(1) - (5)].str),"IDF","Identifier","0", 0,tss);rechercher ((yyvsp[(2) - (5)].str),"Separateur","0","0", 2,tss);rechercher ((yyvsp[(4) - (5)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 63 "synt.y"
-    {rechercher ((yyvsp[(2) - (2)].str),"IDF","Identifier",0 , 0,tss); modifyType((yyvsp[(2) - (2)].str),saveType,tss);  ;}
+#line 140 "synt.y"
+    {rechercher ((yyvsp[(2) - (2)].str),"IDF","Identifier","0", 0,tss); modifyType((yyvsp[(2) - (2)].str),saveType,tss);  ;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 63 "synt.y"
-    {rechercher ((yyvsp[(5) - (5)].str),"Separateur",0,0, 2,tss);;}
+#line 140 "synt.y"
+    {rechercher ((yyvsp[(5) - (5)].str),"Separateur","0","0", 2,tss);sprintf(chaine1, "%d",(int)idfNewValue1);if(zz == 1)Misajour((yyvsp[(2) - (5)].str),(int)tss,chaine1) ;if(kk == 1)modmat((yyvsp[(2) - (5)].str),nb11,nb22,i);kk=0;if(bb == 1)i++;;}
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 68 "synt.y"
-    { rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2,tss); rechercher ((yyvsp[(2) - (3)].str),"IDF","Identifier",0 , 0,tss); modifyType((yyvsp[(2) - (3)].str),saveType,tss); ;}
+#line 145 "synt.y"
+    { rechercher ((yyvsp[(1) - (3)].str),"Separateur","0","0", 2,tss); rechercher ((yyvsp[(2) - (3)].str),"IDF","Identifier","0", 0,tss); modifyType((yyvsp[(2) - (3)].str),saveType,tss); ;}
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 69 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,tss);rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,tss); rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,tss);;}
+#line 146 "synt.y"
+    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","","0", 1,tss);rechercher ((yyvsp[(2) - (4)].str),"Separateur","0","0", 2,tss); rechercher ((yyvsp[(4) - (4)].str),"Separateur","0","0", 2,tss);zz=1;;}
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 70 "synt.y"
-    {rechercher ((yyvsp[(1) - (6)].str),"Mot cle ","",0, 1,tss);rechercher ((yyvsp[(2) - (6)].str),"Separateur",0,0, 2,tss); rechercher ((yyvsp[(4) - (6)].str),"Separateur",0,0, 2,tss); rechercher ((yyvsp[(5) - (6)].str),"Separateur",0,0, 2,tss);;}
+#line 147 "synt.y"
+    {rechercher ((yyvsp[(1) - (6)].str),"Mot cle ","","0", 1,tss);rechercher ((yyvsp[(2) - (6)].str),"Separateur","0","0", 2,tss); rechercher ((yyvsp[(4) - (6)].str),"Separateur","0","0", 2,tss); rechercher ((yyvsp[(5) - (6)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 71 "synt.y"
-    {rechercher ((yyvsp[(1) - (2)].str),"Separateur",0,0, 2,tss);;}
+#line 148 "synt.y"
+    {rechercher ((yyvsp[(1) - (2)].str),"Separateur","0","0", 2,tss);;}
+    break;
+
+  case 25:
+
+/* Line 1455 of yacc.c  */
+#line 154 "synt.y"
+    {strcpy(typeval,"INTEGER");  if((yyvsp[(1) - (1)].entier)<0 ){printf("Erreur semantique : Indice Negatif %d,%d\n",nb_ligne,nbCol);exit(EXIT_FAILURE);}intIdfNewValue = (yyvsp[(1) - (1)].entier) ;idfNewValue1 = (int)intIdfNewValue;;intIdfNewValue = (yyvsp[(1) - (1)].entier) ;idfNewValue2 = (int)intIdfNewValue;vv1=1;bb=0;;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 77 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,tss);;}
+#line 155 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur","0","0", 2,tss);if((yyvsp[(1) - (3)].entier)<0 || (yyvsp[(3) - (3)].entier)<0) {printf("Erreur semantique : Indice Negatif %d,%d\n",nb_ligne,nbCol); exit(EXIT_FAILURE); }intIdfNewValue = (yyvsp[(1) - (3)].entier) ;nb11 = (int)intIdfNewValue; intIdfNewValue = (yyvsp[(3) - (3)].entier) ;nb22 = (int)intIdfNewValue;vv1=0;if(c==1)bb=1;c=1;kk=1;}
     break;
 
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 82 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,tss); rechercher ((yyvsp[(2) - (4)].str),"IDF","Identifier",0 , 0,tss); rechercher ((yyvsp[(4) - (4)].str),"Mot cle ","",0, 1,tss); ;}
+#line 160 "synt.y"
+    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","","0", 1,tss); rechercher ((yyvsp[(2) - (4)].str),"IDF","Identifier","0", 0,tss); rechercher ((yyvsp[(4) - (4)].str),"Mot cle ","","0", 1,tss); ;}
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 86 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,tss);;}
+#line 164 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 87 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,tss);;}
+#line 165 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 89 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,tss);;}
+#line 167 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 90 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,tss);;}
+#line 168 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 91 "synt.y"
-    {rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,tss);;}
+#line 169 "synt.y"
+    {rechercher ((yyvsp[(2) - (3)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 97 "synt.y"
-    {rechercher1 ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,tss);printf("%s \t",printTypeOfIDF((yyvsp[(1) - (4)].str))); printf("%s \t %s \n",(yyvsp[(1) - (4)].str),typeval); if (incompatibiliteDeType((yyvsp[(1) - (4)].str),typeval) == 1) printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,tss);;}
+#line 175 "synt.y"
+    {
+                rechercher1 ((yyvsp[(1) - (4)].str),"IDF","Identifier","0", 0,tss); 
+                if (incompatibiliteDeType((yyvsp[(1) - (4)].str),typeval,tss) == 1) {
+                        printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); 
+                        exit(EXIT_FAILURE);
+                }
+                       
+                rechercher ((yyvsp[(2) - (4)].str),"Separateur","0","0", 2,tss); 
+                Misajour((yyvsp[(1) - (4)].str),(int)tss,idfNewValue); 
+                quadr("=",saveCst,"",(yyvsp[(1) - (4)].str));
+            ;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 98 "synt.y"
-    {rechercher1 ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,tss); printf("%s \t %s \n",(yyvsp[(1) - (4)].str),typeval);if (incompatibiliteDeType((yyvsp[(1) - (4)].str),typeval) == 1) printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,tss);;}
+#line 186 "synt.y"
+    {
+                rechercher1 ((yyvsp[(1) - (4)].str),"IDF","Identifier","0", 0,tss); 
+                printf("%s \t %s \n",(yyvsp[(1) - (4)].str),typeval);
+                if (incompatibiliteDeType((yyvsp[(1) - (4)].str),typeval,tss) == 1) {
+                        printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); 
+                        exit(EXIT_FAILURE);
+                }
+                rechercher ((yyvsp[(2) - (4)].str),"Separateur","0","0", 2,tss);
+                Misajour((yyvsp[(1) - (4)].str),(int)tss,idfNewValue);
+                strcpy(saveCst,idfNewValue);
+                quadr("=",saveCst,"",(yyvsp[(1) - (4)].str));
+                ;}
     break;
 
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 99 "synt.y"
-    {rechercher1 ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,tss);  printf("%s \t %s \n",(yyvsp[(1) - (4)].str),typeval);if (incompatibiliteDeType((yyvsp[(1) - (4)].str),typeval) == 1) printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,tss);;}
+#line 198 "synt.y"
+    {
+                rechercher1 ((yyvsp[(1) - (4)].str),"IDF","Identifier","0", 0,tss);  
+                printf("%s \t %s \n",(yyvsp[(1) - (4)].str),typeval);
+                if (incompatibiliteDeType((yyvsp[(1) - (4)].str),typeval,tss) == 1) {
+                        printf("Erreur semantique: Incompatibilite de type a la ligne %d colonne %d\n", nb_ligne, col); 
+                        exit(EXIT_FAILURE);
+                }
+                        
+                rechercher ((yyvsp[(2) - (4)].str),"Separateur","0","0", 2,tss);
+                Misajour((yyvsp[(1) - (4)].str),(int)tss,idfNewValue); 
+                strcpy(saveCst,idfNewValue);
+                quadr("=",saveCst,"",(yyvsp[(1) - (4)].str));
+                ;}
+    break;
+
+  case 38:
+
+/* Line 1455 of yacc.c  */
+#line 213 "synt.y"
+    {
+                        if(only_one == 0 ){
+                                if(strcmp(op1,"")==0 && !h){
+                                        strcpy(saveCst,op1);}else{if(h){h=0;}}
+                        }else{
+                                if(!mull){
+                                        if(x==1){
+                                                if(p){
+                                                value2=atoi((char*)getValueOfIDF(op1,tss));
+                                                        if (strcmp(saveOP, "+") == 0) {
+                                                        resultI = value2 + value1;
+                                                } else if (strcmp(saveOP, "-") == 0) {
+                                                        resultI = value2 - value1;
+                                                } else if (strcmp(saveOP, "*") == 0) {
+                                                        resultI = value2 * value1;
+                                                } else if (strcmp(saveOP, "/") == 0) {
+                                                        if (value1 != 0) {
+                                                        resultI = value2 / value1;
+                                                        } else {
+                                                        printf("Error: Division by zero.\n");
+                                                        exit(EXIT_FAILURE);
+                                                        err=1; // Exit with an error code
+                                                        }}                                      
+
+                                                quadr(medOp,op1,"TEMP",temp1);
+                                                strcpy(saveCst,temp1);
+                                                sprintf(idfNewValue,"%d",resultI);
+                                                }else{
+                                                        value2=resultI;
+                                                        if (strcmp(saveOP, "+") == 0) {
+                                                        resultI = value2 + value1;
+                                                } else if (strcmp(saveOP, "-") == 0) {
+                                                        resultI = value2 - value1;
+                                                } else if (strcmp(saveOP, "*") == 0) {
+                                                        resultI = value2 * value1;
+                                                } else if (strcmp(saveOP, "/") == 0) {
+                                                        if (value1 != 0) {
+                                                        resultI = value2 / value1;
+                                                        } else {
+                                                        printf("Error: Division by zero.\n");
+                                                        exit(EXIT_FAILURE);
+                                                        err=1; // Exit with an error code
+                                                        }}                                      
+                                                        quadr(saveOP,temp1,op1,temp1);strcpy(saveCst,temp1);sprintf(idfNewValue,"%d",resultI);}
+                                        }else{  
+                                                value2=atoi((char*)getValueOfIDF(med,tss));
+                                                        if (strcmp(saveOP, "+") == 0) {
+                                                        resultI = value2 + value1;
+                                                } else if (strcmp(saveOP, "-") == 0) {
+                                                        resultI = value2 - value1;
+                                                } else if (strcmp(saveOP, "*") == 0) {
+                                                        resultI = value2 * value1;
+                                                } else if (strcmp(saveOP, "/") == 0) {
+                                                        if (value1 != 0) {
+                                                        resultI = value2 / value1;
+                                                        } else {
+                                                        printf("Error: Division by zero.\n");
+                                                        exit(EXIT_FAILURE);
+                                                        err=1; // Exit with an error code
+                                                        }}                                      
+                                                quadr(saveOP,op1,med,temp1);
+                                                strcpy(saveCst,temp1);sprintf(idfNewValue,"%d",resultI);
+                                        }
+                                }else{
+                                        if (lol){
+                                                value2=resultI;
+                                                        if (strcmp(medOp, "+") == 0) {
+                                                        resultI = value2 + value1;
+                                                } else if (strcmp(medOp, "-") == 0) {
+                                                        resultI = value2 - value1;
+                                                } else if (strcmp(medOp, "*") == 0) {
+                                                        resultI = value2 * value1;
+                                                } else if (strcmp(medOp, "/") == 0) {
+                                                        if (value1 != 0) {
+                                                        resultI = value2 / value1;
+                                                        } else {
+                                                        printf("Error: Division by zero.\n");
+                                                        exit(EXIT_FAILURE);
+                                                        err=1; // Exit with an error code
+                                                        }}                                      
+                                                quadr(medOp,temp1,tempMul,temp1);lol=0;strcpy(saveCst,temp1);
+                                                sprintf(idfNewValue,"%d",resultI);
+                                        }
+                                        if(strcmp(tempMul,"")!=0){
+                                                if(strcmp(med2,"")!=0){if(a){
+                                                        value2=resultI;
+                                                        if(strcmp((char*)getCodeOfEntity(med2,tss),"IDF")==0)
+                                                        value1=atoi((char*)getValueOfIDF(med2));
+                                                        else value1=atoi(med2);
+                                                                if (strcmp(medOp, "+") == 0) {
+                                                                resultI = value2 + value1;
+                                                        } else if (strcmp(medOp, "-") == 0) {
+                                                                resultI = value2 - value1;
+                                                        } else if (strcmp(medOp, "*") == 0) {
+                                                                resultI = value2 * value1;
+                                                        } else if (strcmp(medOp, "/") == 0) {
+                                                                if (value1 != 0) {
+                                                                resultI = value2 / value1;
+                                                                } else {
+                                                                printf("Error: Division by zero.\n");
+                                                                exit(EXIT_FAILURE);
+                                                                err=1; // Exit with an error code
+                                                                }}                                      
+                                                         quadr(medOp,med2,tempMul,temp1);
+                                                         strcpy(saveCst,temp1);}}
+                                                        sprintf(idfNewValue,"%d",resultI);
+                                        }
+                                }
+                        }
+	;}
+    break;
+
+  case 39:
+
+/* Line 1455 of yacc.c  */
+#line 323 "synt.y"
+    {strcpy(medType,saveType);strcpy(med,op1);;}
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 104 "synt.y"
-    {rechercher ((yyvsp[(1) - (5)].str),"Separateur",0,0, 2,tss); rechercher ((yyvsp[(3) - (5)].str),"Separateur",0,0, 2,tss);;}
+#line 323 "synt.y"
+    {only_one = 1;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 105 "synt.y"
-    {rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(3) - (3)].str),"Separateur",0,0, 2,tss);;}
+#line 323 "synt.y"
+    {if(strcmp(saveOP,"+")==0 ||strcmp(saveOP,"-")==0){
+                                                                                                if(!mull){printf("");
+                                                                                                if(strcmp(med2,"")!=0){
+                                                                                                        if(x){
+                                                                                                                value2=resultI;
+                                                                                                                        if (strcmp(saveOP, "+") == 0) {
+                                                                                                                        resultI = value2 + value1;
+                                                                                                                } else if (strcmp(saveOP, "-") == 0) {
+                                                                                                                        resultI = value2 - value1;
+                                                                                                                } else if (strcmp(saveOP, "*") == 0) {
+                                                                                                                        resultI = value2 * value1;
+                                                                                                                } else if (strcmp(saveOP, "/") == 0) {
+                                                                                                                        if (value1 != 0) {
+                                                                                                                        resultI = value2 / value1;
+                                                                                                                        } else {
+                                                                                                                        printf("Error: Division by zero.\n");
+                                                                                                                        exit(EXIT_FAILURE);
+                                                                                                                        err=1; // Exit with an error code
+                                                                                                                        }}                                      
+                                                                                                                quadr(medOp,temp1,med,temp1);
+                                                                                                        }else{
+                                                                                                                value2=atoi((char*)getValueOfIDF(med2,tss));
+                                                                                                                        if (strcmp(saveOP, "+") == 0) {
+                                                                                                                        resultI = value2 + value1;
+                                                                                                                } else if (strcmp(saveOP, "-") == 0) {
+                                                                                                                        resultI = value2 - value1;
+                                                                                                                } else if (strcmp(saveOP, "*") == 0) {
+                                                                                                                        resultI = value2 * value1;
+                                                                                                                } else if (strcmp(saveOP, "/") == 0) {
+                                                                                                                        if (value1 != 0) {
+                                                                                                                        resultI = value2 / value1;
+                                                                                                                        } else {
+                                                                                                                        printf("Error: Division by zero.\n");
+                                                                                                                        exit(EXIT_FAILURE);
+                                                                                                                        err=1; // Exit with an error code
+                                                                                                                        }}                                      
+                                                                                                                quadr(medOp,med2,med,temp1);x=1;
+                                                                                                        }
+                                                                                                        lol = 1;
+                                                                                                }
+                                                                                                else{
+                                                                                                        strcpy(med2,med);
+                                                                                                }}
+                                                                                                else{ 
+                                                                                                        if(strcmp(med2,"")!=0){
+                                                                                                                        value2=atoi((char*)getValueOfIDF(med2,tss));
+                                                                                                                                if (strcmp(saveOP, "+") == 0) {
+                                                                                                                                resultI = value2 + value1;
+                                                                                                                        } else if (strcmp(saveOP, "-") == 0) {
+                                                                                                                                resultI = value2 - value1;
+                                                                                                                        } else if (strcmp(saveOP, "*") == 0) {
+                                                                                                                                resultI = value2 * value1;
+                                                                                                                        } else if (strcmp(saveOP, "/") == 0) {
+                                                                                                                                // Ensure value2 is not zero before performing division
+                                                                                                                                if (value1 != 0) {
+                                                                                                                                resultI = value2 / value1;
+                                                                                                                                } else {
+                                                                                                                                printf("Error: Division by zero.\n");
+                                                                                                                                exit(EXIT_FAILURE);
+                                                                                                                                err=1; // Exit with an error code
+                                                                                                                                }}                                      
+                                                                                                                        quadr(medOp,med2,"TEMP",temp1);
+                                                                                                                        
+                                                                                                                        strcpy(med2,"TEMP");
+                                                                                                                }else{
+                                                                                                                        strcpy(med2,"TEMP");p=1;
+                                                                                                                        }mull=0;x=1;strcpy(tempMul,"");
+                                                                                                }strcpy(medOp,saveOP);a=0;
+                                                                                                }
+                                                                                                if(strcmp(saveOP,"*")==0 || strcmp(saveOP,"/")==0){
+                                                                                                                mull = 1;a=1;
+
+                                                                                                        }
+                                                                			;}
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 108 "synt.y"
-    {returnedType =printTypeOfIDF((yyvsp[(1) - (2)].str)); strcpy(typeval,returnedType); rechercher1 ((yyvsp[(1) - (2)].str),"IDF","Identifier",0 , 0,tss); ;}
+#line 396 "synt.y"
+    {strcpy(saveOP,"");strcpy(medOp,"");strcpy(med2,"");strcpy(med,"");strcpy(tempMul,"");strcpy(op1,"");lol=0;mull=0;x=0;a=0;p=0;only_one = 0;}
+    break;
+
+  case 43:
+
+/* Line 1455 of yacc.c  */
+#line 397 "synt.y"
+    {rechercher ((yyvsp[(1) - (5)].str),"Separateur","0","0", 2,tss); rechercher ((yyvsp[(3) - (5)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 110 "synt.y"
-    {returnedType =printTypeOfIDF((yyvsp[(1) - (1)].str)); strcpy(typeval,returnedType); rechercher1 ((yyvsp[(1) - (1)].str),"IDF","Identifier",0 , 0,tss); ;}
+#line 397 "synt.y"
+    {strcpy(saveOP,"");strcpy(medOp,"");strcpy(med2,"");strcpy(med,"");strcpy(tempMul,"");strcpy(op1,"");lol=0;mull=0;x=0;a=0;p=0;only_one = 0;}
     break;
 
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 113 "synt.y"
-    {rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2,tss); rechercher ((yyvsp[(3) - (3)].str),"Separateur",0,0, 2,tss);;}
+#line 398 "synt.y"
+    {rechercher ((yyvsp[(1) - (3)].str),"Separateur","0","0", 2,tss);rechercher ((yyvsp[(3) - (3)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 116 "synt.y"
-    {strcpy(typeval,"INTEGER");;}
-    break;
-
-  case 47:
-
-/* Line 1455 of yacc.c  */
-#line 116 "synt.y"
-    {strcpy(typeval,"REAL");;}
-    break;
-
-  case 48:
-
-/* Line 1455 of yacc.c  */
-#line 119 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2,tss);;}
-    break;
-
-  case 49:
-
-/* Line 1455 of yacc.c  */
-#line 119 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2,tss);;}
+#line 401 "synt.y"
+    {
+                rechercher1 ((yyvsp[(1) - (2)].str),"IDF","Identifier","0", 0,tss);  
+                strcpy(typeval,(char*)printTypeOfIDF((yyvsp[(1) - (2)].str))); 
+                strcpy(idfNewValue, (char*)getValueOfIDF((yyvsp[(1) - (2)].str), tss));
+                strcpy(saveCst,(yyvsp[(1) - (2)].str));
+                strcpy(op1,saveCst);
+                value1=atoi(idfNewValue);
+                
+                if(mull==1){printf("");
+                if(strcmp((char*)getCodeOfEntity(med,tss),"IDF")==0)
+                {value2=atoi((char*)getValueOfIDF(med,tss));}
+                else {value2=atoi(med);}
+                        if (strcmp(saveOP, "+") == 0) {
+                        resultI = value2 + value1;
+                } else if (strcmp(saveOP, "-") == 0) {
+                        resultI = value2 - value1;
+                } else if (strcmp(saveOP, "*") == 0) {
+                        resultI = value2 * value1;
+                } else if (strcmp(saveOP, "/") == 0) {
+                        if (value1 != 0) {
+                        resultI = value2 / value1;
+                        } else {
+                        printf("Error: Division by zero.\n");
+                        exit(EXIT_FAILURE);
+                        err=1; 
+                        }}                                      
+                quadr(saveOP,med,op1,"TEMP");
+                strcpy(tempMul,"TEMP");strcpy(saveCst,op1);
+                sprintf(idfNewValue,"%d",resultI);
+             } ;strcpy(xx, (char*)getValueOfIDF((yyvsp[(1) - (2)].str), tss));xx1=atoi(xx) ;printf("");if( vv1 ==1 && idfNewValue2 > xx1) {printf("Erreur symantique : indice hors intervale\n");exit(EXIT_FAILURE);}   vv1=0;jj=nbb2((yyvsp[(1) - (2)].str));if (bb == 1  && (nb11 > nbb1((yyvsp[(1) - (2)].str)) || nb22 > nbb2((yyvsp[(1) - (2)].str))))printf("\nerreur dans la matrice la taille non disponible\n");bb=0;
+                ;}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 119 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2,tss);;}
+#line 438 "synt.y"
+    {rechercher ((yyvsp[(1) - (3)].str),"Separateur","0","0", 2,tss); rechercher ((yyvsp[(3) - (3)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 119 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Separateur",0,0, 2,tss);;}
+#line 441 "synt.y"
+    {    
+                        strcpy(typeval, "INTEGER");
+                        sprintf(idfNewValue, "%d", (yyvsp[(1) - (1)].entier));
+                        sprintf(saveCst,"%d",(yyvsp[(1) - (1)].entier));
+                        strcpy(op1,saveCst);
+                        value1=(yyvsp[(1) - (1)].entier);
+                        if(strcmp(saveOP,"")!=0){
+                                if(strcmp(saveType,medType)!=0){
+                                printf("error at %d %d,types error\n",nbLigne-1,nbCol);err=1;
+                                }
+                        }
+                        if(mull==1){
+                                if(strcmp(tempMul,"")==0){ 
+                                        value2=atoi((char*)getValueOfIDF(med,tss));
+                                        if (strcmp(saveOP, "+") == 0) {
+                                        resultI = value2 + value1;
+                                        } else if (strcmp(saveOP, "-") == 0) {
+                                        resultI = value2 - value1;
+                                        } else if (strcmp(saveOP, "*") == 0) {
+                                        resultI = value2 * value1;
+                                        } else if (strcmp(saveOP, "/") == 0) {
+                                        // Ensure value2 is not zero before performing division
+                                                if (value1 != 0) {
+                                                resultI = value2 / value1;
+                                                } else {
+                                                printf("Error: Division by zero.\n");
+                                                exit(EXIT_FAILURE);
+                                                err=1; 
+                                                }}                                      
+                                        quadr(saveOP,med,op1,"TEMP");
+                                        strcpy(tempMul,"TEMP");strcpy(saveCst,op1);
+                                        sprintf(idfNewValue,"%d",resultI);
+                                }else{          
+                                                value2=resultI;
+                                                        if (strcmp(saveOP, "+") == 0) {
+                                                        resultI = value2 + value1;
+                                                } else if (strcmp(saveOP, "-") == 0) {
+                                                        resultI = value2 - value1;
+                                                } else if (strcmp(saveOP, "*") == 0) {
+                                                        resultI = value2 * value1;
+                                                } else if (strcmp(saveOP, "/") == 0) {
+                                                   
+                                                        if (value1 != 0) {
+                                                        resultI = value2 / value1;
+                                                        } else {
+                                                        printf("Error: Division by zero.\n");
+                                                        exit(EXIT_FAILURE);
+                                                        err=1; 
+                                                        }}                                      
+                                                quadr(saveOP,tempMul,op1,"TEMP"); printf("%s\t %s \t %s\n",tempMul,saveOP,op1);strcpy(saveCst,op1);
+                                        }
+                        }
+                ;}
     break;
 
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 122 "synt.y"
-    {strcpy(typeval,"CHARACTER");;}
+#line 494 "synt.y"
+    {
+                        strcpy(typeval, "REAL");
+                        sprintf(idfNewValue, "%f", (yyvsp[(1) - (1)].reel));
+                        sprintf(saveCst,"%f",(yyvsp[(1) - (1)].reel));
+                        strcpy(op1,saveCst);
+                        if(strcmp(saveOP,"")!=0){
+                                if(strcmp(saveType,medType)!=0){
+                                }
+                        }
+                        if(mull==1){
+                                if(strcmp(tempMul,"")==0){
+                                        quadr(saveOP,med,op1,"TEMP");
+                                        strcpy(tempMul,"TEMP");
+                        }else{
+                                        quadr(saveOP,tempMul,op1,"TEMP");
+                                }
+                        }
+                ;}
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 125 "synt.y"
-    {strcpy(typeval,"LOGICAL");;}
+#line 514 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Separateur","0","0", 2,tss); strcpy(saveOP,(yyvsp[(1) - (1)].str));;}
     break;
 
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 128 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,tss); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,tss);rechercher1 ((yyvsp[(3) - (4)].str),"IDF","Identifier",0 , 0,tss); rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,tss);;}
+#line 514 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Separateur","0","0", 2,tss); strcpy(saveOP,(yyvsp[(1) - (1)].str));;}
     break;
 
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 129 "synt.y"
-    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","",0, 1,tss); rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,tss); rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,tss);;}
+#line 514 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Separateur","0","0", 2,tss); strcpy(saveOP,(yyvsp[(1) - (1)].str));;}
     break;
 
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 132 "synt.y"
-    {rechercher ((yyvsp[(2) - (5)].str),"Separateur",0,0, 2,tss);rechercher1 ((yyvsp[(3) - (5)].str),"IDF","Identifier",0 , 0,tss); rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,tss);;}
+#line 514 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Separateur","0","0", 2,tss); strcpy(saveOP,(yyvsp[(1) - (1)].str));;}
+    break;
+
+  case 57:
+
+/* Line 1455 of yacc.c  */
+#line 517 "synt.y"
+    {
+                        strcpy(typeval,"CHARACTER");
+                        sprintf(idfNewValue, "%s", (yyvsp[(1) - (1)].str));
+                ;}
     break;
 
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 136 "synt.y"
-    {rechercher ((yyvsp[(1) - (9)].str),"Mot cle ","",0, 1,tss); rechercher ((yyvsp[(2) - (9)].str),"Separateur",0,0, 2,tss); rechercher ((yyvsp[(4) - (9)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(5) - (9)].str),"Mot cle ","",0, 1,tss);rechercher ((yyvsp[(7) - (9)].str),"Mot cle ","",0, 1,tss);rechercher ((yyvsp[(9) - (9)].str),"Mot cle ","",0, 1,tss);;}
+#line 523 "synt.y"
+    {strcpy(typeval,"LOGICAL");
+        sprintf(idfNewValue, "%s", (yyvsp[(1) - (1)].str));
+        
+        if(strcmp(idfNewValue,"TRUE")==0)
+                strcpy(saveCst,"1");
+        else
+                strcpy(saveCst,"0");
+        h=1;;}
     break;
 
-  case 62:
+  case 59:
 
 /* Line 1455 of yacc.c  */
-#line 142 "synt.y"
-    {rechercher ((yyvsp[(1) - (7)].str),"Separateur",0,0, 2,tss); rechercher ((yyvsp[(3) - (7)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(5) - (7)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(7) - (7)].str),"Separateur",0,0, 2,tss);;}
+#line 533 "synt.y"
+    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","","0", 1,tss); rechercher ((yyvsp[(2) - (4)].str),"Separateur","0","0", 2,tss);rechercher1 ((yyvsp[(3) - (4)].str),"IDF","Identifier","0", 0,tss); rechercher ((yyvsp[(4) - (4)].str),"Separateur","0","0", 2,tss);;}
+    break;
+
+  case 60:
+
+/* Line 1455 of yacc.c  */
+#line 534 "synt.y"
+    {rechercher ((yyvsp[(1) - (4)].str),"Mot cle ","","0", 1,tss); rechercher ((yyvsp[(2) - (4)].str),"Separateur","0","0", 2,tss); rechercher ((yyvsp[(4) - (4)].str),"Separateur","0","0", 2,tss);;}
+    break;
+
+  case 61:
+
+/* Line 1455 of yacc.c  */
+#line 537 "synt.y"
+    {rechercher ((yyvsp[(2) - (5)].str),"Separateur","0","0", 2,tss);rechercher1 ((yyvsp[(3) - (5)].str),"IDF","Identifier","0", 0,tss); rechercher ((yyvsp[(4) - (5)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 145 "synt.y"
-    {rechercher ((yyvsp[(1) - (3)].str),"Separateur",0,0, 2,tss); rechercher ((yyvsp[(3) - (3)].str),"Separateur",0,0, 2,tss);;}
+#line 541 "synt.y"
+    {deb_else[i_else]=qc;
+                                        i_else++;
+                                        quadr("BZ","",saveCst,"");
+                                        sprintf(tmp,"%d",qc);
+                                        ajour_quad(or_b,1,tmp);
+                                        ajour_quad(or_b+1,1,tmp);
+                                        ;}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 147 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
+#line 548 "synt.y"
+    {
+                                        fin_if[i_if]=qc;
+                                        i_if++;
+                                        quadr("BR","","","");
+                                        sprintf(tmp,"%d",qc);
+                                        ajour_quad(deb_else[i_else-1],1,tmp);
+                                        i_else--;
+                                        AND_or_OR=0;
+                                        ;}
     break;
 
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 148 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
+#line 557 "synt.y"
+    {
+                                        rechercher ((yyvsp[(1) - (11)].str),"Mot cle ","","0", 1,tss); 
+                                        rechercher ((yyvsp[(2) - (11)].str),"Separateur","0","0", 2,tss);
+                                        rechercher ((yyvsp[(5) - (11)].str),"Separateur","0","0", 2,tss);
+                                        rechercher ((yyvsp[(6) - (11)].str),"Mot cle ","","0", 1,tss);
+                                        rechercher ((yyvsp[(8) - (11)].str),"Mot cle ","","0", 1,tss);
+                                        rechercher ((yyvsp[(11) - (11)].str),"Mot cle ","","0", 1,tss);
+                                        sprintf(tmp,"%d",qc);  
+                                        ajour_quad(fin_if[i_if-1],1,tmp);
+                                        i_if--;
+                                        AND_or_OR=0;
+                                        ;}
     break;
 
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 149 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
+#line 571 "synt.y"
+    {
+                                        if(AND_or_OR!=0){
+                                                if(AND_or_OR==1){
+                                                        and_b=qc;
+                                                        quadr("BZ","",saveCst);
+                                                        quadr("=","1","","TEMP");
+                                                        and_f=qc;
+                                                        quadr("BR","","","");
+                                                        sprintf(tmp,"%d",qc);
+                                                        ajour_quad(and_b,1,tmp);
+                                                        ajour_quad(and_b+1,1,tmp);
+                                                        quadr("=","0","","TEMP");
+                                                        sprintf(tmp,"%d",qc);
+                                                        ajour_quad(and_f,1,tmp);
+                                                }else{
+                                                        or_b=qc;
+ //                                                       quadr("BNZ","",s,"");
+                                                        quadr("BNZ","",saveCst);
+                                                        quadr("=","0","","TEMP");
+                                                        or_f=qc;
+                                                        quadr("BR","","","");
+                                                        sprintf(tmp,"%d",qc);ajour_quad(or_b,1,tmp);ajour_quad(or_b+1,1,tmp);
+                                                        quadr("=","1","","TEMP");sprintf(tmp,"%d",qc);
+                                                        ajour_quad(or_f,1,tmp);
+                                                }
+                                        }
+                                        ;}
     break;
 
   case 67:
 
 /* Line 1455 of yacc.c  */
-#line 150 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
+#line 598 "synt.y"
+    {if(strcmp(saveCst,"TEMP")==0){
+                                                ajour_quad(qc-1,3,"TEMP2");
+                                                strcpy(s,"TEMP2");
+                                        } else{
+                                                strcpy(s,saveCst);
+                                                }
+                                                if(AND_or_OR!=0){
+                                                        if(AND_or_OR==1){
+                                                                and_b=qc;
+//                                                                quadr("BZ","",s,"");
+                                                                quadr("BZ","",saveCst,"");
+                                                                quadr("=","1","","TEMP");
+                                                                and_f=qc;
+                                                                quadr("BR","","","");
+                                                                sprintf(tmp,"%d",qc);
+                                                                ajour_quad(and_b,1,tmp);
+                                                                ajour_quad(and_b+1,1,tmp);
+                                                                quadr("=","0","","TEMP");
+                                                                sprintf(tmp,"%d",qc);
+                                                                ajour_quad(and_f,1,tmp);
+                                                        }else{
+                                                                strcpy(saveCst,"TEMP");
+                                                                or_b=qc;
+                                                                printf("%s\n",s);
+                                                                quadr("BNZ","",saveCst,"");
+                                                                quadr("BNZ","",saveCst,"");
+                                                        }
+                                                }if(o){strcpy(saveCst,"TEMP");ajour_quad(qc-3,3,"TEMP2");printf("\n\n\n\nyaaaaaaaaaaaaaaa");}
+                                                o = 1;
+                                                ;}
     break;
 
   case 68:
 
 /* Line 1455 of yacc.c  */
-#line 151 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
-    break;
-
-  case 69:
-
-/* Line 1455 of yacc.c  */
-#line 152 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
+#line 628 "synt.y"
+    {
+                                                if(strcmp(saveOpLo,"GT")==0){quadr(">",s,saveCst,"TEMP");}
+                                                if(strcmp(saveOpLo,"GE")==0){quadr(">=",s,saveCst,"TEMP");}
+                                                if(strcmp(saveOpLo,"LT")==0){quadr("<",s,saveCst,"TEMP");}
+                                                if(strcmp(saveOpLo,"LE")==0){quadr("<=",s,saveCst,"TEMP");}
+                                                if(strcmp(saveOpLo,"EQ")==0){quadr("==",s,saveCst,"TEMP");}
+                                                if(strcmp(saveOpLo,"NE")==0){quadr("!=",s,saveCst,"TEMP");}
+                                                strcpy(saveCst,"TEMP");o=0;
+                                                ;}
     break;
 
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 153 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
+#line 638 "synt.y"
+    {rechercher ((yyvsp[(1) - (7)].str),"Separateur","0","0", 2,tss); rechercher ((yyvsp[(3) - (7)].str),"Separateur","0","0", 2,tss);rechercher ((yyvsp[(5) - (7)].str),"Separateur","0","0", 2,tss);rechercher ((yyvsp[(7) - (7)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 154 "synt.y"
-    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","",0, 1,tss);;}
+#line 641 "synt.y"
+    {rechercher ((yyvsp[(1) - (3)].str),"Separateur","0","0", 2,tss); rechercher ((yyvsp[(3) - (3)].str),"Separateur","0","0", 2,tss);;}
     break;
 
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 157 "synt.y"
-    {rechercher ((yyvsp[(1) - (6)].str),"Mot cle ","",0, 1,tss); rechercher ((yyvsp[(2) - (6)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(4) - (6)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(6) - (6)].str),"Mot cle ","",0, 1,tss);;}
+#line 644 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);strcpy(saveOpLo,(yyvsp[(1) - (1)].str));;}
     break;
 
   case 73:
 
 /* Line 1455 of yacc.c  */
-#line 160 "synt.y"
-    {rechercher1 ((yyvsp[(1) - (7)].str),"IDF","Identifier",0 , 0,tss); rechercher ((yyvsp[(2) - (7)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(3) - (7)].str),"Mot cle ","",0, 1,tss);rechercher ((yyvsp[(5) - (7)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(7) - (7)].str),"Separateur",0,0, 2,tss);;}
+#line 645 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);strcpy(saveOpLo,(yyvsp[(1) - (1)].str));;}
     break;
 
   case 74:
 
 /* Line 1455 of yacc.c  */
-#line 163 "synt.y"
-    {rechercher ((yyvsp[(1) - (8)].str),"Mot cle ","",0, 1,tss);rechercher ((yyvsp[(4) - (8)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(5) - (8)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(6) - (8)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(8) - (8)].str),"Separateur",0,0, 2,tss);;}
+#line 646 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);strcpy(saveOpLo,(yyvsp[(1) - (1)].str));;}
     break;
 
   case 75:
 
 /* Line 1455 of yacc.c  */
-#line 165 "synt.y"
-    {rechercher1 ((yyvsp[(1) - (1)].str),"IDF","Identifier",0 , 0,tss);;}
+#line 647 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);strcpy(saveOpLo,(yyvsp[(1) - (1)].str));;}
     break;
 
   case 76:
 
 /* Line 1455 of yacc.c  */
-#line 166 "synt.y"
-    {rechercher1 ((yyvsp[(1) - (3)].str),"IDF","Identifier",0 , 0,tss); rechercher ((yyvsp[(2) - (3)].str),"Separateur",0,0, 2,tss); ;}
+#line 648 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);strcpy(saveOpLo,(yyvsp[(1) - (1)].str));;}
     break;
 
   case 77:
 
 /* Line 1455 of yacc.c  */
-#line 167 "synt.y"
-    {rechercher1 ((yyvsp[(1) - (4)].str),"IDF","Identifier",0 , 0,tss);rechercher ((yyvsp[(2) - (4)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(4) - (4)].str),"Separateur",0,0, 2,tss);;}
+#line 649 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);strcpy(saveOpLo,(yyvsp[(1) - (1)].str));;}
     break;
 
   case 78:
 
 /* Line 1455 of yacc.c  */
-#line 168 "synt.y"
-    {rechercher1 ((yyvsp[(1) - (5)].str),"IDF","Identifier",0 , 0,tss);rechercher ((yyvsp[(2) - (5)].str),"Separateur",0,0, 2,tss);rechercher ((yyvsp[(4) - (5)].str),"Separateur",0,0, 2,tss);;}
+#line 650 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);strcpy(saveOpLo,(yyvsp[(1) - (1)].str));AND_or_OR=1;;}
+    break;
+
+  case 79:
+
+/* Line 1455 of yacc.c  */
+#line 651 "synt.y"
+    {rechercher ((yyvsp[(1) - (1)].str),"Mot cle ","","0", 1,tss);strcpy(saveOpLo,(yyvsp[(1) - (1)].str));AND_or_OR=-1;;}
+    break;
+
+  case 80:
+
+/* Line 1455 of yacc.c  */
+#line 654 "synt.y"
+    {Deb_while=qc;;}
+    break;
+
+  case 81:
+
+/* Line 1455 of yacc.c  */
+#line 654 "synt.y"
+    {
+                                        Fin_while=qc;
+                                        quadr("BZ","",saveCst,"");
+                                                ;}
+    break;
+
+  case 82:
+
+/* Line 1455 of yacc.c  */
+#line 658 "synt.y"
+    {
+                                                                        rechercher ((yyvsp[(1) - (8)].str),"Mot cle ","","0", 1,tss);
+                                                                        rechercher ((yyvsp[(2) - (8)].str),"Separateur","0","0", 2,tss);
+                                                                        rechercher ((yyvsp[(6) - (8)].str),"Separateur","0","0", 2,tss);
+                                                                        rechercher ((yyvsp[(8) - (8)].str),"Mot cle ","","0", 1,tss);
+                                                                        sprintf(tmp,"%d",Deb_while);
+                                                                        quadr("BR",tmp,"","");
+                                                                        sprintf(tmp,"%d",qc);
+                                                                        ajour_quad(Fin_while,1,tmp);
+
+                                                                ;}
+    break;
+
+  case 83:
+
+/* Line 1455 of yacc.c  */
+#line 671 "synt.y"
+    {
+                if(functionExists((yyvsp[(4) - (7)].str),nbParams)==0) {printf("Erreur semantique : Fonction non declarer %d,%d\n",nb_ligne,nbCol); exit(EXIT_FAILURE);};
+                if(functionExists((yyvsp[(4) - (7)].str),nbParams)==2) {printf("Erreur semantique : Nombre de parametre %d,%d\n",nb_ligne,nbCol); exit(EXIT_FAILURE);};
+                rechercher1 ((yyvsp[(1) - (7)].str),"IDF","Identifier","0", 0,tss); 
+                rechercher ((yyvsp[(2) - (7)].str),"Separateur","0","0", 2,tss);
+                rechercher ((yyvsp[(3) - (7)].str),"Mot cle ","","0", 1,tss);
+                rechercher ((yyvsp[(5) - (7)].str),"Separateur","0","0", 2,tss);
+                rechercher ((yyvsp[(7) - (7)].str),"Separateur","0","0", 2,tss);
+        ;}
+    break;
+
+  case 84:
+
+/* Line 1455 of yacc.c  */
+#line 682 "synt.y"
+    {rechercher ((yyvsp[(1) - (8)].str),"Mot cle ","","0", 1,tss);rechercher ((yyvsp[(4) - (8)].str),"Separateur","0","0", 2,tss);rechercher ((yyvsp[(5) - (8)].str),"Separateur","0","0", 2,tss);rechercher ((yyvsp[(6) - (8)].str),"Separateur","0","0", 2,tss);rechercher ((yyvsp[(8) - (8)].str),"Separateur","0","0", 2,tss);;}
+    break;
+
+  case 85:
+
+/* Line 1455 of yacc.c  */
+#line 685 "synt.y"
+    {rechercher1 ((yyvsp[(1) - (1)].str),"IDF","Identifier","0", 0,tss); nbParams=1;}
+    break;
+
+  case 86:
+
+/* Line 1455 of yacc.c  */
+#line 686 "synt.y"
+    {rechercher1 ((yyvsp[(1) - (3)].str),"IDF","Identifier","0", 0,tss); rechercher ((yyvsp[(2) - (3)].str),"Separateur","0","0", 2,tss);  nbParams++;;}
+    break;
+
+  case 87:
+
+/* Line 1455 of yacc.c  */
+#line 687 "synt.y"
+    {rechercher1 ((yyvsp[(1) - (4)].str),"IDF","Identifier","0", 0,tss);rechercher ((yyvsp[(2) - (4)].str),"Separateur","0","0", 2,tss);rechercher ((yyvsp[(4) - (4)].str),"Separateur","0","0", 2,tss); ;strcpy(xx, (char*)getValueOfIDF((yyvsp[(1) - (4)].str), tss));xx1=atoi(xx) ;printf("l");if( vv1 ==1 && idfNewValue2 > xx1) printf("erreur symantique car la taile non disponible\n");vv1=0;jj=nbb2((yyvsp[(1) - (4)].str));if(bb == 1  && (nb11 > nbb1((yyvsp[(1) - (4)].str)) || nb22 > nbb2((yyvsp[(1) - (4)].str))))printf("erreur dans la matrice la taille non disponible");bb=0;;}
+    break;
+
+  case 88:
+
+/* Line 1455 of yacc.c  */
+#line 688 "synt.y"
+    {rechercher1 ((yyvsp[(1) - (5)].str),"IDF","Identifier","0", 0,tss);rechercher ((yyvsp[(2) - (5)].str),"Separateur","0","0", 2,tss);rechercher ((yyvsp[(4) - (5)].str),"Separateur","0","0", 2,tss);;strcpy(xx, (char*)getValueOfIDF((yyvsp[(1) - (5)].str), tss));xx1=atoi(xx) ;printf("l");if( vv1 ==1 && idfNewValue2 > xx1) printf("erreur symantique car la taile non disponible\n");vv1=0; ;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1951 "synt.tab.c"
+#line 2562 "synt.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2159,7 +2770,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 171 "synt.y"
+#line 691 "synt.y"
 
 int main(int argc, char **argv) {
     if (argc > 0) {
@@ -2169,13 +2780,14 @@ int main(int argc, char **argv) {
         printf("Aucun fichier à compiler\n");
         return 1;
     }
+                yyparse();
+                fclose(yyin);
 
+                afficher();
+                afficher_qdr();
+                executer(tss);
+   
 
-    
-
-    yyparse();
-    fclose(yyin);
-    afficher();
     
     return 0;
 }
@@ -2184,6 +2796,7 @@ yywrap ()
 int yyerror ( char*  msg )  
 {
        printf ("Erreur Syntaxique : fichier %s , ligne %d , colonne %d \n", filename,nb_ligne,col);
+       exit(EXIT_FAILURE);
 }
 
 
