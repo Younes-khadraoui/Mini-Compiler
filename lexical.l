@@ -11,8 +11,8 @@ lettre [a-z]
 chiffre [0-9]
 BOOLEEN TRUE|FALSE
 IDF ({lettreM}|{lettre})({lettre}|{chiffre}|{lettreM})*
-floatt -{chiffre}+"."{chiffre}+|{chiffre}+"."{chiffre}+
-integr {chiffre}+|-{chiffre}+
+floatt "-"{chiffre}+"."{chiffre}+|{chiffre}+"."{chiffre}+
+integr {chiffre}+|"-"{chiffre}+
 string \"[^\"]*\"
 
 %%
@@ -45,11 +45,15 @@ CALL      {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'e
 END       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_end;}
 ENDR      {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext);  return mc_endr;}
 
-{BOOLEEN} {col = col + yyleng; return booleen;}
+{BOOLEEN} {yylval.str = strdup(yytext);
+              col = col + strlen(yytext);
+			  if (yyleng>10) printf ("Erreur Lexical: IDF trop long a la ligne %d a la colonne %d \n ",nb_ligne, col);
+              printf ("L'entite reconnue est %s \n", yytext); 
+			  return booleen;
+}
 
 {IDF}     { 
 	 yylval.str = strdup(yytext);
-			  //rechercher (yytext,"IDF","Identifier",0 , 0,);  
               col = col + strlen(yytext);
 			  if (yyleng>10) printf ("Erreur Lexical: IDF trop long a la ligne %d a la colonne %d \n ",nb_ligne, col);
               printf ("L'entite reconnue est %s \n", yytext); 
@@ -68,8 +72,8 @@ ENDR      {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'e
 	}
 }
 {floatt}   {   
-	yylval.reel = atoi(yytext);
-	float val = atoi(yytext); 
+	yylval.reel = atof(yytext);
+	float val = atof(yytext); 
 	if(val<= 32767.32767 && val >= -32767.32767){
 		printf("L'entite reconnue est %s \n", yytext);
 		col = col + strlen(yytext);
@@ -87,7 +91,7 @@ ENDR      {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'e
 }
 
 "+"       { yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return add; }
-"$-"       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return sub; }
+"-"       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return sub; }
 "*"       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return mul; }
 "/"       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return divv; }
 ";"       {yylval.str = strdup(yytext);  col = col + strlen(yytext); printf("L'entite reconnue est %s \n", yytext); return pvg;}
